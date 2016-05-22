@@ -1,0 +1,120 @@
+import "common.proto";
+import "PublicTas1.proto";
+package IssueTas1;
+// 发行市场配号请求 0 70 1047
+message SaleDistributionReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	required  int32 MarketID = 3; // int32 市场ID
+	required  string AccountCode = 4; // string 商品名称
+}
+// 发行市场配号应答 0 70 1048
+message SaleDistributionRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发行市场配号确认请求 0 70 1049
+message SaleDistributionConfirmReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	required  int32 MarketID = 3; // int32 市场ID
+	required  string AccountCode = 4; // string 商品名称
+}
+// 发行市场配号确认应答 0 70 1050
+message SaleDistributionConfirmRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发行商品审核请求 0 70 1076
+message SaleGoodsReviewReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	optional int32 MarketID = 3; // int32 市场ID
+	required  int32 GoodsStatus = 4; // int32 商品状态
+}
+// 发行商品审核应答 0 70 1077
+message SaleGoodsReviewRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发行市场摇号请求 0 70 1105
+message SaleLotteryReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	required  int32 MarketID = 3; // int32 市场ID
+	required  string AccountCode = 4; // string 商品名称
+}
+// 发行市场摇号应答 0 70 1106
+message SaleLotteryRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发行市场摇号结果确认请求 0 70 1107
+message SaleLotteryConfirmReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	required  int32 MarketID = 3; // int32 市场ID
+	required  int32 ConfirmResult = 4; // int32 确认结果(1-通过,2-不通过)
+	required  string AccountCode = 5; // string 商品名称
+}
+// 发行市场摇号结果确认应答 0 70 1108
+message SaleLotteryConfirmRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发行商品终止请求 0 70 1116
+message SaleGoodsStopReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	optional int32 MarketID = 3; // int32 市场ID
+	required  int32 GoodsStatus = 4; // int32 商品状态
+}
+// 发行商品终止应答 0 70 1117
+message SaleGoodsStopRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发售仓单处理请求 0 70 1135
+message SaleOrderTransferReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	optional int32 MarketID = 3; // int32 市场ID
+}
+// 发售仓单处理应答 0 70 1136
+message SaleOrderTransferRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发售转二级市场请求 0 70 1137
+message SaleTransToBidReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	optional int32 MarketID = 3; // int32 市场ID
+	required  string BidGoodsCode = 4; // string 二级市场商品代码
+	optional int32 BidMarketID = 5; // int32 二级市场ID
+}
+// 发售转二级市场应答 0 70 1138
+message SaleTransToBidRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 发售包销请求 0 70 1139
+message SaleUnderwriteReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	optional int32 MarketID = 3; // int32 市场ID
+}
+// 发售包销应答 0 70 1140
+message SaleUnderwriteRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}

@@ -1,0 +1,166 @@
+#include <string.h>
+#include "MISafeHandle.h"
+#include "MISafeModComm.h"
+#include "EncryptHandleDefine.h"
+#include "AESEncryptHandle.h"
+
+MISafeHandle::MISafeHandle() :
+m_strMacKey(""),
+m_strTransKey(""),
+m_pTransHandle(new AESEncryptHandle())
+{
+    
+}
+
+MISafeHandle::~MISafeHandle()
+{
+    if (m_pTransHandle != NULL)
+    {
+        delete m_pTransHandle;
+        m_pTransHandle = NULL;
+    }
+}
+
+int32_t MISafeHandle::TransEncrypt(char *pDst, int32_t iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iAllLen = 0;
+    int32_t iEncrypt = 0;
+    int32_t iSrcLen = iSrc;
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+
+    iResult = GetEncryptDataLen(iAllLen, pSrc, iSrc);
+    
+    if (iResult == SAFEMOD_OK && m_pTransHandle != NULL && iDst >= iAllLen)
+    {
+        memcpy(pDst, &iSrc, sizeof(iSrc));
+        iEncrypt = iAllLen-SAFEMOD_HEADLEN-SAFEMOD_MACLEN;
+        iResult = m_pTransHandle->Encrypt(&pDst[SAFEMOD_HEADLEN], iEncrypt, pSrc, iSrc);
+
+        if (iResult == SAFEMOD_OK)
+        {
+            // 计算MAC
+            int32_t  iMacLen = SAFEMOD_MACLEN;
+
+            CMACEncryptHandle tagHandle;
+            char szMAC[SAFEMOD_MACLEN] = {0};
+
+            tagHandle.SetParam(m_strMacKey.c_str());
+
+            iResult = tagHandle.Encrypt(szMAC, iMacLen, pDst, iEncrypt+SAFEMOD_HEADLEN);
+            if (iResult == SAFEMOD_OK)
+            {
+                memcpy(pDst+iEncrypt+SAFEMOD_HEADLEN, szMAC, SAFEMOD_MACLEN);
+                iRev = SAFEMOD_OK;
+            }
+        }
+    }
+
+    return iRev;
+}
+
+int32_t MISafeHandle::TransDecrypt(char *pDst, int32_t iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+
+    // 校验MAC
+    int32_t  iMacLen = SAFEMOD_MACLEN;
+
+    CMACEncryptHandle tagHandle;
+    tagHandle.SetParam(m_strMacKey.c_str());
+
+    char szMAC[SAFEMOD_MACLEN] = {0};
+    //iResult = tagHandle.Encrypt(szMAC, iMacLen, pSrc, iSrc+SAFEMOD_HEXLEN);
+    iResult = tagHandle.Encrypt(szMAC, iMacLen, pSrc, iSrc-SAFEMOD_MACLEN);
+
+    if (iResult == SAFEMOD_OK)
+    {
+        iResult = memcmp(szMAC, pSrc+iSrc-SAFEMOD_MACLEN, SAFEMOD_MACLEN);
+        if (iResult == SAFEMOD_OK && m_pTransHandle != NULL)
+        {
+            // 解密后内存的总长度
+            int32_t iTempLen =  iSrc-SAFEMOD_HEADLEN-SAFEMOD_MACLEN;
+
+            char *pTemp = new char[iTempLen];
+            iResult = m_pTransHandle->Decrypt(pTemp, iTempLen, pSrc+SAFEMOD_HEADLEN, iSrc-SAFEMOD_HEADLEN-SAFEMOD_MACLEN);
+            
+            if (iResult == SAFEMOD_OK)
+            {
+                // 数据长度
+                int32_t iRevDataLen = 0;
+                iResult = GetDecryptDataLen(iRevDataLen, pSrc, iSrc);
+
+                if ((iResult == SAFEMOD_OK) && (iDst >= iRevDataLen))
+                {
+                    // 将数据部分拷入内存
+                    memcpy(pDst, pTemp, iRevDataLen);
+                    iRev = SAFEMOD_OK;
+                }
+               
+            }
+
+            delete [] pTemp;
+        }
+    }
+
+    return iRev;
+}
+
+int32_t MISafeHandle::GetEncryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        iResult = m_pTransHandle->GetEncryptDataLen(iRevLen, pData, iLen);
+
+        if (iResult == SAFEMOD_OK)
+        {
+            iRevLen += SAFEMOD_HEADLEN;
+            iRevLen += SAFEMOD_MACLEN;
+            iRev = SAFEMOD_OK;
+        }
+    }
+
+    return iRev;
+}
+
+int32_t MISafeHandle::GetDecryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL && iLen >= SAFEMOD_HEADLEN)
+    {
+        memcpy(&iRevLen, pData, sizeof(iRevLen));
+        iRev = SAFEMOD_OK;
+    }
+
+    return iRev;
+}
+    
+int32_t MISafeHandle::SetTransKey(const char *pKey)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        iRev = SAFEMOD_OK;
+        m_pTransHandle->SetParam(pKey);
+    }
+
+    return iRev;
+}
+
+int32_t MISafeHandle::SetMacKey(const char *pKey)
+{
+    int32_t iRev = SAFEMOD_OK;
+
+    m_strMacKey = pKey;
+
+    return iRev;
+}
+
+

@@ -1,0 +1,19 @@
+import "common.proto";
+import "PublicTas1.proto";
+package DeliveryTas1;
+// 交割单审核 1 18 481
+message DeliveryAudit {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	required int64 DeliveryID = 3; // int64 交割申请单编号
+	required string AuditName = 4; // string 审核人
+	required int32 DeliveryStatus = 5; // int32 交割状态
+}
+// 交割单审核应答 1 18 600
+message DeliveryAuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int64 DeliveryID = 4; // int64 交割申请单编号
+	required int32 DeliveryStatus = 5; // int32 交割状态
+}

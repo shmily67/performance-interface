@@ -1,0 +1,62 @@
+import "common.proto";
+import "PublicTas1.proto";
+package LogTas1;
+// 查询操作日志请求 1 17 392
+message QueryHisSysLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	repeated int32 FunCode = 3; // int32 功能号
+	optional int32 FunCodeFlag = 4; // int32 功能号查询标记，不填写默认为=
+	optional string OperatorId = 5; // string 操作者(登陆账号)
+	optional int32 OperatorIdFlag = 6; // string 操作者(登陆账号)查询标记，不填写默认为=
+	optional string Ip = 7; // string 操作者的IP
+	optional int32 IpFlag = 8; // string 操作者的IP查询标记，不填写默认为=
+	optional string OperaObject = 9; // string 操作对象
+	optional int32 OperaObjectFlag = 10; // string 操作对象查询标记，不填写默认为=
+	optional string StartDate = 11; // string 起始时间
+	optional int32 StartDateFlag = 12; // string 起始时间查询标记，不填写默认为=
+	optional string EndDate = 13; // string 结束时间
+	optional int32 EndDateFlag = 14; // string 结束时间查询标记，不填写默认为=
+	optional int32 OperatorType = 15; // int32 操作类型
+	optional int32 OperatorTypeFlag = 16; // int32 操作类型查询标记，不填写默认为=
+}
+// 查询操作日志应答 1 17 393
+message QueryHisSysLogRsp_ {
+	optional int32 FunCode = 1; // int32 功能号
+	optional string OperatorId = 2; // string 操作者(登陆账号)
+	optional string Ip = 3; // string 操作者的IP
+	optional string OperaObject = 4; // string 操作对象
+	optional string OperaDate = 5; // string 操作时间
+	optional int32 Status = 6; // int32 操作返回码
+	optional bytes Content = 7; // bytes 日志内容
+	optional int32 OperatorType = 8; // int32 操作类型
+}
+message QueryHisSysLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryHisSysLogRsp_ Rsps = 5; // QueryHisSysLogRsp_ Rsps 查询结果集
+}
+// 新增操作日志请求 0 17 394
+message AddHisSysLogReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 FunCode = 2; // int32 功能号
+	optional string OperatorId = 3; // string 操作者(登陆账号)
+	optional string Ip = 4; // string 操作者的IP
+	optional string OperaObject = 5; // string 操作对象
+	optional string OperaDate = 6; // string 操作时间
+	optional int32 Status = 7; // int32 操作返回码
+	optional string Content = 8; // string 日志内容
+	optional int32 RequestID = 9; // int32 请求ID
+	optional string AccountCode = 10; // string 账号
+	optional string MsgName = 11; // string 消息名称
+	optional int32 OperatorType = 12; // int32 操作类型
+}
+// 新增操作日志应答 0 17 395
+message AddHisSysLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 LogID = 4; // int32 日志ID
+}

@@ -1,0 +1,41 @@
+import "common.proto";
+import "PublicTas1.proto";
+package QuoteTas1;
+// 行情数据报文 0 8 256
+message Quotation {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string GoodsCode = 3; // string 商品代码
+	optional string GoodsName = 4; // string 商品名称
+	optional string Last = 5; // string 最新价
+	optional string LastVolume = 6; // string 最新成交量
+	optional string LastTurnover = 7; // string 最新成交金额
+	optional string LastLot = 8; // string 最新成交手数
+	optional string TotalVolume = 9; // string 总成交量
+	optional string TotalTurnover = 10; // string 总成交金额
+	optional string TotalLot = 11; // string 总成交手数
+	optional string Bid = 12; // string 买价1
+	optional string Bid2 = 13; // string 买价2
+	optional string Bid3 = 14; // string 买价3
+	optional string Bid4 = 15; // string 买价4
+	optional string Bid5 = 16; // string 买价5
+	optional string BidVolume = 17; // string 买量1
+	optional string BidVolume2 = 18; // string 买量2
+	optional string BidVolume3 = 19; // string 买量3
+	optional string BidVolume4 = 20; // string 买量4
+	optional string BidVolume5 = 21; // string 买量5
+	optional string Ask = 22; // string 卖价1
+	optional string Ask2 = 23; // string 卖价2
+	optional string Ask3 = 24; // string 卖价3
+	optional string Ask4 = 25; // string 卖价4
+	optional string Ask5 = 26; // string 卖价5
+	optional string AskVolume = 27; // string 卖量1
+	optional string AskVolume2 = 28; // string 卖量2
+	optional string AskVolume3 = 29; // string 卖量3
+	optional string AskVolume4 = 30; // string 卖量4
+	optional string AskVolume5 = 31; // string 卖量5
+	optional string TradeDate = 32; // string 交易日
+	optional string Time = 33; // string 报价时间
+	optional int32 ExchangeID = 34; // int32 交易所代码
+	optional int32 WareGroupID = 35; // int32 商品组代码
+}

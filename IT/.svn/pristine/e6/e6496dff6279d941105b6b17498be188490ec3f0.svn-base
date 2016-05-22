@@ -1,0 +1,2355 @@
+import "common.proto";
+import "PublicTas1.proto";
+package QkernelTas1;
+// 查询账户请求 1 5 1
+message QueryAccountReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账户
+	optional int32 AccountCodeFlag = 4; // string 账户查询标记，不填写默认为=
+	optional int32 AccountType = 5; // int32 账户类型
+	optional int32 AccountTypeFlag = 6; // int32 账户类型查询标记，不填写默认为=
+	optional int32 CustomerId = 7; // int32 用户编号
+	optional int32 CustomerIdFlag = 8; // int32 用户编号查询标记，不填写默认为=
+	optional string LoginCode = 9; // string 登陆账号
+	optional int32 LoginCodeFlag = 10; // string 登陆账号查询标记，不填写默认为=
+	optional string MemberCode = 11; // string 会员代码
+	optional int32 MemberCodeFlag = 12; // string 会员代码查询标记，不填写默认为=
+	optional string AreaCode = 13; // string 机构代码
+	optional int32 AreaCodeFlag = 14; // string 机构代码查询标记，不填写默认为=
+	optional int32 AccountStatus = 15; // int32 用户状态
+	optional int32 AccountStatusFlag = 16; // int32 用户状态查询标记，不填写默认为=
+	optional string CardNum = 17; // string 证件号码
+	optional int32 CardNumFlag = 18; // string 证件号码查询标记，不填写默认为=
+	optional string CustomerName = 19; // string 用户姓名
+	optional int32 CustomerNameFlag = 20; // string 用户姓名查询标记，不填写默认为=
+	optional int32 QryIncDestAccount = 21; // int32 是否包含销户记录（0 不包含，1包含）
+	optional int32 QryIncDestAccountFlag = 22; // int32 是否包含销户记录（0 不包含，1包含）查询标记，不填写默认为=
+	optional string BeginCreateTime = 23; // string 创建日期
+	optional int32 BeginCreateTimeFlag = 24; // string 创建日期查询标记，不填写默认为=
+	optional string EndCreateTime = 25; // string 创建日期
+	optional int32 EndCreateTimeFlag = 26; // string 创建日期查询标记，不填写默认为=
+	optional int32 ContRightCode = 27; // int32 内容权限组编号
+	optional int32 ContRightCodeFlag = 28; // int32 内容权限组编号查询标记，不填写默认为=
+	optional int32 FuncRightCode = 29; // int32 (已废弃)功能权限组编号
+	optional int32 FuncRightCodeFlag = 30; // int32 (已废弃)功能权限组编号查询标记，不填写默认为=
+	optional string BrokerIDs = 31; // string 勾选的经纪人串
+	optional int32 BrokerIDsFlag = 32; // string 勾选的经纪人串查询标记，不填写默认为=
+}
+// 查询账户应答 1 5 2
+message QueryAccountRsp_ {
+	optional string AccountCode = 1; // string 账户
+	optional int32 AccountType = 2; // int32 账户类型
+	optional int32 CustomerId = 3; // int32 用户编号
+	optional string OtherAccountCode = 4; // string 对手资金账号
+	optional string LoginCode = 5; // string 登陆账号
+	optional int32 LoginPWDModType = 6; // int32 登陆密码修改状态
+	optional int32 CommPWDModType = 7; // int32 通信密码修改稿状态
+	optional int32 FuncRightCode = 8; // int32 (已废弃)功能权限组编号
+	optional int32 ContRightCode = 9; // int32 内容权限组编号
+	optional string MemberCode = 10; // string 所属会员代码
+	optional string AreaCode = 11; // string 所属机构代码
+	optional int32 AccountStatus = 12; // int32 用户状态
+	optional int32 RiskRateId = 13; // int32 风险率类型编号
+	optional string CustomerName = 14; // string 用户名字
+	optional int32 ExchID = 15; // int32 所属交易所ID
+	optional string LoginPWD = 16; // string 登陆密码
+	optional string CommPWD = 17; // string 通信密码
+	optional string TaPWD = 18; // string 资金密码
+	optional string PhonePWD = 19; // string 电话密码
+	optional string BankAccountNo = 20; // string 银行卡号
+	optional string BankAccountName = 21; // string 银行卡户名
+	optional string BankId = 22; // string 银行ID
+	optional double MaxAgreeAmount = 23; // double 最大合约价格
+	optional string CreateTime = 24; // string 创建日期
+	optional string ActiveTime = 25; // string 激活日期
+	optional string SignDate = 26; // string 签约日期
+	optional string CancelSignDate = 27; // string 解约日期
+	optional string LastLoginDate = 28; // string 最后登录日期
+	optional int32 SignStatus = 29; // int32 签约状态
+	optional string AreaRights = 30; // string 机构权限组
+	optional string FuncRightName = 31; // string (已废弃)功能权限组名称
+	optional int32 BrokerID = 32; // int32 所属经纪
+	optional string FuncMenu = 33; // string 功能权限内容
+	optional int32 CardType = 34; // int32 证件类型
+	optional string CardNum = 35; // string 证件号码
+	optional string CreateOperatorCode = 36; // string 创建人代码
+	optional string CreateOperatorName = 37; // string 创建人名称
+	optional string LastOperatorCode = 38; // string 最后操作人代码
+	optional string LastOperatorName = 39; // string 最后操作人名称
+	optional string CreateDate = 40; // string 创建日期
+	optional string LastOperatorDate = 41; // string 最后操作日期
+	optional int32 DeliveryrightID = 42; // int32 交收权限编号
+}
+message QueryAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAccountRsp_ Rsps = 5; // QueryAccountRsp_ Rsps 查询结果集
+}
+// 查询用户请求 1 5 9
+message QueryUserReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 CustomerId = 3; // int32 用户编号
+	optional int32 CustomerIdFlag = 4; // int32 用户编号查询标记，不填写默认为=
+	optional string CustomerName = 5; // string 用户姓名
+	optional int32 CustomerNameFlag = 6; // string 用户姓名查询标记，不填写默认为=
+	optional string Country = 7; // string 国籍
+	optional int32 CountryFlag = 8; // string 国籍查询标记，不填写默认为=
+	optional string Province = 9; // string 省份
+	optional int32 ProvinceFlag = 10; // string 省份查询标记，不填写默认为=
+	optional string City = 11; // string 城市
+	optional int32 CityFlag = 12; // string 城市查询标记，不填写默认为=
+	optional int32 CardType = 13; // int32 证件类型
+	optional int32 CardTypeFlag = 14; // int32 证件类型查询标记，不填写默认为=
+	optional string CardNum = 15; // string 证件号码
+	optional int32 CardNumFlag = 16; // string 证件号码查询标记，不填写默认为=
+	optional int32 CreateMemberId = 17; // int32 开户会员编号
+	optional int32 CreateMemberIdFlag = 18; // int32 开户会员编号查询标记，不填写默认为=
+	optional string MobilePhone = 19; // string 移动电话
+	optional int32 MobilePhoneFlag = 20; // string 移动电话查询标记，不填写默认为=
+	optional string LoginCode = 21; // string 登陆账号
+	optional int32 LoginCodeFlag = 22; // string 登陆账号查询标记，不填写默认为=
+	optional string MemberCode = 23; // string 所属会员代码
+	optional int32 MemberCodeFlag = 24; // string 所属会员代码查询标记，不填写默认为=
+	optional int32 QryUserType = 25; // int32 查询用户类型(0查询1检索)
+	optional int32 QryUserTypeFlag = 26; // int32 查询用户类型(0查询1检索)查询标记，不填写默认为=
+	optional int32 AccountType = 27; // int32 账户类型
+	optional int32 AccountTypeFlag = 28; // int32 账户类型查询标记，不填写默认为=
+	optional string BeginCreateTime = 29; // string 创建日期
+	optional int32 BeginCreateTimeFlag = 30; // string 创建日期查询标记，不填写默认为=
+	optional string EndCreateTime = 31; // string 创建日期
+	optional int32 EndCreateTimeFlag = 32; // string 创建日期查询标记，不填写默认为=
+}
+// 查询用户应答 1 5 10
+message QueryUserRsp_ {
+	optional int32 CustomerId = 1; // int32 用户编号
+	optional string CustomerName = 2; // string 用户名字
+	optional int32 Sex = 3; // int32 性别
+	optional string Country = 4; // string 国籍
+	optional string Province = 5; // string 省份
+	optional string City = 6; // string 城市
+	optional int32 CardType = 7; // int32 证件类型
+	optional string CardNum = 8; // string 证件号码
+	optional string IDAddress = 9; // string 身份证地址
+	optional string CurrentAddress = 10; // string 常住地址
+	optional string PostalCode = 11; // string 邮政编码
+	optional string TelePhone = 12; // string 住宅电话
+	optional string OfficePhone = 13; // string 办公电话
+	optional string MobilePhone = 14; // string 移动电话
+	optional string Fax = 15; // string 传真
+	optional string Email = 16; // string 电子邮箱
+	optional string QQ = 17; // string QQ号码
+	optional string WeChat = 18; // string 微信号码
+	optional string WeBlog = 19; // string 微博号码
+	optional string CreateTime = 20; // string 创建日期
+	optional string ActiveTime = 21; // string 激活日期
+	optional string CancelTime = 22; // string 销户日期
+	optional string LastOperatorCode = 23; // string 最后操作人
+	optional int32 CreateMemberId = 24; // int32 开户会员编号
+	optional string MemberCode = 25; // string 所属会员代码
+	optional int32 AccountNum = 26; // int32 交易账号数量
+}
+message QueryUserRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryUserRsp_ Rsps = 5; // QueryUserRsp_ Rsps 查询结果集
+}
+// 查询内容权限组请求 1 5 17
+message QueryContentRightReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 AccountType = 3; // int32 账户类型
+	optional int32 AccountTypeFlag = 4; // int32 账户类型查询标记，不填写默认为=
+	optional int32 ContRightCode = 5; // int32 内容权限组编号
+	optional int32 ContRightCodeFlag = 6; // int32 内容权限组编号查询标记，不填写默认为=
+	optional string ContRightName = 7; // string 权限组名字
+	optional int32 ContRightNameFlag = 8; // string 权限组名字查询标记，不填写默认为=
+	optional string MemberCode = 9; // string 所属会员
+	optional int32 MemberCodeFlag = 10; // string 所属会员查询标记，不填写默认为=
+}
+// 查询内容权限组应答 1 5 18
+message QueryContentRightRsp_ {
+	optional int32 ContRightCode = 1; // int32 内容权限组编号
+	optional string ContRightName = 2; // string 权限组名字
+	optional int32 AccountType = 3; // int32 账户类型
+	optional string ContRightType = 4; // string 内容权限
+	optional string MemberCode = 5; // string 所属会员
+	optional string MemberName = 6; // string 会员名称
+}
+message QueryContentRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryContentRightRsp_ Rsps = 5; // QueryContentRightRsp_ Rsps 查询结果集
+}
+// 查询功能权限组请求 1 5 25
+message QueryFunctionRightReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 FuncRightCode = 3; // int32 功能权限组编号
+	optional int32 FuncRightCodeFlag = 4; // int32 功能权限组编号查询标记，不填写默认为=
+	optional int32 AccountType = 5; // int32 账户类型
+	optional int32 AccountTypeFlag = 6; // int32 账户类型查询标记，不填写默认为=
+	optional string FuncRightName = 7; // string (已废弃)权限组名字
+	optional int32 FuncRightNameFlag = 8; // string (已废弃)权限组名字查询标记，不填写默认为=
+	optional int32 LoginFlag = 9; // int32 (已废弃)登陆标识
+	optional int32 LoginFlagFlag = 10; // int32 (已废弃)登陆标识查询标记，不填写默认为=
+	optional string AccountCode = 11; // string 所属管理员
+	optional int32 AccountCodeFlag = 12; // string 所属管理员查询标记，不填写默认为=
+}
+// 查询功能权限组应答 1 5 26
+message QueryFunctionRightRsp_ {
+	optional int32 FuncRightCode = 1; // int32 功能权限组编号
+	optional string FuncRightName = 2; // string 权限组名字
+	optional int32 AccountType = 3; // int32 账户类型
+	optional string FuncMenu = 4; // string 功能权限
+	optional string FuncRightValue = 5; // string (已废弃)权限值
+	optional string MemberCode = 6; // string (已废弃)所属会员
+	optional string AreaCode = 7; // string (已废弃)所属机构
+	optional string AccountCode = 8; // string 所属管理员
+}
+message QueryFunctionRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryFunctionRightRsp_ Rsps = 5; // QueryFunctionRightRsp_ Rsps 查询结果集
+}
+// 查询商品涨跌停请求 1 5 588
+message QueryPriceLimitReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 MarketID = 3; // int32 市场ID，查询全市场商品的涨跌停
+	optional int32 MarketIDFlag = 4; // int32 市场ID，查询全市场商品的涨跌停查询标记，不填写默认为=
+	optional string GoodsCode = 5; // string 商品代码，查询单个商品的涨跌停
+	optional int32 GoodsCodeFlag = 6; // string 商品代码，查询单个商品的涨跌停查询标记，不填写默认为=
+	optional string TradeDate = 7; // string 交易日
+	optional int32 TradeDateFlag = 8; // string 交易日查询标记，不填写默认为=
+}
+// 单个商品涨跌停 1 5 589
+message ArrayQueryPriceLimit {
+	required int32 MarketID = 1; // int32 市场ID
+	required string GoodsCode = 2; // string 商品代码
+	optional double RaisesLimit = 3; // double 涨停比例，不存在表示无涨停价
+	optional double FallsLimit = 4; // double 跌停比例，不存在表示无跌停价
+}
+// 查询商品涨跌停应答 1 5 590
+message QueryPriceLimitRsp_ {
+	repeated QkernelTas1.ArrayQueryPriceLimit GoodsPriceLimits = 1; // ArrayQueryPriceLimit 
+}
+message QueryPriceLimitRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryPriceLimitRsp_ Rsps = 5; // QueryPriceLimitRsp_ Rsps 查询结果集
+}
+// 查询资金账户请求 1 5 33
+message QueryTaAccountReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 帐户代码
+	optional int32 AccountCodeFlag = 4; // string 帐户代码查询标记，不填写默认为=
+	optional string TaAccountCode = 5; // string 资金账户
+	optional int32 TaAccountCodeFlag = 6; // string 资金账户查询标记，不填写默认为=
+	optional string Currency = 7; // string 账户币种
+	optional int32 CurrencyFlag = 8; // string 账户币种查询标记，不填写默认为=
+	optional int32 ExchID = 9; // int32 交易所ID
+	optional int32 ExchIDFlag = 10; // int32 交易所ID查询标记，不填写默认为=
+	optional string ExchName = 11; // string 交易名称
+	optional int32 ExchNameFlag = 12; // string 交易名称查询标记，不填写默认为=
+	optional int32 MemberId = 13; // int32 所属会员ID
+	optional int32 MemberIdFlag = 14; // int32 所属会员ID查询标记，不填写默认为=
+	optional string MemberName = 15; // string 所属会员名称
+	optional int32 MemberNameFlag = 16; // string 所属会员名称查询标记，不填写默认为=
+	optional int32 AreaID = 17; // int32 机构ID
+	optional int32 AreaIDFlag = 18; // int32 机构ID查询标记，不填写默认为=
+	optional string AreaName = 19; // string 组织机构名称
+	optional int32 AreaNameFlag = 20; // string 组织机构名称查询标记，不填写默认为=
+	optional string OrganizationCode = 21; // string 组织机构代码
+	optional int32 OrganizationCodeFlag = 22; // string 组织机构代码查询标记，不填写默认为=
+	optional string OrganizationName = 23; // string 组织机构名称（同AreaName）
+	optional int32 OrganizationNameFlag = 24; // string 组织机构名称（同AreaName）查询标记，不填写默认为=
+	optional int32 CustomerID = 25; // int32 客户编号
+	optional int32 CustomerIDFlag = 26; // int32 客户编号查询标记，不填写默认为=
+	optional string CustomerName = 27; // string 客户姓名
+	optional int32 CustomerNameFlag = 28; // string 客户姓名查询标记，不填写默认为=
+	optional string StartDate = 29; // string 起始日期
+	optional int32 StartDateFlag = 30; // string 起始日期查询标记，不填写默认为=
+	optional string EndDate = 31; // string 结束日期
+	optional int32 EndDateFlag = 32; // string 结束日期查询标记，不填写默认为=
+	optional int32 QryTaType = 33; // int32 查询资金类型
+	optional int32 QryTaTypeFlag = 34; // int32 查询资金类型查询标记，不填写默认为=
+	optional string LoginCode = 35; // string 登陆代码
+	optional int32 LoginCodeFlag = 36; // string 登陆代码查询标记，不填写默认为=
+	optional string AreaCode = 37; // string 机构代码
+	optional int32 AreaCodeFlag = 38; // string 机构代码查询标记，不填写默认为=
+	optional string MemberCode = 39; // string 会员代码
+	optional int32 MemberCodeFlag = 40; // string 会员代码查询标记，不填写默认为=
+	optional int32 AccountType = 41; // int32 帐户类型
+	optional int32 AccountTypeFlag = 42; // int32 帐户类型查询标记，不填写默认为=
+}
+// 查询资金账户应答 1 5 34
+message QueryTaAccountRsp_ {
+	optional string AccountCode = 1; // string 帐户代码
+	optional string TaAccountCode = 2; // string 资金账户
+	optional string Currency = 3; // string 账户币种
+	optional double NetWorth = 4; // double 期初净值
+	optional double Balance = 5; // double 期初余额
+	optional double CurrentNetWorth = 6; // double 期末净值
+	optional double CurrentBalance = 7; // double 期末余额
+	optional double InAmount = 8; // double 入金金额
+	optional double OutAmount = 9; // double 出金金额
+	optional double TradeCharge = 10; // double 手续费
+	optional double Interest = 11; // double 递延费
+	optional double ClosePL = 12; // double 平仓盈亏
+	optional double ReckonPL = 13; // double 结算盈亏
+	optional double DeliveryCharge = 14; // double 交割手续费
+	optional double DeliveryMargin = 15; // double 交割预付款
+	optional double UsedMargin = 16; // double 占用保证金
+	optional double FreezeMargin = 17; // double 冻结保证金
+	optional double AvailMargin = 18; // double 可用保证金
+	optional double AvailMarginLimit = 19; // double 允许最高利用保证金金额
+	optional double MaxUsedMargin = 20; // double 最高利用保证金
+	optional int32 CustomerID = 21; // int32 客户编号
+	optional string CustomerName = 22; // string 客户姓名
+	optional string CreateTime = 23; // string 创建日期
+	optional double StorageCharge = 24; // double 仓单服务费
+	optional double OutAmountFreeze = 25; // double 出金冻结保证金
+	optional double DeliveryFreeze = 26; // double 交割冻结
+	optional double OutMoneyThreshold = 27; // double 出金阀值
+	optional double MaxAgreeAmount = 28; // double 最大合约价值
+	optional string LoginCode = 29; // string 登陆代码
+	optional double ExPayAmount = 30; // double 外部扣减资金
+	optional double ExFreezeAmount = 31; // double 外部冻结资金
+	optional double BalanceInterest = 32; // double 收取利息
+	optional double PrevBalanceInterest = 33; // double 上日可收取利息
+	optional double DeliveryDelay = 34; // double 延期交收补偿费
+	optional double AttornPayment = 35; // double 仓单转让货款
+	optional string AreaCode = 36; // string 所属机构代码
+	optional string AreaName = 37; // string 所属机构名称
+	optional string ReckonDate = 38; // string 结算日期
+	optional double SystemModuleCharge = 39; // double 理财产品发售手续费,理财产品认购手续费
+	optional double SystemModuleMoney = 40; // double 理财产品认购金额,理财合约本金
+	optional double SystemModuleFreezeMoney = 41; // double 理财产品发售保证金
+	optional double SystemModuleInterest = 42; // double 理财合约利息
+}
+message QueryTaAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryTaAccountRsp_ Rsps = 5; // QueryTaAccountRsp_ Rsps 查询结果集
+}
+// 查询资金流水请求 1 5 35
+message QueryTaAmountLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 交易所ID
+	optional int32 ExchIDFlag = 4; // int32 交易所ID查询标记，不填写默认为=
+	optional string ExchName = 5; // string 交易名称
+	optional int32 ExchNameFlag = 6; // string 交易名称查询标记，不填写默认为=
+	optional int32 MemberId = 7; // int32 所属会员ID
+	optional int32 MemberIdFlag = 8; // int32 所属会员ID查询标记，不填写默认为=
+	optional string MemberName = 9; // string 所属会员名称
+	optional int32 MemberNameFlag = 10; // string 所属会员名称查询标记，不填写默认为=
+	optional int32 AreaID = 11; // int32 机构ID
+	optional int32 AreaIDFlag = 12; // int32 机构ID查询标记，不填写默认为=
+	optional string AreaName = 13; // string 组织机构名称
+	optional int32 AreaNameFlag = 14; // string 组织机构名称查询标记，不填写默认为=
+	optional int32 CustomerID = 15; // int32 客户编号
+	optional int32 CustomerIDFlag = 16; // int32 客户编号查询标记，不填写默认为=
+	optional string CustomerName = 17; // string 客户姓名
+	optional int32 CustomerNameFlag = 18; // string 客户姓名查询标记，不填写默认为=
+	optional string StratTime = 19; // string 查询起始时间（包括这个时间）
+	optional int32 StratTimeFlag = 20; // string 查询起始时间（包括这个时间）查询标记，不填写默认为=
+	optional string EndTime = 21; // string 查询结束时间（包括这个时间）
+	optional int32 EndTimeFlag = 22; // string 查询结束时间（包括这个时间）查询标记，不填写默认为=
+	optional string AccountCode = 23; // string 帐户
+	optional int32 AccountCodeFlag = 24; // string 帐户查询标记，不填写默认为=
+	optional int32 OperatorType = 25; // int32 操作类型(入金、出金...)
+	optional int32 OperatorTypeFlag = 26; // int32 操作类型(入金、出金...)查询标记，不填写默认为=
+	optional int32 Type = 27; // int32 行为类型(自动、调整)
+	optional int32 TypeFlag = 28; // int32 行为类型(自动、调整)查询标记，不填写默认为=
+	optional string OperatorCode = 29; // string 操作员
+	optional int32 OperatorCodeFlag = 30; // string 操作员查询标记，不填写默认为=
+	optional int32 QryTaType = 31; // int32 查询资金类型
+	optional int32 QryTaTypeFlag = 32; // int32 查询资金类型查询标记，不填写默认为=
+	optional int32 BusinessType = 33; // int32 业务类型(0资金流水 1资金调整)
+	optional int32 BusinessTypeFlag = 34; // int32 业务类型(0资金流水 1资金调整)查询标记，不填写默认为=
+	optional string LoginCode = 35; // string 登陆代码
+	optional int32 LoginCodeFlag = 36; // string 登陆代码查询标记，不填写默认为=
+	optional string AreaCode = 37; // string 机构代码
+	optional int32 AreaCodeFlag = 38; // string 机构代码查询标记，不填写默认为=
+	optional string MemberCode = 39; // string 会员代码
+	optional int32 MemberCodeFlag = 40; // string 会员代码查询标记，不填写默认为=
+}
+// 查询资金流水应答 1 5 36
+message QueryTaAmountLogRsp_ {
+	optional string AccountCode = 1; // string 账户
+	optional string CustomerName = 2; // string 用户名字
+	optional int64 AmountTicket = 3; // int64 资金流水号
+	optional string CreateTime = 4; // string 操作时间
+	optional string TaAccountCode = 5; // string 资金帐号
+	optional int32 OperatorType = 6; // int32 操作类型(入金、出金...)
+	optional int32 Type = 7; // int32 行为类型(自动、调整)
+	optional string OperatorCode = 8; // string 操作员
+	optional double Amount = 9; // double 金额
+	optional double Balance = 10; // double 期初余额
+	optional double CurrentBalance = 11; // double 期末余额
+	optional string Currency = 12; // string 币种
+	optional double ReckonRate = 13; // double 结算汇率
+	optional int64 RelationTicket = 14; // int64 关联单号
+	optional int64 TransferTicket = 15; // int64 转账流水号
+	optional string Remark = 16; // string 备注
+	optional string LoginCode = 17; // string 登陆代码
+	optional string AreaCode = 18; // string 所属机构代码
+	optional string AreaName = 19; // string 所属机构名称
+}
+message QueryTaAmountLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryTaAmountLogRsp_ Rsps = 5; // QueryTaAmountLogRsp_ Rsps 查询结果集
+}
+// 查询汇率兑换请求 1 5 37
+message QueryCurrencyExchangeReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询汇率兑换应答 1 5 38
+message QueryCurrencyExchangeRsp_ {
+	optional string CreateTime = 1; // string 操作时间
+	optional string FCurrency = 2; // string 前货币
+	optional string BCurrency = 3; // string 后货币
+	optional double ExchangeRate = 4; // double 汇率
+	optional string UpdateTime = 5; // string 更新时间
+}
+message QueryCurrencyExchangeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryCurrencyExchangeRsp_ Rsps = 5; // QueryCurrencyExchangeRsp_ Rsps 查询结果集
+}
+// 查询登陆日志请求 1 5 47
+message QueryLoginLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string LoginCode = 3; // string 登录帐号
+	optional int32 LoginCodeFlag = 4; // string 登录帐号查询标记，不填写默认为=
+	optional int32 LoginType = 5; // int32 登录类型
+	optional int32 LoginTypeFlag = 6; // int32 登录类型查询标记，不填写默认为=
+	optional string MemberCode = 7; // string 会员代码
+	optional int32 MemberCodeFlag = 8; // string 会员代码查询标记，不填写默认为=
+	optional int32 SoftwareType = 9; // int32 软件类别
+	optional int32 SoftwareTypeFlag = 10; // int32 软件类别查询标记，不填写默认为=
+	optional int32 SoftwareVersion = 11; // int32 软件版本号
+	optional int32 SoftwareVersionFlag = 12; // int32 软件版本号查询标记，不填写默认为=
+	optional string LoginIP = 13; // string 登录IP
+	optional int32 LoginIPFlag = 14; // string 登录IP查询标记，不填写默认为=
+	optional string LoginStratTime = 15; // string 查询在给定时间段（包括这个两个时间）登陆的所有账户
+	optional int32 LoginStratTimeFlag = 16; // string 查询在给定时间段（包括这个两个时间）登陆的所有账户查询标记，不填写默认为=
+	optional string LoginEndTime = 17; // string 
+	optional int32 LoginEndTimeFlag = 18; // string 查询标记，不填写默认为=
+}
+// 查询登陆日志应答 1 5 48
+message QueryLoginLogRsp_ {
+	optional string LoginCode = 1; // string 登录帐号
+	optional int32 LoginType = 2; // int32 登录类型
+	optional string MemberCode = 3; // string 会员代码
+	optional int32 SoftwareType = 4; // int32 软件类别
+	optional int32 SoftwareVersion = 5; // int32 软件版本号
+	optional string LoginIP = 6; // string 登录IP
+	optional int32 LoginPort = 7; // int32 登录端口
+	optional string MAC = 8; // string 网卡号
+	optional string ComputerName = 9; // string 计算机名
+	optional string LoginTime = 10; // string 登陆时间
+	optional string OutTime = 11; // string 退出时间
+	optional string OutReason = 12; // string 退出原因
+}
+message QueryLoginLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryLoginLogRsp_ Rsps = 5; // QueryLoginLogRsp_ Rsps 查询结果集
+}
+// 查询持仓请求 1 5 51
+message QueryHolderDetailReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int64 EntrustID = 3; // int64 委托单号
+	optional int32 EntrustIDFlag = 4; // int64 委托单号查询标记，不填写默认为=
+	optional int32 MarketID = 5; // int32 市场ID
+	optional int32 MarketIDFlag = 6; // int32 市场ID查询标记，不填写默认为=
+	optional string AccountCode = 7; // string 交易帐号
+	optional int32 AccountCodeFlag = 8; // string 交易帐号查询标记，不填写默认为=
+	optional string GoodsCode = 9; // string 商品
+	optional int32 GoodsCodeFlag = 10; // string 商品查询标记，不填写默认为=
+	optional int32 BuyOrSell = 11; // int32 买卖方向
+	optional int32 BuyOrSellFlag = 12; // int32 买卖方向查询标记，不填写默认为=
+	optional int32 AccountType = 13; // int32 账户类型
+	optional int32 AccountTypeFlag = 14; // int32 账户类型查询标记，不填写默认为=
+	optional string MemberCode = 15; // string 会员代码
+	optional int32 MemberCodeFlag = 16; // string 会员代码查询标记，不填写默认为=
+	optional string SpecialAccount = 17; // string 特别会员帐号
+	optional int32 SpecialAccountFlag = 18; // string 特别会员帐号查询标记，不填写默认为=
+	optional string MarketName = 19; // string 市场名称
+	optional int32 MarketNameFlag = 20; // string 市场名称查询标记，不填写默认为=
+	optional string StartDate = 21; // string 起始日期
+	optional int32 StartDateFlag = 22; // string 起始日期查询标记，不填写默认为=
+	optional string EndDate = 23; // string 结束日期
+	optional int32 EndDateFlag = 24; // string 结束日期查询标记，不填写默认为=
+	optional string LoginCode = 25; // string 登陆代码
+	optional int32 LoginCodeFlag = 26; // string 登陆代码查询标记，不填写默认为=
+	optional string AreaCode = 27; // string 所属机构代码
+	optional int32 AreaCodeFlag = 28; // string 所属机构代码查询标记，不填写默认为=
+	optional string SpecMemberCode = 29; // string 特别会员代码
+	optional int32 SpecMemberCodeFlag = 30; // string 特别会员代码查询标记，不填写默认为=
+}
+// 查询持仓应答 1 5 52
+message QueryHolderDetailRsp_ {
+	optional int64 EntrustID = 1; // int64 委托单号
+	optional string TradeTime = 2; // string 成交日期时间
+	optional string AccountCode = 3; // string 交易帐号
+	optional string GoodsCode = 4; // string 商品
+	optional double Qty = 5; // double 持仓数量
+	optional double TradePrice = 6; // double 成交价格
+	optional double HolderPrice = 7; // double 持仓价格
+	optional int32 BuyOrSell = 8; // int32 买卖方向
+	optional double Charge = 9; // double 成交手续费
+	optional double Interest = 10; // double 递延费
+	optional double BuyOrSellPtSub = 11; // double 买卖点差
+	optional double ReckonPL = 12; // double 浮动盈亏/结算盈亏
+	optional double UsedMargin = 13; // double 占用保证金
+	optional string GoodsName = 14; // string 商品名称
+	optional string SpecialAccount = 15; // string 特别会员帐号
+	optional double SlPrice = 16; // double 止损价格
+	optional double SpPrice = 17; // double 止盈价格
+	optional string OpenTime = 18; // string 建仓时间
+	optional double OpenPrice = 19; // double 建仓价
+	optional double ClosePrice = 20; // double 平仓价
+	optional double AvailQty = 21; // double 可用数量
+	optional int64 RelationTicket = 22; // int64 关联委托单号
+	optional double StorageCharge = 23; // double 仓单服务费
+	optional int32 deliveryStatus = 24; // int32 交割状态
+	optional int32 OperatorCodeType = 25; // int32 操作员类型(0系统下单 1用户下单)
+	optional string LoginCode = 26; // string 登陆代码
+	optional string AreaCode = 27; // string 所属机构代码
+	optional double TradeAmount = 28; // double 成交金额
+	optional double HolderAmount = 29; // double 持仓金额
+	optional double FrozenQty = 30; // double 交收冻结数量
+	optional string CustomerName = 31; // string 用户名字
+	optional string AreaName = 32; // string 所属机构名称
+	optional int32 OrderType = 33; // int32 委托类型
+	optional string SpecialMemberName = 34; // string 特别会员名称
+	optional string MemberCode = 35; // string 所属会员代码
+	optional string MemberName = 36; // string 所属会员名称
+}
+message QueryHolderDetailRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryHolderDetailRsp_ Rsps = 5; // QueryHolderDetailRsp_ Rsps 查询结果集
+}
+// 查询客户头寸请求 1 5 53
+message QueryTradePositionReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 交易帐号
+	optional int32 AccountCodeFlag = 4; // string 交易帐号查询标记，不填写默认为=
+	optional string GoodsCode = 5; // string 商品
+	optional int32 GoodsCodeFlag = 6; // string 商品查询标记，不填写默认为=
+	optional int32 BuyOrSell = 7; // int32 买卖方向
+	optional int32 BuyOrSellFlag = 8; // int32 买卖方向查询标记，不填写默认为=
+}
+// 查询客户头寸应答 1 5 54
+message QueryTradePositionRsp_ {
+	optional string AccountCode = 1; // string 交易帐号
+	optional string GoodsCode = 2; // string 商品
+	optional int32 BuyOrSell = 3; // int32 买卖方向
+	optional double TradeAmount = 4; // double 成交金额
+	optional double HolderAmount = 5; // double 持仓金额
+	optional double HolderQty = 6; // double 持仓数量
+	optional double FreezeQty = 7; // double 冻结数量
+	optional double ReckonPL = 8; // double 浮动盈亏/结算盈亏
+	optional double UsedMargin = 9; // double 占用保证金
+	optional double OpenAvgPrice = 10; // double 建仓均价
+	optional double HolderAvgPrice = 11; // double 持仓均价
+	optional double ClosePrice = 12; // double 平仓价
+	optional double AvailQty = 13; // double 可用数量
+}
+message QueryTradePositionRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryTradePositionRsp_ Rsps = 5; // QueryTradePositionRsp_ Rsps 查询结果集
+}
+// 查询会员头寸请求 1 5 55
+message QueryMemberPositionReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string MemberCode = 3; // string 会员账户
+	optional int32 MemberCodeFlag = 4; // string 会员账户查询标记，不填写默认为=
+	optional string GoodsCode = 5; // string 商品
+	optional int32 GoodsCodeFlag = 6; // string 商品查询标记，不填写默认为=
+	optional int32 BuyOrSell = 7; // int32 买卖方向
+	optional int32 BuyOrSellFlag = 8; // int32 买卖方向查询标记，不填写默认为=
+}
+// 查询会员头寸应答 1 5 56
+message QueryMemberPositionRsp_ {
+	optional string MemberCode = 1; // string 会员账户
+	optional string GoodsCode = 2; // string 商品
+	optional int32 BuyOrSell = 3; // int32 方向
+	optional double TradeAmount = 4; // double 成交金额
+	optional double HolderAmount = 5; // double 持仓金额
+	optional double HolderQty = 6; // double 持仓数量
+	optional double FreezeQty = 7; // double 冻结数量
+	optional double ReckonPL = 8; // double 浮动盈亏/结算盈亏
+}
+message QueryMemberPositionRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMemberPositionRsp_ Rsps = 5; // QueryMemberPositionRsp_ Rsps 查询结果集
+}
+// 查询平仓单请求 1 5 57
+message QueryCloseDetailReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int64 EntrustID = 3; // int64 委托单号
+	optional int32 EntrustIDFlag = 4; // int64 委托单号查询标记，不填写默认为=
+	optional int32 MarketID = 5; // int32 市场ID
+	optional int32 MarketIDFlag = 6; // int32 市场ID查询标记，不填写默认为=
+	optional string AccountCode = 7; // string 交易帐号
+	optional int32 AccountCodeFlag = 8; // string 交易帐号查询标记，不填写默认为=
+	optional string GoodsCode = 9; // string 商品
+	optional int32 GoodsCodeFlag = 10; // string 商品查询标记，不填写默认为=
+	optional int32 BuyOrSell = 11; // int32 买卖方向
+	optional int32 BuyOrSellFlag = 12; // int32 买卖方向查询标记，不填写默认为=
+	optional string TradeDate = 13; // string 交易日
+	optional int32 TradeDateFlag = 14; // string 交易日查询标记，不填写默认为=
+	optional int32 AccountType = 15; // int32 账户类型
+	optional int32 AccountTypeFlag = 16; // int32 账户类型查询标记，不填写默认为=
+	optional string MemberCode = 17; // string 会员代码
+	optional int32 MemberCodeFlag = 18; // string 会员代码查询标记，不填写默认为=
+	optional string MarketName = 19; // string 市场名称
+	optional int32 MarketNameFlag = 20; // string 市场名称查询标记，不填写默认为=
+	optional string StartDate = 21; // string 起始日期
+	optional int32 StartDateFlag = 22; // string 起始日期查询标记，不填写默认为=
+	optional string EndDate = 23; // string 结束日期
+	optional int32 EndDateFlag = 24; // string 结束日期查询标记，不填写默认为=
+	optional string LoginCode = 25; // string 登陆代码
+	optional int32 LoginCodeFlag = 26; // string 登陆代码查询标记，不填写默认为=
+	optional string AreaCode = 27; // string 所属机构代码
+	optional int32 AreaCodeFlag = 28; // string 所属机构代码查询标记，不填写默认为=
+	optional string SpecMemberCode = 29; // string 特别会员代码
+	optional int32 SpecMemberCodeFlag = 30; // string 特别会员代码查询标记，不填写默认为=
+}
+// 查询平仓单应答 1 5 58
+message QueryCloseDetailRsp_ {
+	optional int64 EntrustID = 1; // int64 委托单号
+	optional string TradeDate = 2; // string 交易日
+	optional string TradeTime = 3; // string 成交日期时间
+	optional string AccountCode = 4; // string 交易帐号
+	optional string GoodsCode = 5; // string 商品
+	optional int32 BuyOrSell = 6; // int32 买卖方向
+	optional double TradePrice = 7; // double 平仓价格
+	optional double Qty = 8; // double 平仓数量
+	optional double Charge = 9; // double 成交手续费
+	optional int64 RelationTicket = 10; // int64 关联委托单号
+	optional double OpenPrice = 11; // double 建仓价格
+	optional double ClosePL = 12; // double 平仓盈亏
+	optional int32 AgreeUnit = 13; // int32 合约单位
+	optional string GoodsName = 14; // string 商品名称
+	optional string OpenTime = 15; // string 建仓时间
+	optional int32 OpenClose = 16; // int32 开平（竞价用）
+	optional double HolderPrice = 17; // double 持仓价
+	optional double ClosePrice = 18; // double (弃用)平仓价
+	optional double StorageCharge = 19; // double 仓单服务费
+	optional int32 OperatorCodeType = 20; // int32 操作员类型(0系统下单 1用户下单)
+	optional string LoginCode = 21; // string 登陆代码
+	optional string AreaCode = 22; // string 所属机构代码
+	optional double TradeAmount = 23; // double 平仓金额
+	optional double OpenAmount = 24; // double 建仓金额
+	optional string CustomerName = 25; // string 用户名字
+	optional string AreaName = 26; // string 所属机构名称
+	optional double ActualPL = 27; // double 实际盈亏
+	optional int32 CreateType = 28; // int32 建仓类型(0系统下单 1用户下单)
+	optional string CreateLoginCode = 29; // string 建仓操作员登陆代码
+	optional string SpecialMemberName = 30; // string 特别会员名称
+	optional string MemberCode = 31; // string 所属会员代码
+	optional string MemberName = 32; // string 所属会员名称
+}
+message QueryCloseDetailRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryCloseDetailRsp_ Rsps = 5; // QueryCloseDetailRsp_ Rsps 查询结果集
+}
+// 查询仓单请求 1 5 61
+message QueryDeliveryCloseReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 StorageID = 3; // int32 仓单单号
+	optional int32 StorageIDFlag = 4; // int32 仓单单号查询标记，不填写默认为=
+	optional string GoodsCode = 5; // string 商品
+	optional int32 GoodsCodeFlag = 6; // string 商品查询标记，不填写默认为=
+	optional int32 MarketID = 7; // int32 市场ID
+	optional int32 MarketIDFlag = 8; // int32 市场ID查询标记，不填写默认为=
+	optional string AccountCode = 9; // string 交易帐号
+	optional int32 AccountCodeFlag = 10; // string 交易帐号查询标记，不填写默认为=
+	optional int32 PledgeStatus = 11; // int32 仓单状态
+	optional int32 PledgeStatusFlag = 12; // int32 仓单状态查询标记，不填写默认为=
+	optional string StartTime = 13; // string 查询起始时间(仓单创建时间)
+	optional int32 StartTimeFlag = 14; // string 查询起始时间(仓单创建时间)查询标记，不填写默认为=
+	optional string EndTime = 15; // string 查询结束时间(仓单创建时间)
+	optional int32 EndTimeFlag = 16; // string 查询结束时间(仓单创建时间)查询标记，不填写默认为=
+}
+// 查询仓单应答 1 5 62
+message QueryDeliveryCloseRsp_ {
+	optional int32 StorageID = 1; // int32 仓单单号
+	optional string StorageDate = 2; // string 仓单日期
+	optional string AccountCode = 3; // string 交易帐号
+	optional string GoodsCode = 4; // string 商品
+	optional string ProductName = 5; // string 生产商
+	optional double Qty = 6; // double 数量
+	optional int32 IsPledge = 7; // int32 是否质押
+	optional double PledgePrice = 8; // double 质押价格
+	optional double PledgeAmount = 9; // double 质押金额
+	optional int32 IsDeliver = 10; // int32 是否交割
+	optional int32 DeliverQty = 11; // int32 交割数量
+	optional int32 PledgeStatus = 12; // int32 仓单状态
+}
+message QueryDeliveryCloseRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryDeliveryCloseRsp_ Rsps = 5; // QueryDeliveryCloseRsp_ Rsps 查询结果集
+}
+// 查询成交流水请求 1 5 63
+message QueryOrderDetailLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int64 OrderID = 3; // int64 订单ID
+	optional int32 OrderIDFlag = 4; // int64 订单ID查询标记，不填写默认为=
+	optional int32 MarketID = 5; // int32 市场ID
+	optional int32 MarketIDFlag = 6; // int32 市场ID查询标记，不填写默认为=
+	optional string AccountCode = 7; // string 交易帐号
+	optional int32 AccountCodeFlag = 8; // string 交易帐号查询标记，不填写默认为=
+	optional string GoodsCode = 9; // string 商品
+	optional int32 GoodsCodeFlag = 10; // string 商品查询标记，不填写默认为=
+	optional int32 AccountType = 11; // int32 账户类型
+	optional int32 AccountTypeFlag = 12; // int32 账户类型查询标记，不填写默认为=
+	optional string MemberCode = 13; // string 会员代码
+	optional int32 MemberCodeFlag = 14; // string 会员代码查询标记，不填写默认为=
+	optional int32 OrderType = 15; // int32 订单类型
+	optional int32 OrderTypeFlag = 16; // int32 订单类型查询标记，不填写默认为=
+	optional int32 OrderStatus = 17; // int32 单据状态
+	optional int32 OrderStatusFlag = 18; // int32 单据状态查询标记，不填写默认为=
+	optional string MarketName = 19; // string 市场名称
+	optional int32 MarketNameFlag = 20; // string 市场名称查询标记，不填写默认为=
+	optional int32 BuyOrSell = 21; // int32 买卖方向
+	optional int32 BuyOrSellFlag = 22; // int32 买卖方向查询标记，不填写默认为=
+	optional string OtherAccountCode = 23; // string 对手资金账号
+	optional int32 OtherAccountCodeFlag = 24; // string 对手资金账号查询标记，不填写默认为=
+	optional string StartDate = 25; // string 起始日期
+	optional int32 StartDateFlag = 26; // string 起始日期查询标记，不填写默认为=
+	optional string EndDate = 27; // string 结束日期
+	optional int32 EndDateFlag = 28; // string 结束日期查询标记，不填写默认为=
+	optional string LoginCode = 29; // string 登陆代码
+	optional int32 LoginCodeFlag = 30; // string 登陆代码查询标记，不填写默认为=
+	optional string AreaCode = 31; // string 所属机构代码
+	optional int32 AreaCodeFlag = 32; // string 所属机构代码查询标记，不填写默认为=
+	optional int32 OrderBuildType = 33; // int32 建/平仓
+	optional int32 OrderBuildTypeFlag = 34; // int32 建/平仓查询标记，不填写默认为=
+	optional string OrderIDIndex = 35; // string 成交单委托单号集合
+	optional int32 OrderIDIndexFlag = 36; // string 成交单委托单号集合查询标记，不填写默认为=
+	optional string RelationIDIndex = 37; // string 关联持仓单号集合
+	optional int32 RelationIDIndexFlag = 38; // string 关联持仓单号集合查询标记，不填写默认为=
+}
+// 查询成交流水应答 1 5 64
+message QueryOrderDetailLogRsp_ {
+	optional int64 OrderID = 1; // int64 订单ID
+	optional string TradeTime = 2; // string 成交日期时间
+	optional int32 OrderType = 3; // int32 订单类型
+	optional int64 TradeID = 4; // int64 成交单号
+	optional string TradeTicket = 5; // string 成交流水号
+	optional string AccountCode = 6; // string 帐号
+	optional string GoodsCode = 7; // string 商品
+	optional int32 BuyOrSell = 8; // int32 方向
+	optional double TradePrice = 9; // double 成交价格
+	optional double TradeQty = 10; // double 成交数量
+	optional double Charge = 11; // double 手续费
+	optional string OtherAccountCode = 12; // string 对手帐号
+	optional string OtherMemberCode = 13; // string 对手帐号所属会员
+	optional int32 OrderStatus = 14; // int32 订单状态
+	optional string OperatorCode = 15; // string 操作员
+	optional string ModifyTime = 16; // string 修改时间
+	optional string OperatorName = 17; // string 操作员名称
+	optional string GoodsName = 18; // string 商品名称
+	optional int64 SecEntrustID = 19; // int64 二级委托单号
+	optional double StorageCharge = 20; // double 仓单服务费
+	optional string LoginCode = 21; // string 登陆代码
+	optional string AreaCode = 22; // string 所属机构代码
+	optional double TradeAmount = 23; // double 成交金额
+	optional string CustomerName = 24; // string 用户名字
+	optional string AreaName = 25; // string 所属机构名称
+	optional int64 RelationTicket = 26; // int64 关联持仓单号
+	optional double HolderPrice = 27; // double 持仓价
+	optional double ClosePl = 28; // double 平仓盈亏
+	optional double ActualPl = 29; // double 实际盈亏
+	optional double Interest = 30; // double 递延费
+	optional int32 OperatorCodeType = 31; // int32 操作类型(0系统下单 1用户下单)
+	optional string OperatorLoginCode = 32; // string 操作人
+	optional int32 OrderBuildType = 33; // int32 建/平仓
+	optional double OpenPrice = 34; // double 建仓价格
+	optional double ClosePrice = 35; // double 平仓价格
+	optional string SpecialMemberName = 36; // string 特别会员名称
+}
+message QueryOrderDetailLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryOrderDetailLogRsp_ Rsps = 5; // QueryOrderDetailLogRsp_ Rsps 查询结果集
+}
+// 竞价商品属性查询请求 1 5 65
+message QueryBidGoodsArguesReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 GoodsId = 3; // int32 商品ID
+	optional int32 GoodsIdFlag = 4; // int32 商品ID查询标记，不填写默认为=
+	optional string GoodsCode = 5; // string 商品代码
+	optional int32 GoodsCodeFlag = 6; // string 商品代码查询标记，不填写默认为=
+	optional string GoodsName = 7; // string 商品名称
+	optional int32 GoodsNameFlag = 8; // string 商品名称查询标记，不填写默认为=
+	optional int32 MarketID = 9; // int32 市场ID
+	optional int32 MarketIDFlag = 10; // int32 市场ID查询标记，不填写默认为=
+	optional int32 GoodsStatus = 11; // int32 商品状态
+	optional int32 GoodsStatusFlag = 12; // int32 商品状态查询标记，不填写默认为=
+	optional int32 ExchID = 13; // int32 交易所ID
+	optional int32 ExchIDFlag = 14; // int32 交易所ID查询标记，不填写默认为=
+}
+// 竞价商品属性查询应答 1 5 66
+message QueryBidGoodsArguesRsp_ {
+	optional string GoodsCode = 1; // string 商品代码
+	optional string GoodsName = 2; // string 商品名称
+	optional int32 MarketID = 3; // int32 市场ID
+	optional int32 MarketMarginType = 4; // int32 即市保证金收取方式
+	optional double MarketMargin = 5; // double 即市保证金比例或数值
+	optional int32 ReckonMarginType = 6; // int32 结算保证金收取方式
+	optional double ReckonMargin = 7; // double 结算保证金比例或数值
+	optional int32 OpenChargeType = 8; // int32 建仓手续费收取方式
+	optional double OpenCharge = 9; // double 建仓手续费比例或数值
+	optional int32 CloseChargeType = 10; // int32 平仓手续费收取方式
+	optional double CloseCharge = 11; // double 平仓手续费比例或数值
+	optional int32 BuyDeliverType = 12; // int32 买交割手续费收取方式
+	optional double BuyDeliver = 13; // double 买交割手续费比例或数值
+	optional int32 SellDeliverType = 14; // int32 卖交割手续费收取方式
+	optional double SellDeliver = 15; // double 卖交割手续费比例或数值
+	optional int32 BuyInterestType = 16; // int32 买递延费收取方式
+	optional double BuyInterest = 17; // double 买递延费比例或数值
+	optional int32 SellInterestType = 18; // int32 卖递延费收取方式
+	optional double SellInterest = 19; // double 卖递延费比例或数值
+	optional double MinDeliverUnit = 20; // double 卖递延费比例或数值
+	optional double MinOpenNum = 21; // double 最小建仓数量
+	optional double MaxOpenNum = 22; // double 最大建仓数量
+	optional double MaxBuyHoldNum = 23; // double 最大买持仓数量
+	optional double MaxSellHoldNum = 24; // double 最大卖持仓数量
+	optional string Currency = 25; // string 结算货币
+	optional int32 GoodsStatus = 26; // int32 商品状态
+	optional string OrderTypeRight = 27; // string 订单类型权限
+	optional double RaisesLimit = 28; // double T日涨停比例
+	optional double FallsLimit = 29; // double T日跌停比例
+	optional int32 AgreeUnit = 30; // int32 合约单位
+	optional double ReckonRate = 31; // double 结算汇率
+	optional string MarketName = 32; // string 市场名称
+	optional int32 GoodsId = 33; // int32 商品ID
+	optional int32 RunStatus = 34; // int32 运行状态
+	optional int32 HqExchFigures = 35; // int32 转换后行情小数位数
+	optional double UpLimitPrice = 36; // double 涨停价格
+	optional double DnLimitPrice = 37; // double 跌停价格
+	optional int32 ExchID = 38; // int32 交易所编码
+	optional string ExchCode = 39; // string 交易所代码
+	optional string AgreeName = 40; // string 合约单位名称
+	optional int32 GoodsType = 41; // int32 商品类型（定投商品，普通商品）
+	optional int32 GoodsLimitedNum = 42; // int32 商品期限
+	optional int32 GoodsLimitedType = 43; // int32 商品期限类型（年，月，日）
+	optional string FristTradeDate = 44; // string 首个交易日期
+	optional double FristPrice = 45; // double 上市首日价格
+	optional double FristRaisesLimit = 46; // double 上市首日涨停比例
+	optional double FristFallsLimit = 47; // double 上市首日跌停比例
+	optional double T2RaisesLimit = 48; // double T+1涨停比例
+	optional double T2FallsLimit = 49; // double T+1跌停比例
+	optional double T3RaisesLimit = 50; // double T+2涨停比例
+	optional double T3FallsLimit = 51; // double T+2跌停比例
+	optional int32 BidPattern = 52; // int32 商品竞价模式(0保证金交易,1全额交易)
+}
+message QueryBidGoodsArguesRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBidGoodsArguesRsp_ Rsps = 5; // QueryBidGoodsArguesRsp_ Rsps 查询结果集
+}
+// 查询账户竞价商品请求 1 5 533
+message QueryAccountBidGoodsReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账号
+	optional int32 AccountCodeFlag = 4; // string 账号查询标记，不填写默认为=
+}
+// 查询账户竞价商品应答 1 5 534
+message QueryAccountBidGoodsRsp_ {
+	optional QkernelTas1.QueryBidGoodsArguesRsp_ BidGoodsInfo = 1; // QueryBidGoodsArguesRsp_ 竞价商品信息
+}
+message QueryAccountBidGoodsRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAccountBidGoodsRsp_ Rsps = 5; // QueryAccountBidGoodsRsp_ Rsps 查询结果集
+}
+// 竞价商品参数规则类型查询请求 1 5 75
+message QueryBidParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ParameterID = 3; // int32 参数类型编号
+	optional int32 ParameterIDFlag = 4; // int32 参数类型编号查询标记，不填写默认为=
+	optional string RuleName = 5; // string 规则类型名称
+	optional int32 RuleNameFlag = 6; // string 规则类型名称查询标记，不填写默认为=
+	optional string GoodsCode = 7; // string 商品代码
+	optional int32 GoodsCodeFlag = 8; // string 商品代码查询标记，不填写默认为=
+	optional string GoodsName = 9; // string 商品名称
+	optional int32 GoodsNameFlag = 10; // string 商品名称查询标记，不填写默认为=
+	optional int32 MarketID = 11; // int32 所属市场ID
+	optional int32 MarketIDFlag = 12; // int32 所属市场ID查询标记，不填写默认为=
+	optional int32 MemberId = 13; // int32 所属会员ID
+	optional int32 MemberIdFlag = 14; // int32 所属会员ID查询标记，不填写默认为=
+	optional string ExchName = 15; // string 交易所名称
+	optional int32 ExchNameFlag = 16; // string 交易所名称查询标记，不填写默认为=
+	optional int32 GoodsStatus = 17; // int32 商品状态
+	optional int32 GoodsStatusFlag = 18; // int32 商品状态查询标记，不填写默认为=
+}
+// 竞价商品参数规则类型查询应答 1 5 76
+message QueryBidParameterRuleRsp_ {
+	optional int32 ParameterID = 1; // int32 参数类型编号
+	optional string RuleName = 2; // string 规则类型名称
+	optional int32 MemberId = 3; // int32 所属会员ID
+	optional string GoodsCode = 4; // string 商品代码
+	optional string GoodsName = 5; // string 商品名称
+	optional int32 MarketID = 6; // int32 所属市场ID
+	optional int32 MarketMarginType = 7; // int32 即市保证金收取方式
+	optional double MarketMargin = 8; // double 即市保证金增量
+	optional int32 ReckonMarginType = 9; // int32 结算保证金收取方式
+	optional double ReckonMargin = 10; // double 结算保证金增量
+	optional int32 OpenChargeType = 11; // int32 建仓手续费收取方式
+	optional double OpenCharge = 12; // double 建仓手续费增量
+	optional int32 CloseChargeType = 13; // int32 平仓手续费收取方式
+	optional double CloseCharge = 14; // double 平仓手续费增量
+	optional int32 BuyDeliverType = 15; // int32 买交割手续费收取方式
+	optional double BuyDeliver = 16; // double 买交割手续费增量
+	optional int32 SellDeliverType = 17; // int32 卖交割手续费收取方式
+	optional double SellDeliver = 18; // double 卖交割手续费增量
+	optional int32 BuyInterestType = 19; // int32 买递延费收取方式
+	optional double BuyInterest = 20; // double 买递延费增量
+	optional int32 SellInterestType = 21; // int32 卖递延费收取方式
+	optional double SellInterest = 22; // double 卖递延费增量
+	optional double MinDeliverUnit = 23; // double 最小交割单位
+	optional double MinOpenNum = 24; // double 最小建仓数量
+	optional double MaxOpenNum = 25; // double 最大建仓数量
+	optional double MaxBuyHoldNum = 26; // double 最大买持仓数量
+	optional double MaxSellHoldNum = 27; // double 最大卖持仓数量
+	optional int32 GoodsStatus = 28; // int32 商品状态
+	optional string OrderTypeRight = 29; // string 订单类型权限
+	optional double RaisesLimit = 30; // double 涨停比例
+	optional double FallsLimit = 31; // double 跌停比例
+	optional string MarketName = 32; // string 所属市场名称
+	optional string MemberName = 33; // string 所属会员名称
+	optional string MemberCode = 34; // string 所属会员
+	optional int32 IsShowGoods = 35; // int32 是否显示商品（0不显示，1显示）
+	optional int32 TradeLimitStatus = 36; // int32 交易限额状态（0无效，1有效）
+	optional double MarginRateMonth = 37; // double 保证金月递增率
+}
+message QueryBidParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBidParameterRuleRsp_ Rsps = 5; // QueryBidParameterRuleRsp_ Rsps 查询结果集
+}
+// 做市商品属性查询请求 1 5 83
+message QueryMarketGoodsArguesReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 GoodsId = 3; // int32 商品ID
+	optional int32 GoodsIdFlag = 4; // int32 商品ID查询标记，不填写默认为=
+	optional string GoodsCode = 5; // string 商品代码
+	optional int32 GoodsCodeFlag = 6; // string 商品代码查询标记，不填写默认为=
+	optional string GoodsName = 7; // string 商品名称
+	optional int32 GoodsNameFlag = 8; // string 商品名称查询标记，不填写默认为=
+	optional int32 MarketId = 9; // int32 市场代码
+	optional int32 MarketIdFlag = 10; // int32 市场代码查询标记，不填写默认为=
+	optional int32 GoodsStatus = 11; // int32 商品状态
+	optional int32 GoodsStatusFlag = 12; // int32 商品状态查询标记，不填写默认为=
+	optional int32 ExchID = 13; // int32 交易所ID
+	optional int32 ExchIDFlag = 14; // int32 交易所ID查询标记，不填写默认为=
+}
+// 做市商品属性查询应答 1 5 84
+message QueryMarketGoodsArguesRsp_ {
+	optional string GoodsCode = 1; // string 商品代码
+	optional string GoodsName = 2; // string 商品名称
+	optional int32 MarketID = 3; // int32 所属市场ID
+	optional int32 MarketMarginType = 4; // int32 即市保证金收取方式
+	optional double MarketMargin = 5; // double 即市保证金比例或数值
+	optional int32 ReckonMarginType = 6; // int32 结算保证金收取方式
+	optional double ReckonMargin = 7; // double 结算保证金比例或数值
+	optional int32 OpenChargeType = 8; // int32 建仓手续费收取方式
+	optional double OpenCharge = 9; // double 建仓手续费比例或数值
+	optional int32 CloseChargeType = 10; // int32 平仓手续费收取方式
+	optional double CloseCharge = 11; // double 平仓手续费比例或数值
+	optional int32 BuyDeliverType = 12; // int32 买交割手续费收取方式
+	optional double BuyDeliver = 13; // double 买交割手续费比例或数值
+	optional int32 SellDeliverType = 14; // int32 卖交割手续费收取方式
+	optional double SellDeliver = 15; // double 卖交割手续费比例或数值
+	optional int32 BuyInterestType = 16; // int32 买递延费收取方式
+	optional double BuyInterest = 17; // double 买递延费比例或数值
+	optional int32 SellInterestType = 18; // int32 卖递延费收取方式
+	optional double SellInterest = 19; // double 卖递延费比例或数值
+	optional double MinDeliverUnit = 20; // double 最小交割单位
+	optional double MinOpenNum = 21; // double 最小建仓数量
+	optional double MaxOpenNum = 22; // double 最大建仓数量
+	optional double MaxBuyHoldNum = 23; // double 最大买持仓数量
+	optional double MaxSellHoldNum = 24; // double 最大卖持仓数量
+	optional string Currency = 25; // string 结算货币
+	optional int32 GoodsStatus = 26; // int32 商品状态
+	optional string OrderTypeRight = 27; // string 订单类型权限
+	optional double LimitOpenBuyPtSub = 28; // double 限价建仓下买点差
+	optional double LimitOpenSellPtSub = 29; // double 限价建仓下卖点差
+	optional double LimitSLBuyPtSub = 30; // double 限价止损下买点差
+	optional double LimitSLSellPtSub = 31; // double 限价止损下卖点差
+	optional double LimitTPBuyPtSub = 32; // double 限价止赢下买点差
+	optional double LimitTPSellPtSub = 33; // double 限价止赢下卖点差
+	optional string HqCode = 34; // string 行情源商品代码
+	optional string HqExchCode = 35; // string 行情源所属交易所
+	optional double HqPrice = 36; // double 行情源最新价
+	optional double HqBuyPrice = 37; // double 行情源买价
+	optional double HqSellPrice = 38; // double 行情源卖价
+	optional double ExchangeUnit = 39; // double 单位转换系数
+	optional string QuoteCurrency = 40; // string 行情源报价币种
+	optional double PriceUnit = 41; // double 报价系统
+	optional double HqBasicPrice = 42; // double 行情源基价
+	optional int32 HqExchFigures = 43; // int32 转换后行情小数位数
+	optional double HqExchMinUnit = 44; // double 转换后行情最小变动单位
+	optional double PriceMove = 45; // double 报价贴水比例或数值
+	optional double NakePrice = 46; // double 行情裸价
+	optional double BuyPtSub = 47; // double 买点差
+	optional double BuyPrice = 48; // double 买价
+	optional double SellPtSub = 49; // double 卖点差
+	optional double SellPrice = 50; // double 卖价
+	optional int32 HqProtectTime = 51; // int32 行情保护时间
+	optional int32 AgreeUnit = 52; // int32 合约单位
+	optional double ReckonRate = 53; // double 结算汇率
+	optional string MarketName = 54; // string 市场名称
+	optional int32 GoodsId = 55; // int32 商品ID
+	optional int32 HqProtectTimeUnit = 56; // int32 行情保护时间单位（时，分，秒）
+	optional string AgreeName = 57; // string 合约单位名称
+	optional int32 RunStatus = 58; // int32 运行状态
+	optional string ConvertedPriceUnit = 59; // string 转换后报价单位  
+	optional string    MemberCode = 60; // string    所属挂牌会员  
+	optional int32 HqPriceUnit = 61; // int32 行情员报价单位
+	optional string ConvertedCurrency = 62; // string 转换后币种    
+	optional double FilterPricePtSub = 63; // double 滤价点差      
+	optional int32 OpenStorageChargeType = 64; // int32 仓单服务费收取方式 建仓 
+	optional int32 CloseStorageChargeType  = 65; // int32 仓单服务费收取方式 平仓 
+	optional double OpenStorageCharge       = 66; // double 仓单服务费 建仓     
+	optional double CloseStorageCharge      = 67; // double 仓单服务费 平仓     
+	optional double DeliverPreRatio = 68; // double 交割预付款比例
+	optional int32 IsBuyDeliverAudit = 69; // int32 买入交割审核(需审核，不需审核)
+	optional int32 IsSellDeliverAudit = 70; // int32 卖出交割审核(需审核，不需审核)
+	optional int32 DeliverPriceType = 71; // int32 交割价格类型
+	optional string DeliverType = 72; // string 交割类型（买入，卖出）
+	optional int32 PriceMoveType = 73; // int32 报价贴水收取方式
+	optional int32 ExchID = 74; // int32 交易所编码
+	optional string ExchCode = 75; // string 交易所代码
+	optional int32 GoodsType = 76; // int32 商品类型（定投商品，普通商品）
+	optional int32 GoodsLimitedNum = 77; // int32 商品期限
+	optional int32 GoodsLimitedType = 78; // int32 商品期限类型（年，月，日）
+	optional int32 CloseHisChargeType = 79; // int32 平昨仓手续费收取方式
+	optional double CloseHisCharge = 80; // double 平昨仓手续费比例或数值
+	optional int32 BuyInterestCycle = 81; // int32 买递延费收取周期
+	optional int32 SellInterestCycle = 82; // int32 卖递延费收取周期
+	optional int32 DealOffsetPoint = 83; // int32 允许成交偏移点差
+	optional string GoodsExpireTime = 84; // string 商品到期时间
+}
+message QueryMarketGoodsArguesRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarketGoodsArguesRsp_ Rsps = 5; // QueryMarketGoodsArguesRsp_ Rsps 查询结果集
+}
+// 查询账户做市商品请求 1 5 531
+message QueryAccountMarketGoodsReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账号
+	optional int32 AccountCodeFlag = 4; // string 账号查询标记，不填写默认为=
+}
+// 查询账户做市商品应答 1 5 532
+message QueryAccountMarketGoodsRsp_ {
+	optional QkernelTas1.QueryMarketGoodsArguesRsp_ MarketGoodsInfo = 1; // QueryMarketGoodsArguesRsp_ 做市商品信息
+}
+message QueryAccountMarketGoodsRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAccountMarketGoodsRsp_ Rsps = 5; // QueryAccountMarketGoodsRsp_ Rsps 查询结果集
+}
+// 做市商品参数规则类型查询请求 1 5 91
+message QueryMarketParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ParameterID = 3; // int32 参数类型编号
+	optional int32 ParameterIDFlag = 4; // int32 参数类型编号查询标记，不填写默认为=
+	optional string RuleName = 5; // string 规则类型名称
+	optional int32 RuleNameFlag = 6; // string 规则类型名称查询标记，不填写默认为=
+	optional string GoodsCode = 7; // string 商品代码
+	optional int32 GoodsCodeFlag = 8; // string 商品代码查询标记，不填写默认为=
+	optional string GoodsName = 9; // string 商品名称
+	optional int32 GoodsNameFlag = 10; // string 商品名称查询标记，不填写默认为=
+	optional int32 MarketID = 11; // int32 所属市场ID
+	optional int32 MarketIDFlag = 12; // int32 所属市场ID查询标记，不填写默认为=
+	optional int32 MemberId = 13; // int32 所属会员ID
+	optional int32 MemberIdFlag = 14; // int32 所属会员ID查询标记，不填写默认为=
+	optional string ExchName = 15; // string 交易所名称
+	optional int32 ExchNameFlag = 16; // string 交易所名称查询标记，不填写默认为=
+	optional int32 GoodsStatus = 17; // int32 商品状态
+	optional int32 GoodsStatusFlag = 18; // int32 商品状态查询标记，不填写默认为=
+}
+// 做市商品参数规则类型查询应答 1 5 92
+message QueryMarketParameterRuleRsp_ {
+	optional int32 ParameterID = 1; // int32 参数类型编号
+	optional string RuleName = 2; // string 规则类型名称
+	optional int32 MemberId = 3; // int32 所属会员ID
+	optional string GoodsCode = 4; // string 商品代码
+	optional string GoodsName = 5; // string 商品名称
+	optional int32 MarketID = 6; // int32 所属市场ID
+	optional int32 MarketMarginType = 7; // int32 即市保证金收取方式
+	optional double MarketMargin = 8; // double 即市保证金增量
+	optional int32 ReckonMarginType = 9; // int32 结算保证金收取方式
+	optional double ReckonMargin = 10; // double 结算保证金增量
+	optional int32 OpenChargeType = 11; // int32 建仓手续费收取方式
+	optional double OpenCharge = 12; // double 建仓手续费增量
+	optional int32 CloseChargeType = 13; // int32 平仓手续费收取方式
+	optional double CloseCharge = 14; // double 平仓手续费增量
+	optional int32 BuyDeliverType = 15; // int32 买交割手续费收取方式
+	optional double BuyDeliver = 16; // double 买交割手续费增量
+	optional int32 SellDeliverType = 17; // int32 卖交割手续费收取方式
+	optional double SellDeliver = 18; // double 卖交割手续费增量
+	optional int32 BuyInterestType = 19; // int32 买递延费收取方式
+	optional double BuyInterest = 20; // double 买递延费增量
+	optional int32 SellInterestType = 21; // int32 卖递延费收取方式
+	optional double SellInterest = 22; // double 卖递延费增量
+	optional double MinDeliverUnit = 23; // double 最小交割单位
+	optional double MinOpenNum = 24; // double 最小建仓数量
+	optional double MaxOpenNum = 25; // double 最大建仓数量
+	optional double MaxBuyHoldNum = 26; // double 最大买持仓数量
+	optional double MaxSellHoldNum = 27; // double 最大卖持仓数量
+	optional int32 GoodsStatus = 28; // int32 商品状态
+	optional string OrderTypeRight = 29; // string 订单类型权限
+	optional double BuyPtSubInc = 30; // double 买点差增量
+	optional double SellPtSubInc = 31; // double 卖点差增量
+	optional string MarketName = 32; // string 所属市场名称
+	optional string MemberName = 33; // string 所属会员名称
+	optional string MemberCode = 34; // string 所属会员
+	optional int32 OpenStorageChargeType = 35; // int32 仓单服务费收取方式 建仓 
+	optional int32 CloseStorageChargeType  = 36; // int32 仓单服务费收取方式 平仓 
+	optional double OpenStorageCharge       = 37; // double 仓单服务费增量 建仓     
+	optional double CloseStorageCharge      = 38; // double 仓单服务费增量 平仓     
+	optional int32 IsShowGoods = 39; // int32 是否显示商品（0不显示，1显示）
+	optional int32 TradeLimitStatus = 40; // int32 交易限额状态（0无效，1有效）
+	optional double MarginRateMonth = 41; // double 保证金月递增率
+	optional int32 CloseHisChargeType = 42; // int32 平昨仓手续费收取方式
+	optional double CloseHisCharge = 43; // double 平昨仓手续费比例或数值
+}
+message QueryMarketParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarketParameterRuleRsp_ Rsps = 5; // QueryMarketParameterRuleRsp_ Rsps 查询结果集
+}
+// 风险率类型查询请求 1 5 99
+message QueryRiskRateReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 RiskRateID = 3; // int32 风险率类型编码
+	optional int32 RiskRateIDFlag = 4; // int32 风险率类型编码查询标记，不填写默认为=
+	optional string RiskRateName = 5; // string 风险率名称
+	optional int32 RiskRateNameFlag = 6; // string 风险率名称查询标记，不填写默认为=
+	optional string MemberCode = 7; // string 所属会员
+	optional int32 MemberCodeFlag = 8; // string 所属会员查询标记，不填写默认为=
+}
+// 风险率类型查询应答 1 5 100
+message QueryRiskRateRsp_ {
+	optional int32 RiskRateID = 1; // int32 风险率类型编码
+	optional string RiskRateName = 2; // string 风险率类型名称
+	optional double NoteRiskRate = 3; // double 提示保证金风险率
+	optional double AddRiskRate = 4; // double 追加保证金风险率
+	optional double CutMarginRate = 5; // double 斩仓风险率
+	optional int32 RiskRateMode = 6; // int32 风险率计算方式
+	optional string CutMarginSeq = 7; // string 斩仓市场顺序
+	optional int32 CutMarginGoodsRule = 8; // int32 斩仓商品规则
+	optional int32 CutMarginRule = 9; // int32 斩仓规则
+	optional double RecoverTradeRisk = 10; // double 恢复正常交易风险率
+	optional int32 AccountType = 11; // int32 账户类型
+	optional string MemberCode = 12; // string 所属会员
+	optional int32 CutMarginGoBackType = 13; // int32 账户斩仓回退类型
+}
+message QueryRiskRateRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryRiskRateRsp_ Rsps = 5; // QueryRiskRateRsp_ Rsps 查询结果集
+}
+// 订单类型查询请求 1 5 107
+message QueryOrderTypesReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 OrderType = 3; // int32 订单类型
+	optional int32 OrderTypeFlag = 4; // int32 订单类型查询标记，不填写默认为=
+}
+// 订单类型查询应答 1 5 108
+message QueryOrderTypesRsp_ {
+	optional int32 OrderType = 1; // int32 订单类型
+	optional int32 GoodsType = 2; // int32 商品属性
+	optional int32 TradeType = 3; // int32 类型
+	optional int32 OpType = 4; // int32 性质
+	optional int32 BuyOrSell = 5; // int32 方向
+}
+message QueryOrderTypesRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryOrderTypesRsp_ Rsps = 5; // QueryOrderTypesRsp_ Rsps 查询结果集
+}
+// 会员查询请求 1 5 115
+message QueryMemberReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string MemberCode = 3; // string 会员代码
+	optional int32 MemberCodeFlag = 4; // string 会员代码查询标记，不填写默认为=
+	optional int32 MemberType = 5; // int32 会员类型
+	optional int32 MemberTypeFlag = 6; // int32 会员类型查询标记，不填写默认为=
+	optional string MemberName = 7; // string 会员名称
+	optional int32 MemberNameFlag = 8; // string 会员名称查询标记，不填写默认为=
+	optional int32 ExchId = 9; // int32 所属交易所
+	optional int32 ExchIdFlag = 10; // int32 所属交易所查询标记，不填写默认为=
+	optional int32 MemberID = 11; // int32 会员ID
+	optional int32 MemberIDFlag = 12; // int32 会员ID查询标记，不填写默认为=
+}
+// 会员查询应答 1 5 116
+message QueryMemberRsp_ {
+	optional int32 MemberID = 1; // int32 会员ID
+	optional string MemberCode = 2; // string 会员代码
+	optional int32 MemberType = 3; // int32 会员类型
+	optional string MemberName = 4; // string 会员名称
+	optional string Phone = 5; // string 电话
+	optional string Fax = 6; // string 传真
+	optional string Email = 7; // string 电子邮箱
+	optional string OrganizationCode = 8; // string 组织机构代码
+	optional string Address = 9; // string 地址
+	optional int32 MaxSubLevels = 10; // int32 允许机构层数
+	optional string MarketRight = 11; // string 市场权限
+	optional int32 ExchId = 12; // int32 所属交易所
+	optional string LegalName = 13; // string 法定代表人
+	optional string LegalPhone = 14; // string 法定代表人电话
+	optional string BusinessLicense = 15; // string 营业执照号
+	optional string TaxRegisterNO = 16; // string 税务登记号
+	optional string BusinessNature = 17; // string 企业性质
+	optional string ContactName = 18; // string 联系人
+	optional string BusinessRange = 19; // string 企业经营范围
+	optional string MemberPWD = 20; // string 会员密码
+	optional string RelateSpecMem = 21; // string 关联的特别会员
+	optional int32 ComMemOrderRight = 22; // int32 综合会员下单(0对冲单1不限制)
+	repeated PublicTas1.ArrayOutMoneyThreshold OutMoneyThreshold = 23; // ArrayOutMoneyThreshold 出金阀值信息
+	repeated string SignedComMem = 24; // string 已签约的综合会员
+	optional double MinMargin = 25; // double 最小保证金
+	optional string HighestAreaCode = 26; // string 会员的顶级机构代码
+	optional int32 ChargeDividId = 27; // int32 收费分成ID
+	optional string ChargeDividName = 28; // string 收费分成名称
+	optional string MemberAreaCode = 29; // string 所属会员机构代码
+	optional int32 RelateSpecMemFlag = 30; // int32 特别会员关联标志
+	optional double RiskThreshold = 31; // double 风险基金阀值
+	repeated PublicTas1.ArrayRiskThreshold RiskThresholdInfo = 32; // ArrayRiskThreshold 风险基金信息
+	optional string CenterMemberCode = 33; // string 所属运营中心
+	optional int32 HedgingType = 34; // int32 对冲策略
+	optional int32 HedgingTime = 35; // int32 对冲倍数
+	optional int32 PositionStrategy = 36; // int32 自动平综合会员下自盈单的头寸(1平,0不平)
+	optional int32 DeliveryType = 37; // int32 交割模式
+}
+message QueryMemberRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMemberRsp_ Rsps = 5; // QueryMemberRsp_ Rsps 查询结果集
+}
+// 机构查询请求 1 5 123
+message QueryAreaReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AreaCode = 3; // string 机构代码
+	optional int32 AreaCodeFlag = 4; // string 机构代码查询标记，不填写默认为=
+	optional string AreaName = 5; // string 机构名称
+	optional int32 AreaNameFlag = 6; // string 机构名称查询标记，不填写默认为=
+	optional string MemberCode = 7; // string 所属会员代码
+	optional int32 MemberCodeFlag = 8; // string 所属会员代码查询标记，不填写默认为=
+	optional int32 ParentArea = 9; // int32 父机构代码
+	optional int32 ParentAreaFlag = 10; // int32 父机构代码查询标记，不填写默认为=
+	optional int32 QryIncParentArea = 11; // int32 查询是否包含父机构(0 不包含，1包含)
+	optional int32 QryIncParentAreaFlag = 12; // int32 查询是否包含父机构(0 不包含，1包含)查询标记，不填写默认为=
+}
+// 机构查询应答 1 5 124
+message QueryAreaRsp_ {
+	optional int32 AreaID = 1; // int32 机构ID
+	optional string AreaCode = 2; // string 机构代码
+	optional string AreaName = 3; // string 机构名称
+	optional string MemberCode = 4; // string 会员代码
+	optional int32 ParentArea = 5; // int32 父机构代码
+	optional int32 MaxSubLevels = 6; // int32 机构允许级别数量
+	optional int32 AreaLevel = 7; // int32 机构级别
+	optional string BrokerMemberCode = 8; // string 所属经纪会员
+	optional string ParentAreaName = 9; // string 父级机构名称
+	optional string RelateSpecMem = 10; // string 关联特别会员
+}
+message QueryAreaRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAreaRsp_ Rsps = 5; // QueryAreaRsp_ Rsps 查询结果集
+}
+// 查询交易所请求 1 5 131
+message QueryExchParameterReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string ExchCode = 3; // string 交易所代码
+	optional int32 ExchCodeFlag = 4; // string 交易所代码查询标记，不填写默认为=
+	optional int32 ExchID = 5; // int32 交易所ID
+	optional int32 ExchIDFlag = 6; // int32 交易所ID查询标记，不填写默认为=
+}
+// 查询交易所应答 1 5 132
+message QueryExchParameterRsp_ {
+	optional int32 ExchID = 1; // int32 交易所编码
+	optional string ExchCode = 2; // string 交易所代码
+	optional string ExchName = 3; // string 交易所名称
+	optional string ExchOtherCode = 4; // string 交易所外码
+	optional string TradeDate = 5; // string 交易日
+	optional string NextDate = 6; // string 下一个交易日
+	optional string OpenTime = 7; // string 开市时间(绝对时间)
+	optional string CloseTime = 8; // string 收市时间(绝对时间)
+	optional string ReckonTime = 9; // string 结算时间(绝对时间)
+	optional int32 OpenMode = 10; // int32 开市方式
+	optional int32 CloseMode = 11; // int32 收市方式
+	optional int32 SysReckonMode = 12; // int32 系统结算方式
+	optional int32 ReckonMode = 13; // int32 结算模式
+	optional int32 ExchStatus = 14; // int32 交易所状态
+}
+message QueryExchParameterRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchParameterRsp_ Rsps = 5; // QueryExchParameterRsp_ Rsps 查询结果集
+}
+// 查询市场请求 1 5 137
+message QueryMarkeReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 MarketID = 3; // int32 市场编码
+	optional int32 MarketIDFlag = 4; // int32 市场编码查询标记，不填写默认为=
+	optional string MarketCode = 5; // string 市场代码
+	optional int32 MarketCodeFlag = 6; // string 市场代码查询标记，不填写默认为=
+	optional string MarketName = 7; // string 市场名称
+	optional int32 MarketNameFlag = 8; // string 市场名称查询标记，不填写默认为=
+	optional int32 ExchID = 9; // int32 所属交易所
+	optional int32 ExchIDFlag = 10; // int32 所属交易所查询标记，不填写默认为=
+	optional int32 MarketType = 11; // int32 类型（做市、竞价、挂牌、拍卖）
+	optional int32 MarketTypeFlag = 12; // int32 类型（做市、竞价、挂牌、拍卖）查询标记，不填写默认为=
+	optional int32 MarketStatus = 13; // int32 市场状态（未上市、集合竞价、连续交易、收市、结算、退市）
+	optional int32 MarketStatusFlag = 14; // int32 市场状态（未上市、集合竞价、连续交易、收市、结算、退市）查询标记，不填写默认为=
+}
+// 查询市场应答 1 5 138
+message QueryMarkeRsp_ {
+	optional int32 MarketID = 1; // int32 市场编码
+	optional string MarketCode = 2; // string 市场代码
+	optional string MarketName = 3; // string 市场名称
+	optional int32 ExchID = 4; // int32 所属交易所
+	optional string OrderRight = 5; // string 订单类型权限
+	optional int32 MarketStatus = 6; // int32 市场状态（未上市、集合竞价、连续交易、收市、结算、退市）
+	optional string ReckonTime = 7; // string 结算时间
+	optional int32 MarketType = 8; // int32 类型（做市、竞价、挂牌、拍卖）
+	optional int32 Interest = 9; // int32 周几三天收息
+	optional string ExchName = 10; // string 所属交易所名称
+	optional int32 RunStatus = 11; // int32 市场运行状态
+}
+message QueryMarkeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarkeRsp_ Rsps = 5; // QueryMarkeRsp_ Rsps 查询结果集
+}
+// 查询账户市场请求 1 5 535
+message QueryAccountMarketReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账号
+	optional int32 AccountCodeFlag = 4; // string 账号查询标记，不填写默认为=
+}
+// 查询账户市场应答 1 5 536
+message QueryAccountMarketRsp_ {
+	optional QkernelTas1.QueryMarkeRsp_ MarketInfo = 1; // QueryMarkeRsp_ 市场信息
+}
+message QueryAccountMarketRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAccountMarketRsp_ Rsps = 5; // QueryAccountMarketRsp_ Rsps 查询结果集
+}
+// 查询交易所假期请求 1 5 145
+message QueryHolidayReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 交易所编码
+	optional int32 ExchIDFlag = 4; // int32 交易所编码查询标记，不填写默认为=
+	optional string StartDate = 5; // string 起始日期
+	optional int32 StartDateFlag = 6; // string 起始日期查询标记，不填写默认为=
+	optional string EndDate = 7; // string 结束日期
+	optional int32 EndDateFlag = 8; // string 结束日期查询标记，不填写默认为=
+}
+// 查询交易所假期应答 1 5 146
+message QueryHolidayRsp_ {
+	optional int32 ExchID = 1; // int32 交易所编码
+	optional string ExchName = 2; // string 交易所名称
+	optional string HolidayDate = 3; // string 节假日日期
+}
+message QueryHolidayRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryHolidayRsp_ Rsps = 5; // QueryHolidayRsp_ Rsps 查询结果集
+}
+// 查询例外时间请求 1 5 151
+message QueryExceptionsReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 QueryID = 3; // int32 编码
+	optional int32 QueryIDFlag = 4; // int32 编码查询标记，不填写默认为=
+	optional int32 QueryType = 5; // int32 类型
+	optional int32 QueryTypeFlag = 6; // int32 类型查询标记，不填写默认为=
+}
+// 查询例外时间应答 1 5 152
+message QueryExceptionsRsp_ {
+	optional int32 ExcepID = 1; // int32 例外编码
+	optional int32 ExcepType = 2; // int32 类型
+	optional int32 QueryID = 3; // int32 编码
+	optional int32 QueryType = 4; // int32 类型：0：交易所，1：市场，2：商品 
+	optional string QueryName = 5; // string 名称
+	optional string StartTradeDate = 6; // string 例外起始交易日
+	optional string EndTradeDate = 7; // string 例外结束交易日
+	optional int32 IsOpenNextDay = 8; // int32 开盘时间定义，1前一日，2当日，3次日
+	optional string OpenTime = 9; // string 开盘时间
+	optional int32 IsCloseNextDay = 10; // int32 收盘时间定义，1前一日，2当日，3次日
+	optional string CloseTime = 11; // string 收盘时间
+	optional int32 IsReckonNextDay = 12; // int32 结算时间定义，1前一日，2当日，3次日
+	optional string ReckonTime = 13; // string 结算时间
+	optional string Remark = 14; // string 备注
+}
+message QueryExceptionsRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExceptionsRsp_ Rsps = 5; // QueryExceptionsRsp_ Rsps 查询结果集
+}
+// 查询交易所交易时间段请求 1 5 160
+message QueryExchTradeTimeReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 交易所编码
+	optional int32 ExchIDFlag = 4; // int32 交易所编码查询标记，不填写默认为=
+}
+// 查询交易所交易时间段应答 1 5 161
+message QueryExchTradeTimeRsp_ {
+	optional int32 ExchID = 1; // int32 交易所编码
+	optional int32 WeekDay = 2; // int32 周几
+	optional int32 IsOpenNextDay = 3; // int32 开市时间定义，1前一日，2当日，3次日
+	optional string OpenTime = 4; // string 开市时间
+	optional int32 IsCloseNextDay = 5; // int32 收市时间定义，1前一日，2当日，3次日
+	optional string CloseTime = 6; // string 收市时间
+	optional int32 IsReckonNextDay = 7; // int32 结算时间定义，1前一日，2当日，3次日
+	optional string ReckonTime = 8; // string 结算时间
+	optional int32 IsOpen = 9; // int32 是否开市
+}
+message QueryExchTradeTimeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchTradeTimeRsp_ Rsps = 5; // QueryExchTradeTimeRsp_ Rsps 查询结果集
+}
+// 查询出入金时间段请求 1 5 168
+message QueryInOutMoneyTimeReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询出入金时间段应答 1 5 169
+message QueryInOutMoneyTimeRsp_ {
+	optional string BankId = 1; // string 银行编号
+	optional string BankName = 2; // string 银行名称
+	optional string InMoneyStartTime = 3; // string 入金开始时间
+	optional string InMoneyEndTime = 4; // string 入金结束时间
+	optional string OutMoneyStartTime = 5; // string 出金开始时间
+	optional string OutMoneyEndTime = 6; // string 出金结束时间
+	optional int32 IsAllowInMoney = 7; // int32 是否允许入金
+	optional int32 IsAllowOutMoney = 8; // int32 是否允许出金
+}
+message QueryInOutMoneyTimeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryInOutMoneyTimeRsp_ Rsps = 5; // QueryInOutMoneyTimeRsp_ Rsps 查询结果集
+}
+// 查询市场交易时间段请求 1 5 176
+message QueryMarkeTradeTimeReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 MarketID = 3; // int32 市场编码
+	optional int32 MarketIDFlag = 4; // int32 市场编码查询标记，不填写默认为=
+}
+// 查询市场交易时间段应答 1 5 177
+message QueryMarkeTradeTimeRsp_ {
+	optional int32 TimePeriodID = 1; // int32 时间段编码
+	optional int32 MarketID = 2; // int32 市场编码
+	optional string MarketName = 3; // string 市场名称
+	optional int32 WeekDay = 4; // int32 一周第几天
+	optional int32 TimeType = 5; // int32 时间段类型
+	optional int32 IsStartNextDay = 6; // int32 开始时间定义，1前一日，2当日，3次日
+	optional string StartTime = 7; // string 开始时间
+	optional int32 IsEndNextDay = 8; // int32 结束时间定义，1前一日，2当日，3次日
+	optional string EndTime = 9; // string 结束时间
+}
+message QueryMarkeTradeTimeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarkeTradeTimeRsp_ Rsps = 5; // QueryMarkeTradeTimeRsp_ Rsps 查询结果集
+}
+// 签约解约申请查询请求 1 5 185
+message QueryBankProtocolConfirmReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账户
+	optional int32 AccountCodeFlag = 4; // string 账户查询标记，不填写默认为=
+	optional int32 StatusType = 5; // int32 审核状态
+	optional int32 StatusTypeFlag = 6; // int32 审核状态查询标记，不填写默认为=
+}
+// 签约解约申请查询应答 1 5 186
+message QueryBankProtocolConfirmRsp_ {
+	optional string ConfirmId = 1; // string 审核编号
+	optional string AccountCode = 2; // string 账户
+	optional string BankAccountNo = 3; // string 银行账户
+	optional string BankAccountName = 4; // string 银行户名
+	optional string PaymentNo = 5; // string 交费编号
+	optional string ProtocolNo = 6; // string 协议编号
+	optional string ExBankAccount = 7; // string 交易商银行帐号
+	optional string ExBankNo = 8; // string 银行编号
+	optional string ApplicationDate = 9; // string 申请时间
+	optional string ConfirmDate = 10; // string 审核时间
+	optional string ConfirmOperator = 11; // string 审核员账户代码
+	optional int32 OperatorType = 12; // int32 操作类型
+	optional int32 StatusType = 13; // int32 审核状态
+	optional string AuditIDCard = 14; // string 申请人身份证
+	optional string Description = 15; // string 描述
+}
+message QueryBankProtocolConfirmRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankProtocolConfirmRsp_ Rsps = 5; // QueryBankProtocolConfirmRsp_ Rsps 查询结果集
+}
+// 银行流水日志查询请求 1 5 189
+message QueryBankMoneyLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string BankAccountNo = 3; // string 银行帐号
+	optional int32 BankAccountNoFlag = 4; // string 银行帐号查询标记，不填写默认为=
+	optional string AccountCode = 5; // string 账户
+	optional int32 AccountCodeFlag = 6; // string 账户查询标记，不填写默认为=
+	optional int32 TradeType = 7; // int32 交易类型
+	optional int32 TradeTypeFlag = 8; // int32 交易类型查询标记，不填写默认为=
+}
+// 银行流水日志查询应答 1 5 190
+message QueryBankMoneyLogRsp_ {
+	optional string BankAccountNo = 1; // string 银行账户
+	optional string BankTicket = 2; // string 银行流水号
+	optional string AccountCode = 3; // string 账户
+	optional string ExchTicket = 4; // string 交易所流水号
+	optional int32 TradeType = 5; // int32 交易类型
+	optional double TradeAmount = 6; // double 交易数量
+	optional string TradeDate = 7; // string 交易日
+	optional string TradeTime = 8; // string 交易时间
+	optional string BankID = 9; // string 银行编号
+	optional string Currency = 10; // string 币种
+}
+message QueryBankMoneyLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankMoneyLogRsp_ Rsps = 5; // QueryBankMoneyLogRsp_ Rsps 查询结果集
+}
+// 银行信息查询请求 1 5 191
+message QueryBankInfoReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string BankID = 3; // string 银行ID
+	optional int32 BankIDFlag = 4; // string 银行ID查询标记，不填写默认为=
+	optional string BankName = 5; // string 银行名称
+	optional int32 BankNameFlag = 6; // string 银行名称查询标记，不填写默认为=
+}
+// 银行信息查询应答 1 5 192
+message QueryBankInfoRsp_ {
+	optional string BankID = 1; // string 银行ID
+	optional string BankName = 2; // string 银行名称
+}
+message QueryBankInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankInfoRsp_ Rsps = 5; // QueryBankInfoRsp_ Rsps 查询结果集
+}
+// 手续费结转相关的银行帐号信息查询请求 1 5 197
+message QueryBankCommisionAccInfoReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string BankID = 3; // string 银行编号
+	optional int32 BankIDFlag = 4; // string 银行编号查询标记，不填写默认为=
+	optional string PayName = 5; // string 付款方户名
+	optional int32 PayNameFlag = 6; // string 付款方户名查询标记，不填写默认为=
+	optional string PayAcc = 7; // string 付款方帐号
+	optional int32 PayAccFlag = 8; // string 付款方帐号查询标记，不填写默认为=
+	optional string RecvName = 9; // string 收款方户名
+	optional int32 RecvNameFlag = 10; // string 收款方户名查询标记，不填写默认为=
+	optional string RecvAcc = 11; // string 收款方账户
+	optional int32 RecvAccFlag = 12; // string 收款方账户查询标记，不填写默认为=
+	optional string BankName = 13; // string 开户银行
+	optional int32 BankNameFlag = 14; // string 开户银行查询标记，不填写默认为=
+}
+// 手续费结转相关的银行帐号信息查询应答 1 5 198
+message QueryBankCommisionAccInfoRsp_ {
+	optional string BankID = 1; // string 银行编号
+	optional string PayName = 2; // string 付款方户名
+	optional string PayAcc = 3; // string 付款方帐号
+	optional string RecvName = 4; // string 收款方户名
+	optional string RecvAcc = 5; // string 收款方账户
+	optional string BankName = 6; // string 开户银行
+}
+message QueryBankCommisionAccInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankCommisionAccInfoRsp_ Rsps = 5; // QueryBankCommisionAccInfoRsp_ Rsps 查询结果集
+}
+// 银行签到签退状态查询请求 1 5 199
+message QueryBankSignInStatusReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 银行签到签退状态查询应答 1 5 200
+message QueryBankSignInStatusRsp_ {
+	optional string BankID = 1; // string 银行编号
+	optional string BankName = 2; // string 银行名称
+	optional int32 BankType = 3; // int32 银行类型
+	optional string BranchID = 4; // string 营业部编号
+	optional int32 SignStatus = 5; // int32 签到状态(1已签到，2已签退)
+	optional string TradeDate = 6; // string 交易日期
+}
+message QueryBankSignInStatusRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankSignInStatusRsp_ Rsps = 5; // QueryBankSignInStatusRsp_ Rsps 查询结果集
+}
+// 交易所手续费结转流水查询请求 1 5 201
+message QueryExchangeCommisionLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账户
+	optional int32 AccountCodeFlag = 4; // string 账户查询标记，不填写默认为=
+}
+// 交易所手续费结转流水查询应答 1 5 202
+message QueryExchangeCommisionLogRsp_ {
+	optional string AccountCode = 1; // string 账户
+	optional string ExecuteDate = 2; // string 执行日期
+	optional int32 ExecuteType = 3; // int32 操作类型
+	optional double Amount = 4; // double 发生金额
+	optional int32 PrintCount = 5; // int32 打印次数
+	optional string RelationTicket = 6; // string 流水号
+	optional double Balance = 7; // double 金额
+	optional string Remark = 8; // string 备注
+	optional string OperatorCode = 9; // string 操作员代码
+	optional string GUID = 10; // string 密码区
+}
+message QueryExchangeCommisionLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchangeCommisionLogRsp_ Rsps = 5; // QueryExchangeCommisionLogRsp_ Rsps 查询结果集
+}
+// 金银转账日志查询请求 1 5 203
+message QueryExchBankBizOperatorLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string ExchAccountNo = 3; // string 交易所帐号
+	optional int32 ExchAccountNoFlag = 4; // string 交易所帐号查询标记，不填写默认为=
+}
+// 金银转账日志查询应答 1 5 204
+message QueryExchBankBizOperatorLogRsp_ {
+	optional string BankID = 1; // string 银行编号
+	optional string BankAccountNo = 2; // string 银行帐号
+	optional string BankTicket = 3; // string 银行流水号
+	optional string ExchAccountNo = 4; // string 交易所帐号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional int32 ExecuteType = 6; // int32 操作类型
+	optional double Amount = 7; // double 数量
+	optional string OperatorCode = 8; // string 操作员
+	optional int32 RetCode = 9; // int32 操作结果
+	optional string AdjustTicket = 10; // string 调整流水号
+	optional string ExecuteDate = 11; // string 执行日期
+	optional string TradeDate = 12; // string 交易日
+	optional int32 CustomerType = 13; // int32 客户类型
+}
+message QueryExchBankBizOperatorLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchBankBizOperatorLogRsp_ Rsps = 5; // QueryExchBankBizOperatorLogRsp_ Rsps 查询结果集
+}
+// 客户签约银行信息查询请求 1 5 205
+message QueryBankCustomerSignReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 CustomerSignId = 3; // int32 签约编号
+	optional int32 CustomerSignIdFlag = 4; // int32 签约编号查询标记，不填写默认为=
+	optional string AccountCode = 5; // string 账户
+	optional int32 AccountCodeFlag = 6; // string 账户查询标记，不填写默认为=
+	optional int32 AccountType = 7; // int32 账户类型
+	optional int32 AccountTypeFlag = 8; // int32 账户类型查询标记，不填写默认为=
+	optional int32 MemberId = 9; // int32 会员ID
+	optional int32 MemberIdFlag = 10; // int32 会员ID查询标记，不填写默认为=
+	optional string CusBankID = 11; // string 签约托管银行编号
+	optional int32 CusBankIDFlag = 12; // string 签约托管银行编号查询标记，不填写默认为=
+	optional string Currency = 13; // string 币种
+	optional int32 CurrencyFlag = 14; // string 币种查询标记，不填写默认为=
+	optional string ExchTicket = 15; // string 交易所流水号
+	optional int32 ExchTicketFlag = 16; // string 交易所流水号查询标记，不填写默认为=
+	optional string BankTicket = 17; // string 银行流水号
+	optional int32 BankTicketFlag = 18; // string 银行流水号查询标记，不填写默认为=
+	optional string AuditIDCard = 19; // string 身份证
+	optional int32 AuditIDCardFlag = 20; // string 身份证查询标记，不填写默认为=
+	optional int32 SignStatus = 21; // int32 签约状态
+	optional int32 SignStatusFlag = 22; // int32 签约状态查询标记，不填写默认为=
+	optional string BeginTime = 23; // string 开始时间
+	optional int32 BeginTimeFlag = 24; // string 开始时间查询标记，不填写默认为=
+	optional string EndTime = 25; // string 结束时间
+	optional int32 EndTimeFlag = 26; // string 结束时间查询标记，不填写默认为=
+	optional string LoginCode = 27; // string 登陆账号
+	optional int32 LoginCodeFlag = 28; // string 登陆账号查询标记，不填写默认为=
+}
+// 客户签约银行信息查询应答 1 5 206
+message QueryBankCustomerSignRsp_ {
+	optional int32 CustomerSignId = 1; // int32 签约编号
+	optional string AccountCode = 2; // string 账户
+	optional string Currency = 3; // string 币种
+	optional string CusBankID = 4; // string 签约托管银行编号
+	optional string CusBankName = 5; // string 托管银行名称
+	optional string BankAccountNo = 6; // string 银行卡号
+	optional string BankID = 7; // string 开户银行编号
+	optional string BankName = 8; // string 开户银行名称
+	optional string BankAccountName = 9; // string 银行账户名
+	optional int32 SignStatus = 10; // int32 签约状态
+	optional string BranchBankId = 11; // string 支行编号
+	optional string BranchBankName = 12; // string 支行名称
+	optional string AccountName = 13; // string 用户名称
+	optional string AuditIDCard = 14; // string 身份证
+	optional string BankAcoountStatus = 15; // string 银行账户状态
+	optional string BankAcoountType = 16; // string 银行账户类型
+	optional string BankAcoountOpenFlag = 17; // string 业务开通标志
+	optional string BankProvince = 18; // string 开户银行所在省份
+	optional string BankCity = 19; // string 开户银行所在市
+	optional int32 BankChildAccount = 20; // int32 银行子账户
+	optional string BankRegisterDate = 21; // string 银行卡开户日期
+	optional string BankValidDate = 22; // string 银行卡有效日期
+	optional int32 MemberId = 23; // int32 所属会员ID
+	optional string MemberName = 24; // string 所属会员名称
+	optional double CurrentBalance = 25; // double 今日余额（期末）余额
+	optional double UsedMargin = 26; // double 占用保证金
+	optional double FreezeMargin = 27; // double 冻结保证金
+	optional string PaymentNo = 28; // string 
+	optional string ProtocolNo = 29; // string 
+	optional string LoginCode = 30; // string 登陆账号
+	optional string SignDate = 31; // string 签约时间
+	optional string AgentName = 32; // string 授权代理人姓名
+	optional int32 AgentCertType = 33; // int32 授权代理人证件类型
+	optional string AgentCertID = 34; // string 授权代理人证件号
+	optional string CancelSignDate = 35; // string 解约时间
+	optional int32 IsAllowinMoney = 36; // int32 是否允许入金
+	optional int32 IsAllowoutMoney = 37; // int32 是否允许出金
+	optional string MobilePhone = 38; // string 手机号码
+	optional int32 CardType = 39; // int32 证件类型
+	optional int32 ShowCancelSign = 40; // int32 是否显示解约
+}
+message QueryBankCustomerSignRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankCustomerSignRsp_ Rsps = 5; // QueryBankCustomerSignRsp_ Rsps 查询结果集
+}
+// 单边账数据查询请求 1 5 207
+message QueryBankExchAdjustDataReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string TradeDate = 3; // string 交易日
+	optional int32 TradeDateFlag = 4; // string 交易日查询标记，不填写默认为=
+	optional string BankID = 5; // string 银行编号
+	optional int32 BankIDFlag = 6; // string 银行编号查询标记，不填写默认为=
+	optional int32 ExecuteType = 7; // int32 操作类型
+	optional int32 ExecuteTypeFlag = 8; // int32 操作类型查询标记，不填写默认为=
+}
+// 单边账数据查询应答 1 5 208
+message QueryBankExchAdjustDataRsp_ {
+	optional string TradeDate = 1; // string 交易日
+	optional string BankID = 2; // string 银行编号
+	optional int32 ExecuteType = 3; // int32 操作类型
+	optional string ExchTradeTime = 4; // string 交易所操作时间
+	optional string BankTradeTime = 5; // string 银行操作时间
+	optional string EBankTicket = 6; // string 交易所记录的银行流水号
+	optional string EExchTicket = 7; // string 交易商记录的交易所流水号
+	optional int32 BBankTicket = 8; // int32 银行记录的银行流水号
+	optional string BExchTicket = 9; // string 银行记录的交易所流水号
+	optional string EBankAcc = 10; // string 交易所记录的银行帐号
+	optional string EExchAcc = 11; // string 交易所记录的交易所帐号
+	optional string BBankAcc = 12; // string 银行记录的银行帐号
+	optional string BExchAcc = 13; // string 银行记录的交易所帐号
+	optional int32 ErrorType = 14; // int32 错误类型
+	optional double EAmount = 15; // double 交易所记录的金额
+	optional double BAmount = 16; // double 银行记录的金额
+	optional int32 TradeType = 17; // int32 银行的操作类型
+	optional int32 DealCode = 18; // int32 表示此单边账是否处理
+}
+message QueryBankExchAdjustDataRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankExchAdjustDataRsp_ Rsps = 5; // QueryBankExchAdjustDataRsp_ Rsps 查询结果集
+}
+// 单边账调整记录查询请求 1 5 209
+message QueryBankExchAdjustLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string TradeDate = 3; // string 交易日
+	optional int32 TradeDateFlag = 4; // string 交易日查询标记，不填写默认为=
+	optional string BankID = 5; // string 银行编号
+	optional int32 BankIDFlag = 6; // string 银行编号查询标记，不填写默认为=
+}
+// 单边账调整记录查询应答 1 5 210
+message QueryBankExchAdjustLogRsp_ {
+	optional string TradeDate = 1; // string 交易日
+	optional string BankID = 2; // string 银行编号
+	optional string ExecuteDate = 3; // string 操作时间
+	optional int32 HasUnilateral = 4; // int32 本日是否有单边账
+	optional int32 IsAdjust = 5; // int32 本日是否调整单边账
+	optional int32 AdjustRetCode = 6; // int32 本日调整了的单边账结果
+	optional string OperatorCode = 7; // string 操作员代码
+}
+message QueryBankExchAdjustLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankExchAdjustLogRsp_ Rsps = 5; // QueryBankExchAdjustLogRsp_ Rsps 查询结果集
+}
+// 金银转账流水查询请求 1 5 211
+message QueryExchBankBizLogReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string TradeDate = 3; // string 交易日
+	optional int32 TradeDateFlag = 4; // string 交易日查询标记，不填写默认为=
+	optional string BankdID = 5; // string 银行编号
+	optional int32 BankdIDFlag = 6; // string 银行编号查询标记，不填写默认为=
+}
+// 金银转账流水查询应答 1 5 212
+message QueryExchBankBizLogRsp_ {
+	optional string ExchTicket = 1; // string 交易所流水号
+	optional double Amount = 2; // double 转账金额
+	optional string BankID = 3; // string 银行编号
+	optional string BankAccountNo = 4; // string 银行帐号
+	optional string BankTicket = 5; // string 银行流水号
+	optional string ExchAccountCode = 6; // string 交易商帐号
+	optional string ExecuteDate = 7; // string 执行日期
+	optional string OperatorCode = 8; // string 交易操作员
+	optional int32 ExecuteType = 9; // int32 操作类型
+	optional string TradeDate = 10; // string 交易日
+}
+message QueryExchBankBizLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchBankBizLogRsp_ Rsps = 5; // QueryExchBankBizLogRsp_ Rsps 查询结果集
+}
+// 托管银行信息查询请求 1 5 213
+message QueryBankCustodianInfoReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string BankID = 3; // string 银行编号
+	optional int32 BankIDFlag = 4; // string 银行编号查询标记，不填写默认为=
+}
+// 托管银行信息查询应答 1 5 214
+message QueryBankCustodianInfoRsp_ {
+	optional int32 ExchID = 1; // int32 交易所ID
+	optional int32 CusBankID = 2; // int32 托管银行编号
+	optional string BankID = 3; // string 银行编号
+	optional string BankAccountName = 4; // string 银行帐号名
+	optional string BankAccountNo = 5; // string 银行卡号
+	optional string BankName = 6; // string 开户行名称
+	optional string Currency = 7; // string 币种
+}
+message QueryBankCustodianInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankCustodianInfoRsp_ Rsps = 5; // QueryBankCustodianInfoRsp_ Rsps 查询结果集
+}
+// 出入金查询请求 1 5 241
+message QueryBankReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账户
+	optional int32 AccountCodeFlag = 4; // string 账户查询标记，不填写默认为=
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional int32 ExchTicketFlag = 6; // string 交易所流水号查询标记，不填写默认为=
+	optional int32 ExchID = 7; // int32 交易所ID
+	optional int32 ExchIDFlag = 8; // int32 交易所ID查询标记，不填写默认为=
+	optional string ExchName = 9; // string 交易名称
+	optional int32 ExchNameFlag = 10; // string 交易名称查询标记，不填写默认为=
+	optional int32 MemberId = 11; // int32 所属会员ID
+	optional int32 MemberIdFlag = 12; // int32 所属会员ID查询标记，不填写默认为=
+	optional string MemberName = 13; // string 所属会员名称
+	optional int32 MemberNameFlag = 14; // string 所属会员名称查询标记，不填写默认为=
+	optional string OrganizationCode = 15; // string 组织机构代码
+	optional int32 OrganizationCodeFlag = 16; // string 组织机构代码查询标记，不填写默认为=
+	optional string OrganizationName = 17; // string 组织机构名称
+	optional int32 OrganizationNameFlag = 18; // string 组织机构名称查询标记，不填写默认为=
+	optional int32 CustomerID = 19; // int32 客户编号
+	optional int32 CustomerIDFlag = 20; // int32 客户编号查询标记，不填写默认为=
+	optional string CustomerName = 21; // string 客户姓名
+	optional int32 CustomerNameFlag = 22; // string 客户姓名查询标记，不填写默认为=
+}
+// 出入金查询应答 1 5 242
+message QueryBankRsp_ {
+	optional string AccountCode = 1; // string 账户
+	optional string ExchTicket = 2; // string 交易所流水号
+	optional string BankTicket = 3; // string 银行流水号
+	optional double Amount = 4; // double 实际入金金额
+	optional string DateTime = 5; // string 银行入金日期和时间
+	optional string DealTime = 6; // datetime 处理时间
+}
+message QueryBankRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankRsp_ Rsps = 5; // QueryBankRsp_ Rsps 查询结果集
+}
+// 出入金明细查询请求 1 5 245
+message QueryBankInOutReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional int32 ExchTicketFlag = 4; // string 交易所流水号查询标记，不填写默认为=
+	optional int32 MemberID = 5; // int32 会员ID
+	optional int32 MemberIDFlag = 6; // int32 会员ID查询标记，不填写默认为=
+	optional string MemberCode = 7; // string 所属会员代码
+	optional int32 MemberCodeFlag = 8; // string 所属会员代码查询标记，不填写默认为=
+	optional int32 AreaID = 9; // int32 机构ID
+	optional int32 AreaIDFlag = 10; // int32 机构ID查询标记，不填写默认为=
+	optional string AreaCode = 11; // string 所属机构代码
+	optional int32 AreaCodeFlag = 12; // string 所属机构代码查询标记，不填写默认为=
+	optional int32 Status = 13; // int32 出入金审核状态状态
+	optional int32 StatusFlag = 14; // int32 出入金审核状态状态查询标记，不填写默认为=
+	optional string AccountCode = 15; // string 账户
+	optional int32 AccountCodeFlag = 16; // string 账户查询标记，不填写默认为=
+	optional int32 CustomerID = 17; // int32 客户ID
+	optional int32 CustomerIDFlag = 18; // int32 客户ID查询标记，不填写默认为=
+	optional string CustomerName = 19; // string 客户姓名
+	optional int32 CustomerNameFlag = 20; // string 客户姓名查询标记，不填写默认为=
+	optional int32 SignStatus = 21; // int32 签约状态
+	optional int32 SignStatusFlag = 22; // int32 签约状态查询标记，不填写默认为=
+	optional int32 ExchID = 23; // int32 交易所ID
+	optional int32 ExchIDFlag = 24; // int32 交易所ID查询标记，不填写默认为=
+	optional string BrokerCode = 25; // string 经纪人代码
+	optional int32 BrokerCodeFlag = 26; // string 经纪人代码查询标记，不填写默认为=
+	optional string BrokerName = 27; // string 经纪人姓名
+	optional int32 BrokerNameFlag = 28; // string 经纪人姓名查询标记，不填写默认为=
+	optional string ConfirmOperatorCode = 29; // string 审核人代码
+	optional int32 ConfirmOperatorCodeFlag = 30; // string 审核人代码查询标记，不填写默认为=
+	optional string ConfirmOperatorName = 31; // string 审核人姓名
+	optional int32 ConfirmOperatorNameFlag = 32; // string 审核人姓名查询标记，不填写默认为=
+	optional int32 OutInType = 33; // int32 操作类型
+	optional int32 OutInTypeFlag = 34; // int32 操作类型查询标记，不填写默认为=
+	optional string StartDate = 35; // string 起始日期
+	optional int32 StartDateFlag = 36; // string 起始日期查询标记，不填写默认为=
+	optional string EndDate = 37; // string 结束日期
+	optional int32 EndDateFlag = 38; // string 结束日期查询标记，不填写默认为=
+	optional int32 ProcStatus = 39; // int32 处理状态(成功、失败）
+	optional int32 ProcStatusFlag = 40; // int32 处理状态(成功、失败）查询标记，不填写默认为=
+	optional int32 BankID = 41; // int32 银行id
+	optional int32 BankIDFlag = 42; // int32 银行id查询标记，不填写默认为=
+	optional int32 AccountType = 43; // int32 账户类型
+	optional int32 AccountTypeFlag = 44; // int32 账户类型查询标记，不填写默认为=
+	optional string ApplicationBeginDate = 45; // string 开始经办日期
+	optional int32 ApplicationBeginDateFlag = 46; // string 开始经办日期查询标记，不填写默认为=
+	optional string ApplicationEndDate = 47; // string 结束经办日期
+	optional int32 ApplicationEndDateFlag = 48; // string 结束经办日期查询标记，不填写默认为=
+	optional string LoginCode = 49; // string 账户
+	optional int32 LoginCodeFlag = 50; // string 账户查询标记，不填写默认为=
+	optional int32 CusBankID = 51; // int32 托管银行id
+	optional int32 CusBankIDFlag = 52; // int32 托管银行id查询标记，不填写默认为=
+}
+// 出入金明细查询应答 1 5 246
+message QueryBankInOutRsp_ {
+	optional string AccountCode = 1; // string 账户
+	optional string AccountName = 2; // string 客户姓名
+	optional int32 OutInType = 3; // int32 操作类型
+	optional double Amount = 4; // double 入金金额
+	optional string ApplicationDate = 5; // string 申请时间
+	optional string ConfirmDate = 6; // string 审核时间
+	optional string CustomerName = 7; // string 请求人姓名
+	optional string CustomerTel = 8; // string 请求人电话
+	optional int32 Status = 9; // int32 状态
+	optional string OperatorCode = 10; // string 操作员代码
+	optional string ConfirmOperatorCode = 11; // string 审核员代码
+	optional string AppOperatorCode = 12; // string 申请人代码
+	optional string Remark = 13; // string 备注
+	optional string BankName = 14; // string 银行名称
+	optional string BankAccount = 15; // string 银行帐号
+	optional string BankAccountName = 16; // string 银行账户名称
+	optional string AuditReason = 17; // string 审核原因
+	optional string AuditRemark = 18; // string 审核备注
+	optional double Charge = 19; // double 手续费
+	optional string ExchTicket = 20; // string 交易方流水号
+	optional int32 SignStatus = 21; // int32 审核签约状态
+	optional int32 ProcStatus = 22; // int32 处理状态(成功、失败）
+	optional string BankTicket = 23; // string 银行流水号
+	optional int32 AccountType = 24; // int32 账户类型
+	optional int32 ProcResult = 25; // int32 处理结果(ProcStatus)
+	optional int32 FailInfo = 26; // int32 失败信息(ProcStatus)
+	optional string LoginCode = 27; // string 账户
+	optional int32 CusBankID = 28; // int32 托管银行id
+	optional string AreaName = 29; // string 机构名称
+	optional string BankDealText = 30; // string 银行处理原因
+	optional string ConfirmOperatorName = 31; // string 审核人姓名
+	optional string CusBankName = 32; // string 托管银行名称
+	optional string AreaCode = 33; // string 所属机构代码
+	optional int64 CustomerSignId = 34; // int64 签约编号
+}
+message QueryBankInOutRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankInOutRsp_ Rsps = 5; // QueryBankInOutRsp_ Rsps 查询结果集
+}
+// 查询交易所作缓存请求 1 5 326
+message QueryExchParameterForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询交易所作缓存应答 1 5 327
+message QueryExchParameterForCacheRsp_ {
+	optional int32 ExchID = 1; // int32 交易所编码
+	optional string ExchCode = 2; // string 交易所代码
+	optional string ExchName = 3; // string 交易所名称
+}
+message QueryExchParameterForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchParameterForCacheRsp_ Rsps = 5; // QueryExchParameterForCacheRsp_ Rsps 查询结果集
+}
+// 查询市场作缓存请求 1 5 328
+message QueryMarketForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询市场作缓存应答 1 5 329
+message QueryMarketForCacheRsp_ {
+	optional int32 MarketID = 1; // int32 市场编码
+	optional string MarketCode = 2; // string 市场代码
+	optional string MarketName = 3; // string 市场名称
+	optional int32 ExchID = 4; // int32 所属交易所
+}
+message QueryMarketForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarketForCacheRsp_ Rsps = 5; // QueryMarketForCacheRsp_ Rsps 查询结果集
+}
+// 竞价商品属性作缓存查询请求 1 5 330
+message QueryBidGoodsArguesForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 竞价商品属性作缓存查询应答 1 5 331
+message QueryBidGoodsArguesForCacheRsp_ {
+	optional int32 GoodsId = 1; // int32 商品ID
+	optional string GoodsCode = 2; // string 商品代码
+	optional string GoodsName = 3; // string 商品名称
+	optional int32 MarketID = 4; // int32 市场ID
+}
+message QueryBidGoodsArguesForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBidGoodsArguesForCacheRsp_ Rsps = 5; // QueryBidGoodsArguesForCacheRsp_ Rsps 查询结果集
+}
+// 竞价商品参数规则作缓存查询请求 1 5 332
+message QueryBidParamRuleForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 竞价商品参数规则作缓存查询应答 1 5 333
+message QueryBidParamRuleForCacheRsp_ {
+	optional int32 ParameterID = 1; // int32 参数类型编号
+	optional string RuleName = 2; // string 规则类型名称
+	optional int32 MemberId = 3; // int32 所属会员ID
+	optional int32 MarketID = 4; // int32 所属市场ID
+}
+message QueryBidParamRuleForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBidParamRuleForCacheRsp_ Rsps = 5; // QueryBidParamRuleForCacheRsp_ Rsps 查询结果集
+}
+// 做市商品属性作缓存查询请求 1 5 334
+message QueryMarketGoodsArguesForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 做市商品属性作缓存查询应答 1 5 335
+message QueryMarketGoodsArguesForCacheRsp_ {
+	optional int32 GoodsId = 1; // int32 商品ID
+	optional string GoodsCode = 2; // string 商品代码
+	optional string GoodsName = 3; // string 商品名称
+	optional int32 MarketID = 4; // int32 所属市场ID
+}
+message QueryMarketGoodsArguesForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarketGoodsArguesForCacheRsp_ Rsps = 5; // QueryMarketGoodsArguesForCacheRsp_ Rsps 查询结果集
+}
+// 做市商品参数规则作缓存查询请求 1 5 336
+message QueryMarketParamRuleForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 做市商品参数规则查询作缓存应答 1 5 337
+message QueryMarketParamRuleForCacheRsp_ {
+	optional int32 ParameterID = 1; // int32 参数类型编号
+	optional string RuleName = 2; // string 规则类型名称
+	optional int32 MemberId = 3; // int32 所属会员ID
+	optional int32 MarketID = 4; // int32 所属市场ID
+}
+message QueryMarketParamRuleForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarketParamRuleForCacheRsp_ Rsps = 5; // QueryMarketParamRuleForCacheRsp_ Rsps 查询结果集
+}
+// 会员查询作缓存请求 1 5 338
+message QueryMemberForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 会员查询作缓存应答 1 5 339
+message QueryMemberForCacheRsp_ {
+	optional int32 MemberID = 1; // int32 会员ID
+	optional string MemberCode = 2; // string 会员代码
+	optional string MemberName = 3; // string 会员名称
+	optional int32 ExchId = 4; // int32 所属交易所
+}
+message QueryMemberForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMemberForCacheRsp_ Rsps = 5; // QueryMemberForCacheRsp_ Rsps 查询结果集
+}
+// 机构查询作缓存请求 1 5 340
+message QueryAreaForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 机构查询作缓存应答 1 5 341
+message QueryAreaForCacheRsp_ {
+	optional int32 AreaID = 1; // int32 机构ID
+	optional string AreaName = 2; // string 机构名称
+	optional int32 MemberID = 3; // int32 会员ID
+	optional int32 ParentArea = 4; // int32 父机构代码
+}
+message QueryAreaForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAreaForCacheRsp_ Rsps = 5; // QueryAreaForCacheRsp_ Rsps 查询结果集
+}
+// 查询内容权限组作缓存请求 1 5 342
+message QueryContentRightForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询内容权限组作缓存应答 1 5 343
+message QueryContentRightForCacheRsp_ {
+	optional int32 ContRightCode = 1; // int32 内容权限组编号
+	optional string ContRightName = 2; // string 权限组名字
+	optional int32 AccountType = 3; // int32 账户类型
+	optional int32 MemberID = 4; // int32 会员ID
+}
+message QueryContentRightForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryContentRightForCacheRsp_ Rsps = 5; // QueryContentRightForCacheRsp_ Rsps 查询结果集
+}
+// 查询功能权限组作缓存请求 1 5 344
+message QueryFuncRightForCacheReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询功能权限组作缓存应答 1 5 345
+message QueryFuncRightForCacheRsp_ {
+	optional int32 FuncRightCode = 1; // int32 功能权限组编号
+	optional string FuncRightName = 2; // string 权限组名字
+	optional int32 AccountType = 3; // int32 账户类型
+	optional string MemberCode = 4; // string 所属会员
+	optional string AreaCode = 5; // string 所属机构
+}
+message QueryFuncRightForCacheRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryFuncRightForCacheRsp_ Rsps = 5; // QueryFuncRightForCacheRsp_ Rsps 查询结果集
+}
+// 查询交易所状态请求 1 5 346
+message QueryExchStatusReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询交易所状态应答 1 5 347
+message QueryExchStatusRsp_ {
+	optional int32 ExchID = 1; // int32 交易所编码
+	optional string ExchName = 2; // string 交易所名称
+	optional int32 OpenMode = 3; // int32 开市方式
+	optional int32 CloseMode = 4; // int32 收市方式
+	optional int32 SysReckonMode = 5; // int32 系统结算方式
+	optional int32 ReckonMode = 6; // int32 结算模式
+	optional int32 ExchStatus = 7; // int32 交易所状态
+}
+message QueryExchStatusRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryExchStatusRsp_ Rsps = 5; // QueryExchStatusRsp_ Rsps 查询结果集
+}
+// 查询市场状态请求 1 5 350
+message QueryMarketStatusReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 所属交易所
+	optional int32 ExchIDFlag = 4; // int32 所属交易所查询标记，不填写默认为=
+}
+// 查询市场状态应答 1 5 351
+message QueryMarketStatusRsp_ {
+	optional string ExchName = 1; // string 所属交易所名称
+	optional int32 ExchID = 2; // int32 所属交易所
+	optional int32 ExchStatus = 3; // int32 交易所状态
+	optional int32 MarketID = 4; // int32 市场编码
+	optional string MarketCode = 5; // string 市场代码
+	optional string MarketName = 6; // string 市场名称
+	optional int32 MarketMode = 7; // int32 自动、暂停
+	optional int32 MarketStatus = 8; // int32 市场状态（未上市、集合竞价、连续交易、收市、结算、退市）
+	optional int32 RunStatus = 9; // int32 市场运行状态
+	optional int32 MarketType = 10; // int32 市场类型
+}
+message QueryMarketStatusRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryMarketStatusRsp_ Rsps = 5; // QueryMarketStatusRsp_ Rsps 查询结果集
+}
+// 商品属性状态查询请求 1 5 355
+message QueryGoodsArguesStatusReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 MarketID = 3; // int32 市场ID
+	optional int32 MarketIDFlag = 4; // int32 市场ID查询标记，不填写默认为=
+	optional int32 ExchID = 5; // int32 交易所ID
+	optional int32 ExchIDFlag = 6; // int32 交易所ID查询标记，不填写默认为=
+}

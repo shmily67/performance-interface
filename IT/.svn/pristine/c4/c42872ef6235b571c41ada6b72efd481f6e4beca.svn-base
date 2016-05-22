@@ -1,0 +1,224 @@
+import "common.proto";
+import "PublicTas1.proto";
+package RealtimeMonitorTas1;
+// 在线账户 0 14 400
+message ArrayOnLineInfoReport {
+	optional string MemberCode = 1; // string 会员代码
+	optional string AreaCode = 2; // string 机构代码
+	optional int32 AccountType = 3; // int32 账户类型
+	optional int32 OnLineCount = 4; // int32 在线账户数量
+}
+// 在线账户信息 0 14 405
+message OnLineInfoReport {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 ProcessId = 3; // int32 处理ID（第一个字节为服务id，后三个字节为线程号）
+	repeated RealtimeMonitorTas1.ArrayOnLineInfoReport OnLineInfo = 4; // ArrayOnLineInfoReport 在线信息
+}
+// 在线账户信息监控 0 14 406
+message OnLineInfoMonitor {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated string MemberCode = 3; // string 综合会员代码
+	repeated string AreaCode = 4; // string 机构代码
+}
+// 账户风险率监控 0 14 411
+message TaRiskRateInfoMonitor {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 MonitorObj = 3; // int32 监控对象（投资者、综合会员、特别会员）
+	optional string MemberCode = 4; // string 会员代码
+	optional string AreaCode = 5; // string 机构代码
+}
+// 账户风险率 0 14 444
+message ArrayGoodsRiskInfo {
+	optional string GoodsCode = 1; // string 账户代码
+	optional double QTY = 2; // double 数量
+	optional int32 BuyOrSell = 3; // int32 买卖方向
+	optional double FloatPL = 4; // double 商品浮动盈亏
+}
+// 账户风险率 0 14 412
+message ArrayTaRiskRateInfo {
+	optional string AccountCode = 1; // string 账户代码
+	optional double UsedMargin = 2; // double 占用保证金
+	optional double FloatPL = 3; // double 浮动盈亏
+	optional double NetWorth = 4; // double 净值
+	optional double Rate = 5; // double 风险率
+	optional double AvailMargin = 6; // double 可用保证金
+	optional int32 MemberStatus = 7; // int32 会员状态
+	repeated RealtimeMonitorTas1.ArrayGoodsRiskInfo ProprietaryGoodsRisk = 8; // ArrayGoodsRiskInfo 自营盘
+	repeated RealtimeMonitorTas1.ArrayGoodsRiskInfo PassiveGoodsRisk = 9; // ArrayGoodsRiskInfo 被动接收
+	repeated RealtimeMonitorTas1.ArrayGoodsRiskInfo MemberHolderRisk = 10; // ArrayGoodsRiskInfo 会员持仓（竞价市场）
+	optional string MemberCode = 11; // string 所属会员
+	optional string AreaCode = 12; // string 所属机构
+	optional string CustomerName = 13; // string 投资者名称
+	optional string LoginCode = 14; // string 登陆账号
+	optional double Balance = 15; // double 期初余额
+	optional int32 RiskRateId = 16; // int32 风险率ID
+}
+// 风险率信息 0 14 413
+message TaRiskRateInfoReport {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 CurrentThreadID = 3; // int32 当前线程编号
+	optional int32 AccountType  = 4; // int32 账户类型
+	repeated RealtimeMonitorTas1.ArrayTaRiskRateInfo TaRiskRateInfo = 5; // ArrayTaRiskRateInfo 账户风险率
+}
+// 商品监控 0 14 414
+message ArrayGoodsMonitor {
+	optional string GoodsCode = 1; // string 商品代码
+	optional int32 MarketID = 2; // int32 市场编号
+	optional int32 BuyOrSell = 3; // int32 买卖方向
+	optional string Mark = 4; // string 运算符号
+	optional int32 Range = 5; // int32 监控范围
+}
+// 市场单据监控 0 14 415
+message BillsDetailMonitor {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string MemberCode = 3; // string 会员代码
+	optional string AreaCode = 4; // string 机构代码
+	optional int32 MonitorObj = 5; // int32 监控对象（持仓单、平仓单、委托单）
+	optional int32 AccountType = 6; // int32 账户类型（投资者、会员交易员）
+	repeated RealtimeMonitorTas1.ArrayGoodsMonitor Goods = 7; // ArrayGoodsMonitor 监控的商品
+	optional string DateTime = 8; // string 开始监控的时间
+}
+// 市场持仓单 0 14 416
+message ArrayHolderDetail {
+	optional string AccountCode = 1; // string 投资者账号
+	optional string MemberCode = 2; // string 所属会员
+	optional string AreaCode = 3; // string 所属机构代码
+	optional string GoodsCode = 4; // string 商品代码
+	optional int64 EntrustID = 5; // int64 委托单号
+	optional string TradeTime = 6; // string 成交时间
+	optional int32 BuyOrSell = 7; // int32 方向
+	optional double Qty = 8; // double 持仓数量
+	optional double HolderPrice = 9; // double 持仓价格
+	optional double TradePrice = 10; // double 成交价格
+	optional double UsedMargin = 11; // double 占用保证金
+	optional double SlPrice = 12; // double 止损价
+	optional double SPPrice = 13; // double 止盈价
+	optional string SpecialAccount = 14; // string 接单特别会员号
+	optional string CustomerName = 15; // string 投资者名称
+	optional string SpecialName = 16; // string 接单特别会员名称
+	optional double HolderAmount = 17; // double 持仓金额
+	optional double TradeAmount = 18; // double 成交金额
+}
+// 市场持仓单信息 0 14 417
+message HolderDetailReport {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated RealtimeMonitorTas1.ArrayHolderDetail HolderDetail = 3; // ArrayHolderDetail 市场持仓单
+}
+// 市场平仓单 0 14 418
+message ArrayCloseDetail {
+	optional string AccountCode = 1; // string 投资者账号
+	optional string MemberCode = 2; // string 所属会员
+	optional string AreaCode = 3; // string 所属机构代码
+	optional string GoodsCode = 4; // string 商品代码
+	optional int64 EntrustID = 5; // int64 平仓单号
+	optional string TradeTime = 6; // string 平仓时间
+	optional int32 BuyOrSell = 7; // int32 方向
+	optional double Qty = 8; // double 平仓数量
+	optional double TradePrice = 9; // double 平仓价格
+	optional int64 RelationID = 10; // int64 关联建仓单号
+	optional string OpenTime = 11; // string 建仓时间
+	optional double Charge = 12; // double 手续费
+	optional double ClosePL = 13; // double 平仓盈亏
+	optional string SpecialAccount = 14; // string 接单特别会员号
+	optional string CustomerName = 15; // string 投资者名称
+	optional string OperatorCode = 16; // string 操作员
+	optional string SpecialName = 17; // string 接单特别会员名称
+	optional double TradeAmount = 18; // double 平仓金额
+}
+// 市场平仓单 0 14 419
+message CloseDetailReport {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated RealtimeMonitorTas1.ArrayCloseDetail CloseDetail = 3; // ArrayCloseDetail 市场平仓单
+}
+// 市场委托单 0 14 420
+message ArrayOrderDetail {
+	optional string AccountCode = 1; // string 投资者账号
+	optional string MemberCode = 2; // string 所属会员
+	optional string AreaCode = 3; // string 所属机构代码
+	optional string GoodsCode = 4; // string 商品代码
+	optional int64 OrderID = 5; // int64 委托单号
+	optional int32 OrderType = 6; // int32 订单类型
+	optional string EntrustTime = 7; // string 委托时间
+	optional int32 BuyOrSell = 8; // int32 方向
+	optional double EntrustQty = 9; // double 委托数量
+	optional double EntrustPrice = 10; // double 委托价格
+	optional double TradeQty = 11; // double 成交数量
+	optional double CancelQty = 12; // double 撤单数量
+	optional double FreezeMargin = 13; // double 冻结保证金
+	optional int32 OrderStatus = 14; // int32 单据状态
+	optional string SpecialAccount = 15; // string 接单特别会员号
+	optional string CustomerName = 16; // string 投资者名称
+	optional string SpecialName = 17; // string 接单特别会员名称
+}
+// 市场委托单 0 14 421
+message OrderDetailReport {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated RealtimeMonitorTas1.ArrayOrderDetail OrderDetail = 3; // ArrayOrderDetail 市场委托单
+}
+// 出入金 0 14 422
+message ArrayMoneyInOut {
+	optional int32 InOrOut = 1; // int32 出入金类型
+	optional string Mark = 2; // string 运算符号
+	optional int32 Range = 3; // int32 监控范围
+}
+// 出入金监控 0 14 423
+message MoneyInOutMonitor {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string MemberCode = 3; // string 会员代码
+	optional string AreaCode = 4; // string 机构代码
+	repeated RealtimeMonitorTas1.ArrayMoneyInOut MoneyInOut = 5; // ArrayMoneyInOut 出入金
+	optional int32 AccountType = 6; // int32 账户类型（投资者、会员交易员）
+	optional string DateTime = 7; // string 开始监控的时间
+}
+// 出入金 0 14 424
+message ArrayMoneyInOutInfo {
+	optional string AccountCode = 1; // string 投资者账号
+	optional string MemberCode = 2; // string 所属会员
+	optional string AreaCode = 3; // string 所属机构
+	optional double InMoneyAmount = 4; // double 入金总额
+	optional int32 InMoneyCount = 5; // int32 入金次数
+	optional double OutMoneyAmount = 6; // double 出金总额
+	optional int32 OutMoneyCount = 7; // int32 出金次数
+	optional double UsedMargin = 8; // double 占用保证金
+	optional double FloatPL = 9; // double 浮动盈亏
+	optional double NetWorth = 10; // double 净值
+	optional double Rate = 11; // double 风险率
+	optional double AvailMargin = 12; // double 可用保证金
+	optional double FreezeMargin = 13; // double 冻结保证金
+	optional string CustomerName = 14; // string 投资者名称
+}
+// 出入金信息 0 14 425
+message MoneyInOutInfoReport {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated RealtimeMonitorTas1.ArrayMoneyInOutInfo MoneyInOutInfo = 3; // ArrayMoneyInOutInfo 出入金信息
+}
+// 查询最新行情价格请求 0 14 816
+message QueryLastQuoteReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询最新行情价格应答 0 14 817
+message QueryLastQuoteRsp_ {
+	optional string GoodsCode = 1; // string 商品代码
+	optional string LastQuote = 2; // string 最后的报价
+	optional int32 AgreeUnit = 3; // int32 合约单位
+	optional string Bid = 4; // string 买价1
+	optional string Ask = 5; // string 卖价1
+}
+message QueryLastQuoteRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryLastQuoteRsp_ Rsps = 5; // QueryLastQuoteRsp_ Rsps 查询结果集
+}

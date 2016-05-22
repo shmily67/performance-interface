@@ -1,0 +1,198 @@
+#include "ISafeInterface.h"
+#include <iostream>
+using namespace std;
+
+void TestTrans(const char *pInEncryptData, int iInEncryptLen)
+{
+    printf("加密前数据:\n");
+    for(int i = 0; i < strlen(pInEncryptData); i++)
+    {
+        unsigned char buf = pInEncryptData[i];
+        if (i % 10 == 0 && i != 0)
+        {
+            printf("\n");
+        }
+        printf("%0.2x ", buf);
+    }
+
+    printf("\n");
+
+
+    int32_t iResult = 0;
+    intptr_t pSafeHandle = 0;
+    int32_t iOutEncryptLen = 0;
+    int32_t iOutDecryptLen = 0;
+
+    // 解析数据包
+    bool bRev = false;
+    char *pOutEncryptData = NULL;
+    char *pOutDecryptData = NULL;
+
+    pSafeHandle = MIGetSafeHandle();
+
+    if (pSafeHandle == 0)
+    {
+        cout << "获取安全对象失败" << endl;
+        goto Loop;
+    }
+
+    // 加载密钥
+    iResult = MILoad(NULL, 0, pSafeHandle);
+
+    if (0 != iResult)
+    {
+        cout << "密钥加载失败" << endl;
+        goto Loop;
+    }
+      
+    {
+        // 改变密钥
+        //const char *pNewPwd = "F7A72DE7D6264530F01BA49BC73eb873";
+        const char *pNewPwd = "7d80b44e0AbbF75bD6dCb6c9a674ab10";
+        iResult = MIAlterTransPwd(pNewPwd, pSafeHandle);
+        if (0 != iResult)
+        {
+        cout << "密钥修改失败" << endl;
+        goto Loop;
+        }
+
+        // 获取加密后的数据长度
+        iResult = MIGetEncryptDataLen(iOutEncryptLen, pInEncryptData, iInEncryptLen, pSafeHandle);
+
+        if (0 != iResult)
+        {
+            cout << "获取加密后的数据长度失败" << endl;
+            goto Loop;
+        }
+
+        // 创建存储加密后数据的内存
+        pOutEncryptData = new char[iOutEncryptLen];
+
+        // 加密数据
+        iResult = MITransEncrypt(pOutEncryptData, iOutEncryptLen, pInEncryptData, iInEncryptLen, pSafeHandle);
+             
+        if (0 != iResult)
+        {
+            cout << "加密数据失败" << endl;
+            goto Loop;
+        }
+
+        cout << "加密数据成功" << endl;
+
+        for(int i = 0; i < iOutEncryptLen; i++)
+        {
+           unsigned char buf = pOutEncryptData[i];
+           if (i % 10 == 0 && i != 0)
+           {
+               printf("\n");
+           }
+           printf("%0.2x ", buf);
+           
+        }
+
+        printf("\n");
+
+        // 获取解密数据长度
+        iResult = MIGetDecryptDataLen(iOutDecryptLen, pOutEncryptData, iOutEncryptLen, pSafeHandle);
+
+        if (0 != iResult)
+        {
+            cout << "获取解密后的数据长度失败" << endl;
+            goto Loop;
+        }
+
+        // 创建存储解密后数据的内存
+        pOutDecryptData = new char[iOutDecryptLen];
+
+        // 解密数据
+        iResult = MITransDecrypt(pOutDecryptData, iOutDecryptLen, pOutEncryptData, iOutEncryptLen, pSafeHandle);
+
+        if (0 != iResult)
+        {
+            cout << "解密数据失败" << endl;
+            goto Loop;
+        }
+
+
+
+        cout << "解密数据成功" << endl;
+
+
+        for(int i = 0; i < iOutDecryptLen; i++)
+        {
+            unsigned char buf = pOutDecryptData[i];
+            if (i % 10 == 0 && i != 0)
+            {
+                printf("\n");
+            }
+            printf("%0.2x ", buf);
+           
+        }
+
+        printf("\n");
+    }
+    
+    
+Loop:
+
+    if(pSafeHandle != 0)
+    {
+        MIFreeSafeHandle(pSafeHandle);
+        pSafeHandle = 0;
+    }
+
+    if (pOutEncryptData != NULL)
+    {
+        delete  pOutEncryptData;
+        pOutEncryptData = NULL;
+    }
+
+    if (pOutDecryptData != NULL)
+    {
+        delete  pOutDecryptData;
+        pOutDecryptData = NULL;
+    }
+}
+
+void TestMD5(char *pInEncryptData, int iInEncryptLen)
+{
+    int32_t iRevLen = 0;
+    int32_t iResult = 0;
+
+    char *pOutMD5EncryptData = NULL;
+
+    iResult = MIMD5GetEncryptDataLen(iRevLen, pInEncryptData, iInEncryptLen);
+
+    if (0 != iResult)
+    {
+        cout << "获取MD5加密后长度失败" << endl;
+    }
+
+    // 创建内存
+    pOutMD5EncryptData = new char[iRevLen];
+
+    memset(pOutMD5EncryptData, 0, iRevLen);
+
+    iResult = MIMD5Encrypt(pOutMD5EncryptData, iRevLen, pInEncryptData, iInEncryptLen);
+
+    if (0 != iResult)
+    {
+        cout << "MD5加密失败" << endl;
+    }
+    else
+    {
+        cout << "MD5加密成功,加密后数据:\n" << pOutMD5EncryptData <<  endl;
+    }
+
+    // 释放内存
+    delete [] pOutMD5EncryptData;
+}
+
+int main()
+{
+    //string strData = "BgAAABae+yS5didrf7OWrgF5/DA=";
+    //string strData = "7d80b44e0AbbF75bD6dCb6c9a674ab10";
+    string strData = "111111";
+    TestTrans(strData.c_str(), strData.length());
+    return 0;
+}

@@ -1,0 +1,147 @@
+import importlib, binascii, struct
+from nose.tools import *
+import google.protobuf
+#import logging
+#logger = logging.getLogger(__name__)
+
+class Codec(object):
+    def __init__(self, data_class_dict):
+        self.data_class_dict = data_class_dict # funcode -> data_class
+        self.funcode_dict = {}
+        for funcode in self.data_class_dict:
+            data_class = self.data_class_dict[funcode]
+            self.funcode_dict[data_class] = funcode
+
+    def encode(self, session_id, protobuf_data):
+        funcode = self.funcode_dict[type(protobuf_data)]
+        return struct.pack('<ll', funcode, session_id) + protobuf_data.SerializeToString()
+
+    def decode(self, msg):
+        assert_greater_equal(len(msg), 8, binascii.b2a_hex(msg))
+        funcode, session_id = struct.unpack_from('<ll', msg, 0)
+        protobuf_data = self.data_class_dict[funcode]()
+        protobuf_data.ParseFromString(msg[8:])
+        return funcode, session_id, protobuf_data
+
+def assert_equal(exp_data, data):
+    assert_is_instance(exp_data, google.protobuf.message.Message)
+    assert_is_instance(data, google.protobuf.message.Message)
+    eq_(type(exp_data), type(data))
+    exp_flist = exp_data.ListFields()
+    flist = data.ListFields()
+    eq_(len(exp_flist), len(flist), 'exp_data(%s) has %d fields, but data has %d.'%(exp_data.DESCRIPTOR.full_name, len(exp_flist),len(flist))) 
+    i = 0
+    #for i in range(max(len(exp_flist), len(flist))):
+    for exp_fd, exp_fv in exp_flist:
+        fd, fv = flist[i]
+        i += 1
+        if type(exp_fv) in (int, long, float, str, unicode):
+            eq_(exp_fv, fv, 'data_name=%s, field_name=%s, %s != %s'%(exp_data.DESCRIPTOR.name, exp_fd.full_name, exp_fv, fv))
+        elif isinstance(exp_fv, google.protobuf.message.Message):
+            assert_equal(exp_fv, fv)
+        elif isinstance(exp_fv, google.protobuf.internal.containers.RepeatedCompositeFieldContainer):
+            RepeatedCompositeFieldContainer_eq(exp_fv, fv)
+        elif isinstance(exp_fv, google.protobuf.internal.containers.RepeatedScalarFieldContainer):
+            RepeatedScalarFieldContainer_eq(exp_fv, fv)
+        elif isinstance(exp_fv, TAny):
+            assert_is_instance(fv, exp_fv._type)
+        else:
+            assert False, 'data_name=%s, field_name=%s, %s != %s'%(exp_data.DESCRIPTOR.name, exp_fd.full_name, exp_fv, fv)
+
+def RepeatedCompositeFieldContainer_eq(exp_data, data):
+    assert_is_instance(exp_data, google.protobuf.internal.containers.RepeatedCompositeFieldContainer)
+    assert_is_instance(data, google.protobuf.internal.containers.RepeatedCompositeFieldContainer)
+    eq_(len(exp_data), len(data), 'exp_data(%s) has %d elements, but data has %d.'%(exp_data._message_descriptor.full_name, len(exp_data),len(data)))
+    i = 0
+    for exp_element in exp_data:
+        assert_equal(exp_element, data[i])
+        i += 1
+
+def RepeatedScalarFieldContainer_eq(exp_data, data):
+    assert_is_instance(exp_data, google.protobuf.internal.containers.RepeatedScalarFieldContainer)
+    assert_is_instance(data, google.protobuf.internal.containers.RepeatedScalarFieldContainer)
+    eq_(len(exp_data), len(data), 'exp_data(%s) has %d elements, but data has %d.'%(exp_data.DESCRIPTOR.full_name, len(exp_flist),len(flist))) 
+    i = 0
+    for exp_element in exp_data:
+        eq_(exp_element, data[i], 'data_name=%s, %s != %s'%(exp_data._message_descriptor.full_name, exp_fv, fv))
+        i += 1
+
+class TAny(object):
+    def __init__(self, _type):
+        self._type = _type
+
+def gen_protobuf_data(data, name, intent): # data is a protobuf Message
+    assert_is_instance(data, google.protobuf.message.Message)
+    RepeatedCompositeFieldContainer_list = []
+    RepeatedScalarFieldContainer_list = []
+    pb2 = importlib.import_module(data.__module__)
+    s = '\n%s%s = %s.%s('%(' '*intent, name, pb2.__name__, type(data).__name__)
+    for fd, fvalue in data.ListFields():
+        #print fd, fvalue
+        if isinstance(fvalue, int) or isinstance(fvalue, long):
+            s += '\n%s%s = %d,'%(' '*(intent+4), fd.name, fvalue)
+        elif isinstance(fvalue, float):
+            s += '\n%s%s = %f,'%(' '*(intent+4), fd.name, fvalue)
+        elif isinstance(fvalue, str):
+            s += '\n%s%s = "%s",'%(' '*(intent+4), fd.name, fvalue)
+        elif isinstance(fvalue, unicode):
+            s += '\n%s%s = u"%s",'%(' '*(intent+4), fd.name, fvalue)
+        elif isinstance(fvalue, google.protobuf.message.Message):
+            s += gen_protobuf_data(fvalue, fd.name, intent+4) + ','
+        elif isinstance(fvalue, google.protobuf.internal.containers.RepeatedCompositeFieldContainer):
+            RepeatedCompositeFieldContainer_list.append((name+'.'+fd.name, fvalue))
+        elif isinstance(fvalue, google.protobuf.internal.containers.RepeatedScalarFieldContainer):
+            RepeatedScalarFieldContainer_list.append((name+'.'+fd.name, fvalue))
+        else:
+            #print 'type(fvalue) = ', type(fvalue)
+            assert False, type(fvalue)
+    s += '\n%s)'%(' '*intent)
+    #print RepeatedCompositeFieldContainer_list
+    for fname, fvalue in RepeatedCompositeFieldContainer_list:
+        s += gen_RepeatedCompositeFieldContainer(fname, fvalue, intent)
+    for fname, fvalue in RepeatedScalarFieldContainer_list:
+        s += gen_RepeatedScalarFieldContainer(fname, fvalue, intent)
+    return s
+
+def gen_RepeatedCompositeFieldContainer(name, container, intent):
+    s = ''
+    assert_is_instance(container, google.protobuf.internal.containers.RepeatedCompositeFieldContainer)
+    RepeatedCompositeFieldContainer_list, message_list = [], []
+    #RepeatedCompositeFieldContainer_list = []
+    for element in container:
+        #print 'type(element)=', type(element)
+        if isinstance(element, google.protobuf.message.Message):
+            add_statement = '\n' + ' '*intent + name + '.add('
+            for fd, fvalue in element.ListFields():
+                if isinstance(fvalue, int) or isinstance(fvalue, long):
+                    add_statement += '%s=%d, '%(fd.name, fvalue)
+                elif isinstance(fvalue, float):
+                    add_statement += '%s=%f, '%(fd.name, fvalue)
+                elif isinstance(fvalue, str):
+                    add_statement += '%s="%s", '%(fd.name, fvalue)
+                elif isinstance(fvalue, unicode):
+                    add_statement += '%s=u"%s", '%(fd.name, fvalue)
+                elif isinstance(fvalue, google.protobuf.message.Message):
+                    message_list.append((name+'.'+fd.name, fvalue))
+                elif isinstance(fvalue, google.protobuf.internal.containers.RepeatedCompositeFieldContainer):
+                    RepeatedCompositeFieldContainer_list.append((name+'[-1].'+fd.name, fvalue))
+                else:
+                    assert False, type(fvalue).__name__
+            s += add_statement + ')'
+            for fname, fvalue in message_list:
+                s += gen_protobuf_data(fvalue, fname, intent)
+            for fname, fvalue in RepeatedCompositeFieldContainer_list:
+                s += gen_RepeatedCompositeFieldContainer(fname, fvalue, intent)
+        else:
+            assert False, type(element).__name__ + ' ' + str(element)
+    return s
+
+def gen_RepeatedScalarFieldContainer(name, container, intent):
+    assert_is_instance(container, google.protobuf.internal.containers.RepeatedScalarFieldContainer)
+    s = '\n' + ' '*intent + name + '.extend(('
+    for element in container:
+        if type(element) in(int, long, float, str, unicode):
+            s += '%r, '%element
+        else:
+            assert False, type(element).__name__ + ' ' + str(element)
+    return s + '))'

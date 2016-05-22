@@ -1,0 +1,9 @@
+import "common.proto";
+import "PublicTas1.proto";
+package BusproxyTas1;
+// 登陆重启后向前置发起同步请求 0 1 561
+message L2PStatusSync {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 Nop = 3; // int32 占位字段
+}

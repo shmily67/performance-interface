@@ -1,0 +1,211 @@
+#include <ctype.h>
+#include <stddef.h>
+
+#include "cmm.h"
+#include "SafeMInterface.h"
+
+int asc2bcd(utype *bcd, const char *asc, int len)
+{
+	int i;
+
+	if (len % 2 != 0)
+	{
+		return SM_CMM_BAD_PARAM;
+	}
+
+	for (i = 0; i < len / 2; i++) 
+	{
+		if ('A' <= asc[2 * i])
+		{
+			bcd[i] = (utype)((utype)(asc[2 * i] - 0x37) << 4);
+		}
+		else
+		{
+			bcd[i] = (utype)((utype)(asc[2 * i] - '0') << 4);
+		}
+
+		if ('A' <= asc[2 * i + 1])
+		{
+			bcd[i] |= (utype)((utype)(asc[2 * i + 1] - 0x37));
+		}
+		else
+		{
+			bcd[i] |= (utype)((utype)(asc[2 * i + 1] - '0'));
+		}
+	}
+
+	return len / 2;
+}
+
+int bcd2asc(char *asc, const utype *bcd, int len)
+{
+	int i;
+	utype c;
+
+	if (len % 2 != 0)
+	{
+		return SM_CMM_BAD_PARAM;
+	}
+
+	for (i = 0; i < len; i++)
+	{
+		c = bcd[i] / 16;
+		if (0x0a > c)
+		{
+			asc[2 * i] = (char)(c + '0');
+		}
+		else
+		{
+			asc[2 * i] = (char)(c + 0x37);
+		}
+
+		c = bcd[i] % 16;
+		if (0x0a > c)
+		{
+			asc[2 * i + 1] = (char)(c + '0');
+		}
+		else
+		{
+			asc[2 * i + 1] = (char)(c + 0x37);
+		}
+	}
+
+	return 2 * len;
+}
+
+static char chr_asc2hex_l(unsigned char c)
+{
+	c &= 0x0f;
+
+	if (c < 0x0a)
+	{
+		c += '0';
+	}
+	else
+	{
+		c += 0x37;
+	}
+
+	return (char)c;
+}
+
+static char chr_asc2hex_h(unsigned char c)
+{
+	c &= 0xf0;
+	c = c >> 4;
+
+	if (c < 0x0a)
+	{
+		c += '0';
+	}
+	else
+	{
+		c += 0x37;
+	}
+
+	return (char)c;
+}
+
+int asc2hex(char *hex, const unsigned char *asc, size_t len)
+{
+	size_t i;
+
+	for (i = 0; i < len; ++i)
+	{
+		hex[2 * i] = chr_asc2hex_h(asc[i]);
+		hex[2 * i + 1] = chr_asc2hex_l(asc[i]);
+	}
+
+	return (int)(2 * len);
+}
+
+static char chr_hex2asc(char c)
+{
+	if ('A' <= c)
+	{
+		return (char)(c - 0x37);
+	}
+	else
+	{
+		return (char)(c - '0');
+	}
+}
+
+int hex2asc(unsigned char *asc, const char *hex, size_t len)
+{
+	size_t i;
+
+	if (0 == len % 2)
+	{
+		len = len / 2;
+	}
+	else
+	{
+		len = len / 2 + 1;
+	}
+
+	for (i = 0; i < len; ++i)
+	{
+		asc[i] = chr_hex2asc(hex[2 * i]) << 4;
+		asc[i] |= chr_hex2asc(hex[2 * i + 1]);
+	}
+
+	return len;
+}
+
+void str_toupper(char *dst, const char *src, size_t len)
+{
+	size_t i;
+
+	for (i = 0; i < len; ++i)
+	{
+		dst[i] = (char)toupper(src[i]);
+	}
+}
+
+static char xor_chr(char c)
+{
+	if ('A' <= c && 'F' >= c)
+	{
+		c = c - (0x40 - 0x09);
+	}
+	else if ('a' <= c && 'f' >= c)
+	{
+		c = c - (0x60 - 0x09);
+	}
+	else
+	{
+		c = c - 0x30;
+	}
+
+	return c;
+}
+
+int bcd_xor(char *rst, const char *dat1, const char *dat2, size_t len)
+{
+	size_t i;
+	char c1, c2;
+
+	for (i = 0; i < len; ++i)
+	{
+		c1 = xor_chr(dat1[i]);
+
+		c2 = xor_chr(dat2[i]);
+
+		c1 = c1 ^ c2;
+
+		if (c1 > 0x09)
+		{
+			c1 = 0x40 + (c1 - 0x09);
+		}
+		else
+		{
+			c1 = c1 + 0x30;
+		}
+
+		rst[i] = c1;
+	}
+
+	return (int)len;
+}
+

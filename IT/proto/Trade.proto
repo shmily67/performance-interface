@@ -1,0 +1,195 @@
+import "common.proto";
+
+// 平仓明细
+message MMCloseDetail {
+    optional int64 OrderID = 1;                 // (被平)单号
+    optional double Qty = 2;                    // 平仓数量
+    optional double UserMargin = 3;             // 释放占用保证金
+    optional double ReleaseHoldAmount = 4;      // 释放持仓金额
+    optional double CloseCharge = 5;            // 平仓手续费
+    optional double WarehouseCharge = 6;        // 仓单服务费
+    optional double ClosePL = 7;                // 平仓盈亏
+}
+
+
+// 做市商交易内部接口 (功能号: 冻结, 解冻, 建仓, 平仓)
+message MMTradeProto {
+    required MessageHead Header = 1;       // 消息头
+    optional int64 OrderID = 2;                 // 单号
+    optional int64 OperateID = 3;               // 操作员ID
+    optional int64 AccountID = 4;               // 资金账户ID
+    optional int64 MatchID = 5;                 // 对手资金账户ID
+    optional int32 GoodsID = 6;                  // 商品ID
+    optional double Qty = 7;                    // 数量
+    optional double Price = 8;                  // 价格
+    optional int32 BuyOrSell = 9;               // 买卖方向
+    optional int32 OrderType = 10;               // 订单类型
+    optional int32 BuildType = 11;               // 下单类型, 建仓，平仓
+    
+    repeated MMCloseDetail CloseDetails = 12;   // 平仓明细
+    
+    optional int32 RetCode = 13;                // 返回码
+    optional int64 MoneyTicket = 14;           // 资金流水号
+    
+    optional double FreezeMargin = 15;          // 冻结金额
+    optional double UnfreezeMargin = 16;        // [解冻|建仓]解冻保证金
+    optional double UsedMargin = 17;            // [建仓|平仓释放]占用保证金
+    optional double OpenCharge = 18;            // 建仓手续费
+    optional double CloseCharge = 19;           // 平仓手续费
+    optional double WarehouseCharge = 20;       // [建仓|平仓]仓单服务费
+    optional double TradeAmount = 21;           // [建仓|平仓释放]成交金额
+    optional double ClosePL = 22;               // 平仓盈亏
+    
+    optional string TradeDate = 23;             // 交易日
+    optional string TradeTime = 24;             // 发送时间
+    optional int32 SettleStatus = 25;           // 结算状态
+}
+
+// 平仓明细
+message BMCloseDetail {
+    optional int64 OrderID = 1;                 // (被平)单号
+    optional double Qty = 2;                    // 平仓数量
+    optional double UserMargin = 3;             // 释放占用保证金
+    optional double ReleaseHoldAmount = 4;      // 释放持仓金额
+    optional double CloseCharge = 5;            // 平仓手续费
+    optional double WarehouseCharge = 6;        // 仓单服务费
+    optional double ClosePL = 7;                // 平仓盈亏
+}
+
+// 竞价交易内部接口 (功能号: 冻结, 解冻, 建仓, 平仓)
+message BMTradeProto {
+    required MessageHead Header = 1;       // 消息头
+    optional int64 OrderID = 2;                 // 单号
+    optional int64 OperateID = 3;               // 操作员ID
+    optional int64 AccountID = 4;               // 资金账户ID
+    optional int64 MatchID = 5;                 // 对手资金账户ID
+    optional int32 GoodsID = 6;                  // 商品ID
+    optional double Qty = 7;                    // 数量
+    optional double Price = 8;                  // 价格
+    optional int32 BuyOrSell = 9;               // 买卖方向
+    optional int32 OrderType = 10;               // 订单类型
+    optional int32 BuildType = 11;               // 下单类型, 建仓，平仓
+    
+    repeated BMCloseDetail CloseDetails = 12;   // 平仓明细
+    
+    optional int32 RetCode = 13;                // 返回码
+    optional int64 MoneyTicket = 14;           // 资金流水号
+    
+    optional double FreezeMargin = 15;          // 冻结金额
+    optional double UnfreezeMargin = 16;        // [解冻|建仓]解冻保证金
+    optional double UsedMargin = 17;            // [建仓|平仓释放]占用保证金
+    optional double OpenCharge = 18;            // 建仓手续费
+    optional double CloseCharge = 19;           // 平仓手续费
+    optional double WarehouseCharge = 20;       // [建仓|平仓]仓单服务费
+    optional double TradeAmount = 21;           // [建仓|平仓释放]成交金额
+    optional double ClosePL = 22;               // 平仓盈亏
+    
+    optional string TradeDate = 23;             // 交易日
+    optional string TradeTime = 24;             // 发送时间
+    optional int32 SettleStatus = 25;           // 结算状态
+}
+
+
+message OrderDetail {
+	optional int64 OrderID = 1;
+	optional int32 OrderType = 2;
+	optional int32 AccountID = 3;
+	optional int32 GoodsID = 4;
+	optional int32 ValidateType = 5;
+	optional string ValidateTime = 6;
+	optional int32 BuyOrSell = 7;
+	optional int32 PriceMatchType = 8;
+	optional int32 BuildType = 9;
+	optional double OrderPrice = 10;
+	optional double PriceOffset = 11;
+	optional double OrderQty = 12;
+	optional int64 RelateOrderID = 13;
+	optional double BuyPricePoint = 14;
+	optional double SellPricePoint = 15;
+	optional double LimitPriceOffset = 16;
+	optional double SLPrice = 17;
+	optional double TPPrice = 18;
+	optional double SLPriceOffset = 19;
+	optional double TPPriceOffset = 20;
+	optional double ClosedQty = 21;
+	optional double FreezedCloseQty = 22;
+	optional int32 OrderStatus = 23;
+	optional double CurtQuotePrice = 24;
+	optional int32 SpecialAccount = 25;
+	optional int32 operatorID = 26;
+	optional double CancelQty = 27;
+	optional double TradeQty = 28;
+	
+	optional double LimitOpenBuyPtSub = 29;
+	optional double LimitOpenSellPtSub = 30;
+
+	optional double LimitSlBuyPtSub = 31;
+	optional double LimitSlSellPtSub = 32;
+
+	optional double LimitTpBuyPtSub = 33;
+	optional double LimitTpSellPtSub = 34;
+	optional int32 MemberID = 35;
+	optional int32  RunStatus = 36;
+	optional int32 AreaID = 37;
+	optional string OrderTime = 38;
+	optional double FreezeMargin = 39;
+
+	// 撮合使用的参数
+	optional double UpCrossPrice = 101;
+	optional double DownCrossPrice = 102;
+	optional double MatchedPrice = 103;
+	optional OrderDetail SltpOrder = 104;
+	
+	// 券的金额
+	optional double UsedMargin = 105;
+}
+
+message CloseDetail {
+	optional int64 ClosedOrderID = 1;
+	optional double ClosedQty = 2;
+	optional double CloseCharge = 3;          // 平仓手续费
+	optional double UserMargin = 4;
+	optional double ReleaseHoldAmount = 5;
+	optional double ClosePL = 6;              // 平仓盈亏
+	optional double WarehouseCharge = 7;      // 仓单服务费（平仓）
+}
+
+message MarketMakerOperation {
+	required MessageHead Header = 1; // 消息头
+	optional int64 ExchSerialID = 2; // 撮合流水号
+	optional int64 OrderSerialID = 3; // 委托流水号
+	optional int64 FundsSerialID = 4; // 资金流水号
+	optional int32 RetCode = 5; // 返回码
+
+	optional OrderDetail OrderInfo = 6; // 委托订单信息
+	optional OrderDetail SLTPOrder = 7; // 委托止损止盈单信息
+	optional int64 OrderID = 8; // 委托单号
+	repeated CloseDetail CloseDetails = 9; // 平仓明细
+	optional double TradeQty = 10; // 成交数量
+	optional double TradePrice = 11; // 成交价格
+	optional int32 FunCode = 12; // 功能号
+	optional string PublishDestination = 13; // 发送主题名称
+	optional bytes OperationContent = 14; // 操作内容
+	optional int32 OperationStatus = 15; // 操作状态
+
+	optional double UsedMargin = 16; // 占用保证金
+	optional int32 AccountID = 17; // 资金账号
+	optional int32 GoodsID = 18; // 商品代码
+	optional int32 BuyOrSell = 19; // 买卖方向
+	optional double OpenCharge = 20; // 建仓手续费
+	optional int32 OperatorID = 21; // 操作员代码
+	optional double TradeAmount = 22; // 成交金额
+	optional int32 SpecialAccount = 23; // 特别会员账号
+	repeated OrderDetail transferOrders = 24; // 转单单据
+	optional double WarehouseCharge = 25; // 仓单服务费（建仓）
+
+	optional int64 DeliverySerialID = 26; // 交收单号
+	optional int32 OrderType = 27; // 单据类型
+	optional int32 SessionID = 28; // SessionID
+
+	optional double BuyPrice = 29; // 买价
+	optional double SellPrice = 30; // 卖价
+	optional double ClosePL = 31; // 平仓盈亏
+	optional int32 SettleStatus = 32; // 结算状态
+	optional int64 relateOrderID = 33; // 关联单号
+}

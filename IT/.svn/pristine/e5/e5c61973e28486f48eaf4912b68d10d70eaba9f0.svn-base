@@ -1,0 +1,148 @@
+import "common.proto";
+import "PublicTas1.proto";
+package SettleTas1;
+// 修改交易所状态请求 1 7 348
+message ModifyExchStatusReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ExchID = 2; // int32 交易所ID
+	optional int32 OpenMode = 3; // int32 开市方式
+	optional int32 CloseMode = 4; // int32 收市方式
+	optional int32 SysReckonMode = 5; // int32 系统结算方式
+	optional int32 ReckonMode = 6; // int32 结算模式
+	optional int32 ExchStatus = 7; // int32 交易所状态
+}
+// 修改交易所状态应答 1 7 349
+message ModifyExchStatusRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ExchID = 4; // int32 交易所ID
+}
+// 市场模式信息 1 7 459
+message ArrayMarketMode {
+	optional int32 MarketID = 1; // int32 市场ID
+	optional int32 MarketMode = 2; // int32 市场模式(自动、暂停)
+}
+// 修改市场模式请求 1 7 460
+message ModifyMarketModeReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated SettleTas1.ArrayMarketMode MarketModeInfo = 2; // ArrayMarketMode 市场模式信息
+}
+// 修改商品模式请求 1 7 462
+message ModifyGoodsModeReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated PublicTas1.ArrayGoodsMode GoodsModeInfo = 2; // ArrayGoodsMode 市场类型
+}
+// 签到检查请求 0 7 463
+message SignInCheckReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string ExchTicket = 2; // string 交易所流水号
+	optional string Currency = 3; // string 币种
+}
+// 签到检查应答 0 7 464
+message SignInCheckRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string ExchTicket = 4; // string 交易所流水号
+	optional int32 AllowStatus = 5; // int32 是否可以签到(1可以，2不可以)
+}
+// 商品价格信息 0 7 830
+message ArrayGoodsPriceInfo {
+	optional string ExchCode = 1; // string 交易所代码
+	optional string ExchName = 2; // string 交易所名称
+	optional string MarketCode = 3; // string 市场代码
+	optional string MarketName = 4; // string 市场名称
+	optional string GoodsName = 5; // string 商品名称
+	optional string GoodsCode = 6; // string 商品代码
+	optional string BidPrice = 7; // string 买入价
+	optional string AskPrice = 8; // string 卖出价
+	optional string HighPrice = 9; // string 最高价
+	optional string LowPrice = 10; // string 最低价
+	optional string PreClosePrice = 11; // string 昨收价
+	optional string OpenPrice = 12; // string 开盘价
+	optional string ClosePrice = 13; // string 今收价
+	optional string ReckonPrice = 14; // string 结算价
+}
+// 手工结算请求 0 7 831
+message SettleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ExchID = 2; // int32 交易所ID
+	optional string SettleDate = 3; // string 结算日期
+	repeated SettleTas1.ArrayGoodsPriceInfo ReckonPrices = 4; // ArrayGoodsPriceInfo 商品价格信息
+	optional int32 IsUpdateReckonPriceManually = 5; // int32 是否选择手工输入结算价
+	optional int32 IsPreparative = 6; // int32 是否为预结算
+}
+// 手工结算应答 0 7 832
+message SettleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string TradeDate = 4; // string 交易日期
+	optional string StartDate = 5; // string 结算开始时间
+	optional string EndDate = 6; // string 结算结束时间
+	optional int32 ReckonType = 7; // int32 结算方式
+	optional PublicTas1.QueryReckonDetailRptRsp DetailRpt = 8; // QueryReckonDetailRptRsp 明细报表
+	optional PublicTas1.QueryCancelDetailRptRsp CancelDetailRpt = 9; // QueryCancelDetailRptRsp 撤单明细报表
+	optional PublicTas1.QueryReckonTimeRptRsp ReckonTimeRpt = 10; // QueryReckonTimeRptRsp 结算时间统计
+}
+// 结算进度通知 0 7 833
+message SettleProgressReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 Step = 2; // int32 进度
+	optional string StartTime = 3; // string 开始时间
+	optional string EndTime = 4; // string 结束时间
+	optional string Description = 5; // string 详细信息
+}
+// 查询结算价请求 1 7 834
+message QuerySettlePriceReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+}
+// 查询结算价应答 1 7 835
+message QuerySettlePriceRsp_ {
+	repeated SettleTas1.ArrayGoodsPriceInfo ReckonPrices = 1; // ArrayGoodsPriceInfo 商品价格信息
+}
+message QuerySettlePriceRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QuerySettlePriceRsp_ Rsps = 5; // QuerySettlePriceRsp_ Rsps 查询结果集
+}
+// 交易所手动开休市请求 0 7 839
+message ModifyExchOpenCloseReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ExchID = 2; // int32 交易所ID
+	optional int32 ExchRunStatus = 3; // int32 交易所运行状态，0为开市，1为收市
+}
+// 交易所手动开休市应答 0 7 840
+message ModifyExchOpenCloseRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 系统对账请求 1 7 894
+message SystemCheckBillsReq {
+	optional MessageHead Header = 1; // MessageHead
+}
+// 系统对账应答 1 7 895
+message SystemCheckBillsRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 CheckRetCode = 4; // int32 对账发送结果
+}
+// 获取下一个交易日请求 0 7 984
+message GetNextTradeDateReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string Exchticket = 2; // string 交易流水号
+}
+// 获取下一个交易日应答 0 7 985
+message GetNextTradeDateRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required string Exchticket = 4; // string 交易流水号
+	optional string NextTradeDate = 5; // string 下一个交易日
+}

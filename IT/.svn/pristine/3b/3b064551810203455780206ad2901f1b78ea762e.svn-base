@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<body>    
+<script language = "javascript">
+var fso = new ActiveXObject("Scripting.FileSystemObject");
+var div = document.createElement('div');			
+div.innerHTML = '<a href="./"></a>';			
+var pageDir = div.firstChild.href;						
+div = null;			
+var pageDir = pageDir.substr(8); 
+var copytext1 = "";
+var copytext2 = "";
+//document.write(pageDir);
+var folder = fso.GetFolder(pageDir);
+//document.write("文件数:" + folder.Files.Count+ "<br><br>");
+var filesEnum = new Enumerator(folder.Files);
+for (; !filesEnum.atEnd(); filesEnum.moveNext())
+{
+	var sqlfile = "sFileName = sFilePath & \"" + filesEnum.item().name + "\"";
+	var arr = (filesEnum.item().name).slice(-6);
+  if(arr == ".proto")
+  {
+var oFso,oFile,sFile,sContent;
+sFile = pageDir + filesEnum.item().name ;
+oFso = new ActiveXObject("Scripting.FileSystemObject");
+oFile = oFso.OpenTextFile(sFile,1);
+sContent = oFile.ReadAll();
+copytext2 = sContent + "\n" + copytext2;
+oFile.Close();
+copytext1 = sqlfile + "\n" +  copytext1;
+//document.write( sContent + "<br>");
+document.write(sqlfile + "<br>");
+  }
+}
+</script>
+</body> 
+<body> 
+<script type="text/javascript">
+    function copy_code(copyText) 
+    {
+        if (window.clipboardData) 
+        {
+            window.clipboardData.setData("Text", copyText)
+        } 
+        else 
+        {
+            var flashcopier = 'flashcopier';
+            if(!document.getElementById(flashcopier)) 
+            {
+              var divholder = document.createElement('div');
+              divholder.id = flashcopier;
+              document.body.appendChild(divholder);
+            }
+            document.getElementById(flashcopier).innerHTML = '';
+            var divinfo = '<embed src="../js/_clipboard.swf" FlashVars="clipboard='+encodeURIComponent(copyText)+'" width="0" height="0" type="application/x-shockwave-flash"></embed>';
+            document.getElementById(flashcopier).innerHTML = divinfo;
+        }
+      alert('copy成功！');
+    }
+    </script>
+    
+    <input id="inputTest" type="button" value="复制" onclick="copy_code(copytext1)"  />
+</body>
+</html>
+ 

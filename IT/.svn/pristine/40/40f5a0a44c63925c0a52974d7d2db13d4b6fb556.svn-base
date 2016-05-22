@@ -1,0 +1,74 @@
+import "common.proto";
+import "PublicTas1.proto";
+package Finance1;
+// 融资理财产品发售请求 0 60 896
+message PublishFinancialProductReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  string GoodsCode = 2; // string 商品代码
+	required  string GoodsName = 3; // string 商品名称
+	required  int32 MarketID = 4; // int32 市场ID
+	required  string SellerTAAccountCode  = 5; // string 融资方账号
+	required  double AnnualRate  = 6; // double 预期年利率
+	required  double DayRate  = 7; // double 日利率
+	required  int32 Duration  = 8; // int32 融资期限
+	required  double Price  = 9; // double 每份融资价格
+	optional double Amount  = 10; // double 融资总额
+	required  string OperatorCode = 11; // string 创建人账号
+	required  double TotalQTY = 12; // double 总份数
+	required  string SellStartDate  = 13; // string 发售开始时间
+	required  string SellEndDate  = 14; // string 发售结束时间
+	required  string InterestStartDate  = 15; // string 计息开始日
+	required  string InterestEndDate  = 16; // string 计息结束日
+	required  int32 SellChargeType = 17; // int32 发售手续费类型
+	required  double SellChargeSet = 18; // double 发售手续费设置
+	required  int32 TransferType = 19; // int32 转让手续费类型
+	required  double TransferChargeSet  = 20; // double 转让手续费设置
+	required  int32 BuyChargeType = 21; // int32 购买手续费类型
+	required  double BuyChargeSet = 22; // double 购买手续费设置
+	required  int32 SellMarginType = 23; // int32 发售保证金类型
+	required  double SellMarginSet = 24; // double 发售保证金设置
+	required  int32 SubScribeChargeType = 25; // int32 认购手续费类型
+	required  double SubScribeChargeSet  = 26; // double 认购手续费设置
+	required  int32 IsCanTransfer = 27; // int32 是否允许转让
+	required  int64 Guid  = 28; // int64 消息的唯一标识
+	optional int32 isdeductmoneyfromexchauto = 29; // int32 是否启用交易所代扣资金
+	optional int32 isenablechargeshare = 30; // int32 是否启用手续费分成
+	optional string chargesharetypename = 31; // string 手续费分成类型名
+}
+// 融资理财产品发售应答 0 60 897
+message PublishFinancialProductRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 GoodsID  = 4; // int32 商品ID
+}
+// 融资理财产品发售审核请求 0 60 898
+message AuditFinancialProductReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  int32 GoodsID  = 2; // int32 商品ID
+	required  string AuditDate  = 3; // string 审核日期
+	required  int32 Result  = 4; // int32 审核结果
+	required  string AuditCode  = 5; // string 审核人代码
+	required  int64  Guid  = 6; // int64  消息的唯一标识
+}
+// 融资理财产品发售审核应答 0 60 899
+message AuditFinancialProductRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 融资理财转让合约审核请求 0 60 1091
+message AuditFinancialTransferContractReq {
+	optional MessageHead Header = 1; // MessageHead
+	required  int64  TransferContractID = 2; // int64  转让合约ID
+	required  string AuditDate  = 3; // string 审核日期
+	required  int32 Result  = 4; // int32 审核结果
+	required  string AuditCode  = 5; // string 审核人代码
+	required  int64  Guid  = 6; // int64  消息的唯一标识
+}
+// 融资理财转让合约审核应答 0 60 1092
+message AuditFinancialTransferContractRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}

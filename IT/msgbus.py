@@ -1,0 +1,250 @@
+# coding:cp936
+import time, struct, Queue, binascii, threading, time
+
+import pika, google.protobuf
+from nose.tools import *
+import protobuf_dict,  util
+
+def set_pika_logger_level(level):
+    pika.callback.LOGGER.setLevel(level)
+    pika.channel.LOGGER.setLevel(level)
+    pika.connection.LOGGER.setLevel(level)
+    pika.adapters.blocking_connection.LOGGER.setLevel(level)
+    pika.adapters.select_connection.LOGGER.setLevel(level)
+    pika.adapters.base_connection.LOGGER.setLevel(level)
+
+_connection_list_ = []
+def close_all():
+    for conn in _connection_list_:
+        if conn.is_open:
+            conn.close()
+
+class Connection(object):
+    def __init__(self, serv_ip, serv_port, virtual_host, username, password):
+        self.q = Queue.Queue()
+        credentials = pika.connection.Parameters()._credentials(username, password)
+        conn_params = pika.connection.ConnectionParameters(serv_ip, serv_port, virtual_host, credentials)
+        self.connection = pika.BlockingConnection(conn_params)
+        self.channels = {} # channel_number -> channel
+        _connection_list_.append(self.connection)
+        self.que_dict = {}
+        #self.routing_dict = {} # (exchange, routing_key) -> channel
+
+    def close(self):
+        self.connection.close()
+
+    def create_publish_channel(self):
+        assert not hasattr(self, 'publish_ch')
+        ch = self.connection.channel()
+        ch.confirm_delivery()
+        self.publish_ch = ch
+        return ch
+
+    def create_consume_queue(self, exchange, queue, routing_key, durable=False):
+        ch = self.connection.channel()
+        ch.confirm_delivery()
+        ch.exchange_declare(exchange=exchange, exchange_type='direct', passive=False, durable=False, auto_delete=False, internal=False)
+        ch.queue_declare(queue=queue, passive=False, durable=durable, exclusive=False, auto_delete=False)
+        ch.queue_bind(queue=queue, exchange=exchange, routing_key=routing_key)
+        ch.basic_qos(prefetch_size=0, prefetch_count=5000, all_channels=False)
+        ch.basic_consume(self.callback, queue)
+        self.channels[ch.channel_number] = ch
+        self.que_dict[ch] = Queue.Queue()
+        #self.routing_dict[(exchange, routing_key)]= ch
+        return ch
+
+    def clear_consume(self):
+        self.connection.process_data_events()
+        for q in self.que_dict.values():
+            while not q.empty():
+                q.get_nowait()
+
+    def publish(self, exchange, routing_key, funcode, session_id, protobuf_data, mandatory=False, immediate=False):
+        app_msg = encode(funcode, session_id, protobuf_data)
+        self.publish_ch.basic_publish(exchange, routing_key, app_msg, mandatory=mandatory, immediate=immediate)
+
+    def channel(self):
+        ch = self.connection.channel()
+        self.channels[ch.channel_number] = ch
+        self.que_dict[ch] = Queue.Queue()
+        return ch
+
+    def get_channel(self, chan_num):
+        return self.channels[chan_num]
+
+    def _basic_consume(self, chan, queue, tag=None):
+        """           consumer_callback,
+                      queue,
+                      no_ack=False,
+                      exclusive=False,
+                      consumer_tag=None,
+                      arguments=None):"""
+        _tag = chan.basic_consume(self.callback, queue, consumer_tag=tag)
+        #print 'basic_consume() consumer_tag = ', _tag
+        return _tag
+
+    def recv(self, chan, timeout):
+        endtime = time.time() + timeout
+        q = self.que_dict[chan]
+        while True:
+            if time.time() > endtime:
+                raise RecvTimeout(str(timeout))
+            self.connection.process_data_events()
+            if q.empty():
+                time.sleep(0.01)
+                continue
+            else:
+                return q.get(False)
+
+    def expect(self, chan, exp_funcode, exp_session_id=None, exp_protobuf_data=None, timeout=1.0):
+        method, properties, funcode, session_id, protobuf_data = self.recv(chan, timeout)
+        eq_(exp_funcode, funcode)
+        eq_('Deliver', type(method).__name__)
+        ret = {'funcode': funcode}
+        if exp_session_id:
+            eq_(exp_session_id, session_id)
+        else:
+            ret['session_id'] = session_id
+        if exp_protobuf_data:
+            eq_(protobuf_dict.data_class_dict[funcode], type(exp_protobuf_data))
+            protobuf_util.assert_eq(exp_protobuf_data, protobuf_data)
+        else:
+            ret['data'] = protobuf_data
+        return ret
+
+    def callback(self, ch, method, properties, body):
+        ch.basic_ack(method.delivery_tag)
+        funcode, session_id, protobuf_data = decode(body)
+        q = self.que_dict[ch]
+        q.put((method, properties, funcode, session_id, protobuf_data))
+
+class Codec(object):
+    def __init__(self, data_class_dict):
+        '''
+            将原来的funcode--->class倒至成class-->funcode
+        '''
+        self.data_class_dict = data_class_dict # funcode -> data_class
+        self.funcode_dict = {}
+        for funcode in self.data_class_dict:# output the key of dict
+            data_class = self.data_class_dict[funcode]
+            self.funcode_dict[data_class] = funcode
+        
+    def encode(self, session_id, protobuf_data):
+        '''
+            发送消息编码，编码格式是funcode+session_id+protobufdataofseraialize
+        '''
+        funcode = self.funcode_dict[type(protobuf_data)]
+        return struct.pack('<ll', funcode, session_id) + protobuf_data.SerializeToString()
+    
+    def decode(self, msg):
+        '''
+            接收消息解码:funcode,sessionid,protobufdata字符串
+        '''
+        assert_greater_equal(len(msg), 8, binascii.b2a_hex(msg))
+        funcode, session_id = struct.unpack_from('<ll', msg, 0)
+        protobuf_data = self.data_class_dict[funcode]()
+        protobuf_data.ParseFromString(msg[8:])
+        return session_id, protobuf_data
+            
+        
+def encode(funcode, session_id, protobuf_data):
+    return struct.pack('<ll', funcode, session_id) + protobuf_data.SerializeToString()
+
+def decode(msg):
+    if 'heartbeat' == msg:
+        return None, None, None
+    assert_greater_equal(len(msg), 8, binascii.b2a_hex(msg))
+    funcode, session_id = struct.unpack_from('<ll', msg, 0)
+    if funcode in protobuf_dict.data_class_dict:
+        protobuf_data = protobuf_dict.data_class_dict[funcode]()
+        protobuf_data.ParseFromString(msg[8:])
+        return funcode, session_id, protobuf_data
+    else:
+        return funcode, None, None
+
+class FuncodeError(Exception): pass
+class RecvTimeout(AssertionError): pass
+
+#from generated testcase
+all_queue_binds = {
+    #routing_key -> queue_list   exchange=entry
+    'bank_mgr_rsp': ['busproxybank_mgr_rsp1',],
+    'bank_query_rsp': ['busproxybank_query_rsp1',],
+    'bank_req_2': ['bankbank_req_2',],
+    'bank_rsp': ['busproxybank_rsp1','cashiobank_rsp',],
+    'bankcommunicate_req_2': ['bankbankcommunicate_req_2',],
+    'bankinner_2': ['bankbankinner_2',],
+    'bankioproxy_rsp_2': ['bankbankioproxy_rsp_2',],
+    'bm_deal_fund': ['bidmaker_postbm_deal_fund1',],
+    'bm_order_req': ['bidmaker_prebm_order_req1',],
+    'bm_order_rsp': ['orderbm_order_rsp',],
+    'bm_std_deal1': ['bidmaker_postbm_std_deal11',],
+    'bm_std_deal2': ['moneybm_std_deal2',],
+    'cash_req': ['cashiocash_req','logcash_req',],
+    'cash_rsp': ['busproxycash_rsp1','logcash_rsp',],
+    'delivery_reply': ['marketmakerdelivery_reply1','moneydelivery_reply',],
+    'delivery2_invoke_ab_req': ['bidmaker_postdelivery2_invoke_ab_req1',],
+    'delivery2_rsp': ['busproxydelivery2_rsp1','orderdelivery2_rsp',],
+    'ex_qkernel_rsp': ['busproxyex_qkernel_rsp1',],
+    'ex_report_rsp': ['busproxyex_report_rsp1',],
+    'finance_rsp': ['busproxyfinance_rsp1','orderfinance_rsp',],
+
+    'log_req': ['loglog_req',],
+    'log_rsp': ['busproxylog_rsp1',],
+    'maintain': ['bidmakermaintain1','bidmaker_postmaintain1','bidmaker_premaintain1',],
+    'match_00011': ['bidmakermatch_00011',],
+    'mgr_req': ['logmgr_req','managermgr_req',],
+    'mgr_rsp': ['busproxymgr_rsp1','logmgr_rsp','marketmakermgr_rsp1','moneymgr_rsp','news_feedmgr_rsp','ordermgr_rsp','usermgr_rsp',],
+    'mm_order_req': ['marketmakermm_order_req1',],
+    'mm_order_rsp': ['ordermm_order_rsp',],
+    'money_req': ['moneymoney_req',],
+    'money_rsp': ['cashiomoney_rsp','marketmakermoney_rsp1','ordermoney_rsp',],
+    'money_risk_req': ['moneymoney_risk_req',],
+    'moneymodify_req': ['logmoneymodify_req','moneymoneymodify_req',],
+    'moneymodify_rsp': ['busproxymoneymodify_rsp1','logmoneymodify_rsp',],
+    'newsfeed_req': ['lognewsfeed_req','news_feednewsfeed_req',],
+    'newsfeed_rsp': ['busproxynewsfeed_rsp1','lognewsfeed_rsp',],
+    'notify_rsp': ['busproxynotify_rsp1','news_feednotify_rsp','usernotify_rsp',],
+
+    'order_delivery_req': ['marketmakerorder_delivery_req1',],
+    'order_req': ['logorder_req','orderorder_req',],
+    'order_rsp': ['busproxyorder_rsp1','logorder_rsp',],
+    'query_rsp': ['busproxyquery_rsp1',],
+    'quote_rsp': ['marketmakerquote_rsp1','realtime_monitorquote_rsp',],
+    'report_req': ['reportreport_req',],
+    'report_rsp': ['busproxyreport_rsp1',],
+    'risk_ord_req': ['orderrisk_ord_req',],
+    'risk_rsp': ['busproxyrisk_rsp1',],
+    'rt_monitor_publish': ['busproxyrt_monitor_publish1',],
+    'rt_monitor_report': ['realtime_monitorrt_monitor_report',],
+    'rt_monitor_subscribe': ['realtime_monitorrt_monitor_subscribe',],
+    'settleprice_query_rsp': ['marketmakersettleprice_query_rsp1',],
+    'settle_req': ['bidmaker_postsettle_req1','marketmakersettle_req1','moneysettle_req','news_feedsettle_req','ordersettle_req','reckonservicesettle_req1','reportsettle_req',],
+    'settle_rsp': ['busproxysettle_rsp1','reckonservicesettle_rsp1',],
+    'strategy_order_req': ['orderstrategy_order_req',],
+    'settleprice_query_rsp': ['realtime_monitorsettleprice_query_rsp','reckonservicesettleprice_query_rsp1',],
+    'user_req': ['loguser_req', 'useruser_req', ],
+    'user_rsp': ['busproxyuser_rsp1', 'loguser_rsp', ],
+    'wetas_rsp': ['busproxywetas_rsp1',],
+    }
+"""
+    '': ['bidmaker_presettle_req1',],
+    '': ['bidmaker_quotebm_quote1',],
+    '': ['bidmaker_quotebm_tik_req1',],
+    '': ['bidmaker_quotemaintain1',],
+    '': ['deliverydelivery_audit_req1',],
+    '': ['deliverydelivery_reply_req1',],
+    '': ['deliverydelivery_req1',],
+    '': ['deliverysettle_req1',],
+    '': ['entry',],
+    '': ['financedelivery2_invoke_rsp1',],
+    '': ['financefinance_req1',],
+    '': ['heartbeat',],
+    '': ['manager_bankbank_mgr_req',],
+    '': ['publicbm_quote1',],
+    '': ['publicmm_order_req1',],
+    '': ['publicquote_rsp1',],
+    '': ['publicsettleprice_query_req1',],
+    '': ['qkernel_bankbank_query_req',],
+    '': ['quotemgr_rsp1',],
+    '': ['quotesettle_req1',],"""

@@ -1,0 +1,877 @@
+import "common.proto";
+import "PublicTas1.proto";
+import "ManagerTas1.proto";
+import "ManagerTas2.proto";
+package ManagerTas3;
+// 修改账户角色请求 0 6 908
+message ModifyAccountRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string LOGINCODE = 2; // string 登陆账号
+	optional string ROLECODE = 3; // string 角色代码
+}
+// 修改账户角色应答 0 6 909
+message ModifyAccountRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string LOGINCODE = 4; // string 登陆账号
+	optional string ROLECODE = 5; // string 角色代码
+}
+// 删除账户角色请求 0 6 910
+message DelAccountRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string LOGINCODE = 2; // string 登陆账号
+	optional string ROLECODE = 3; // string 角色代码
+}
+// 删除账户角色应答 0 6 911
+message DelAccountRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string LOGINCODE = 4; // string 登陆账号
+	optional string ROLECODE = 5; // string 角色代码
+}
+// 增加系统账户请求 0 6 914
+message AddSysAccountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string LOGINCODE = 3; // string 登陆账号
+	optional string CREATERACCOUNT = 4; // string 创建人账号
+	optional string CREATEDATE = 5; // string 创建日期
+	optional string MODIFYDATE = 6; // string 修改日期
+	optional int32 ISVALID = 7; // int32 是否有效
+	optional int32 STATUS = 8; // int32 账户状态
+}
+// 增加系统账户应答 0 6 915
+message AddSysAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+	optional string LOGINCODE = 5; // string 登陆账号
+}
+// 修改系统账户请求 0 6 916
+message ModifySysAccountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string LOGINCODE = 3; // string 登陆账号
+	optional string CREATERACCOUNT = 4; // string 创建人账号
+	optional string CREATEDATE = 5; // string 创建日期
+	optional string MODIFYDATE = 6; // string 修改日期
+	optional int32 ISVALID = 7; // int32 是否有效
+	optional int32 STATUS = 8; // int32 账户状态
+}
+// 修改系统账户应答 0 6 917
+message ModifySysAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+	optional string LOGINCODE = 5; // string 登陆账号
+}
+// 删除系统账户请求 0 6 918
+message DelSysAccountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string LOGINCODE = 3; // string 登陆账号
+}
+// 删除系统账户应答 0 6 919
+message DelSysAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+	optional string LOGINCODE = 5; // string 登陆账号
+}
+// 增加系统角色请求 0 6 922
+message AddSysRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string ROLECODE = 3; // string 角色代码
+	optional string ROLENAME = 4; // string 角色名称
+}
+// 增加系统角色应答 0 6 923
+message AddSysRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+	optional string ROLECODE = 5; // string 角色代码
+}
+// 修改系统角色请求 0 6 924
+message ModifySysRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string ROLECODE = 3; // string 角色代码
+	optional string ROLENAME = 4; // string 角色名称
+}
+// 修改系统角色应答 0 6 925
+message ModifySysRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+	optional string ROLECODE = 5; // string 角色代码
+}
+// 删除系统角色请求 0 6 926
+message DelSysRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string ROLECODE = 3; // string 角色代码
+}
+// 删除系统角色应答 0 6 927
+message DelSysRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+	optional string ROLECODE = 5; // string 角色代码
+}
+// 增加系统请求 0 6 930
+message AddSysReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string SYSTEMNAME = 3; // string 系统名称
+	optional string SYSTEMCODE = 4; // string 系统代码
+	optional int32 ISAUTOACTIVE = 5; // int32 账号自动激活
+}
+// 增加系统应答 0 6 931
+message AddSysRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+}
+// 修改系统请求 0 6 932
+message ModifySysReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+	optional string SYSTEMNAME = 3; // string 系统名称
+	optional string SYSTEMCODE = 4; // string 系统代码
+	optional int32 ISAUTOACTIVE = 5; // int32 账号自动激活
+}
+// 修改系统应答 0 6 933
+message ModifySysRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+}
+// 删除系统请求 0 6 934
+message DelSysReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SYSTEMID = 2; // int32 系统ID
+}
+// 删除系统应答 0 6 935
+message DelSysRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SYSTEMID = 4; // int32 系统ID
+}
+// 添加理财交易参数请求 0 6 936
+message AddFinancingParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ContRightCode = 2; // int32 内容权限组编号
+	optional int32 MARKETID = 3; // int32 市场ID
+	optional double SUBSCRIBECHARGESET = 4; // double 认购手续费设置
+	optional int32 SUBSCRIBECHARGETYPE = 5; // int32 认购手续费类型
+	optional double BUYCHARGESET = 6; // double 购买手续费设置
+	optional int32 BUYCHARGETYPE = 7; // int32 购买手续费类型
+	optional double TRANSFERCHARGESET = 8; // double 转让手续费设置
+	optional int32 TRANSFERCHARGETYPE = 9; // int32 转让手续费类型
+	optional double SELLCHARGESET = 10; // double 发售手续费设置
+	optional int32 SELLCHARGETYPE = 11; // int32 发售手续费类型
+	optional int32 AUTOBREAKCONTDAYS = 12; // int32 自动违约天数
+	optional string OrderTypeRight = 13; // string 订单类型权限
+	optional int32 IsShow = 14; // int32 是否显示
+}
+// 添加理财交易参数应答 0 6 937
+message AddFinancingParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ContRightCode = 4; // int32 内容权限组编号
+}
+// 修改理财交易参数请求 0 6 938
+message ModifyFinancingParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ContRightCode = 2; // int32 内容权限组编号
+	optional int32 MARKETID = 3; // int32 市场ID
+	optional double SUBSCRIBECHARGESET = 4; // double 认购手续费设置
+	optional int32 SUBSCRIBECHARGETYPE = 5; // int32 认购手续费类型
+	optional double BUYCHARGESET = 6; // double 购买手续费设置
+	optional int32 BUYCHARGETYPE = 7; // int32 购买手续费类型
+	optional double TRANSFERCHARGESET = 8; // double 转让手续费设置
+	optional int32 TRANSFERCHARGETYPE = 9; // int32 转让手续费类型
+	optional double SELLCHARGESET = 10; // double 发售手续费设置
+	optional int32 SELLCHARGETYPE = 11; // int32 发售手续费类型
+	optional int32 AUTOBREAKCONTDAYS = 12; // int32 自动违约天数
+	optional string OrderTypeRight = 13; // string 订单类型权限
+	optional int32 IsShow = 14; // int32 是否显示
+}
+// 修改理财交易参数应答 0 6 939
+message ModifyFinancingParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ContRightCode = 4; // int32 内容权限组编号
+}
+// 删除理财交易参数请求 0 6 940
+message DelFinancingParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 MARKETID = 2; // int32 市场ID
+	optional int32 ContRightCode = 3; // int32 内容权限组编号
+}
+// 删除理财交易参数应答 0 6 941
+message DelFinancingParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 MARKETID = 4; // int32 市场ID
+	optional int32 ContRightCode = 5; // int32 内容权限组编号
+}
+// 增加系统内容权限组请求 0 6 951
+message AddSystemContentRightReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string ContRightName = 2; // string 权限组名字
+	optional int32 SystemID = 3; // int32 系统ID
+	repeated PublicTas1.ArrayFinancingParameterRule FinancingMarketParameter = 4; // ArrayFinancingParameterRule 市场参数设置
+	optional string CreatePersonName = 5; // string 创建人名称
+	optional string CreateTime = 6; // string 创建时间
+	optional string ModifyPersonName = 7; // string 修改人名称
+	optional string ModifyTime = 8; // string 修改时间
+}
+// 增加系统内容权限组应答 0 6 952
+message AddSystemContentRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ContRightCode = 4; // int32 内容权限组编号
+}
+// 修改系统内容权限组请求 0 6 955
+message ModifySystemContentRightReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ContRightCode = 2; // int32 内容权限组编号
+	optional string ContRightName = 3; // string 权限组名字
+	repeated PublicTas1.ArrayFinancingParameterRule FinancingMarketParameter = 4; // ArrayFinancingParameterRule 市场参数设置
+	optional string CreatePersonName = 5; // string 创建人名称
+	optional string CreateTime = 6; // string 创建时间
+	optional string ModifyPersonName = 7; // string 修改人名称
+	optional string ModifyTime = 8; // string 修改时间
+}
+// 修改系统内容权限组应答 0 6 956
+message ModifySystemContentRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ContRightCode = 4; // int32 内容权限组编号
+}
+// 删除系统内容权限组请求 0 6 957
+message DelSystemContentRightReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string ContRightName = 2; // string 权限组名字
+	optional int32 ContRightCode = 3; // int32 内容权限组编号
+}
+// 删除系统内容权限组应答 0 6 958
+message DelSystemContentRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ContRightCode = 4; // int32 内容权限组编号
+}
+// 增加账户模块信息请求 0 6 963
+message AddAccountModuleInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 SystemID = 2; // int32 系统ID
+	repeated PublicTas1.ArrayLoginCode LoginCodes = 3; // ArrayLoginCode 登录账号
+	optional string CREATERACCOUNT = 4; // string 创建人账号
+}
+// 增加账户模块信息应答 0 6 964
+message AddAccountModuleInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 IsOK = 4; // int32 是否成功
+}
+// 修改账户模块信息请求 0 6 965
+message ModifyAccountModuleInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 SystemID = 2; // int32 系统ID
+	repeated PublicTas1.ArrayLoginCode LoginCodes = 3; // ArrayLoginCode 登录账号
+	optional string ModifyLoginCode = 4; // string 修改者登陆账号
+}
+// 修改账户模块信息应答 0 6 966
+message ModifyAccountModuleInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 IsOK = 4; // int32 是否成功
+}
+// 增加系统功能权限组请求 0 6 969
+message AddSystemFunctionRightReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 SystemID = 2; // int32 系统ID
+	optional string CreateLoginCode = 3; // string 创建者登陆账号
+	optional string FuncRightName = 4; // string 权限组名字
+	optional string FuncMenu = 5; // string 功能权限
+}
+// 增加系统功能权限组应答 0 6 970
+message AddSystemFunctionRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int32 SystemID = 4; // int32 系统ID
+	optional int32 FuncRightCode = 5; // int32 功能权限组编号
+}
+// 修改系统功能权限组请求 0 6 971
+message ModifySystemFunctionRightReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 SystemID = 2; // int32 系统ID
+	optional int32 FuncRightCode = 3; // int32 功能权限组编号
+	optional string FuncRightName = 4; // string 权限组名字
+	optional string FuncMenu = 5; // string 功能权限
+	optional string ModifyLoginCode = 6; // string 修改者登录帐号
+}
+// 修改系统功能权限组应答 0 6 972
+message ModifySystemFunctionRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int32 SystemID = 4; // int32 系统ID
+	optional int32 FuncRightCode = 5; // int32 功能权限组编号
+	optional string NewFuncRightName = 6; // string 权限组名字
+	optional string NewFuncMenu = 7; // string 功能权限
+}
+// 删除系统功能权限组请求 0 6 973
+message DelSystemFunctionRightReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 SystemID = 2; // int32 系统ID
+	optional int32 FuncRightCode = 3; // int32 功能权限组编号
+}
+// 删除系统功能权限组应答 0 6 974
+message DelSystemFunctionRightRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 增加系统账号角色请求 0 6 979
+message AddSystemAccountRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SystemID = 2; // int32 系统ID
+	optional int32 RoleID = 3; // int32 角色ID
+	optional string LoginCode = 4; // string 登录账号
+	optional int32 ModuleContRightCode = 5; // int32 内容权限组编号
+	optional int32 ModuleFuncRightCode = 6; // int32 功能权限组编号
+	optional int32 ModuleAccountRoleStatus = 7; // int32 账号角色状态-AccountRoleStatus
+}
+// 增加系统账号角色应答 0 6 980
+message AddSystemAccountRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SystemID = 4; // int32 系统ID
+}
+// 修改系统账号角色请求 0 6 981
+message ModifySystemAccountRoleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SystemID = 2; // int32 系统ID
+	optional int32 RoleID = 3; // int32 角色ID
+	optional string LoginCode = 4; // string 登录账号
+	optional int32 ModuleContRightCode = 5; // int32 内容权限组编号
+	optional int32 ModuleFuncRightCode = 6; // int32 功能权限组编号
+	optional int32 ModuleAccountRoleStatus = 7; // int32 账号角色状态-AccountRoleStatus
+}
+// 修改系统账号角色应答 0 6 982
+message ModifySystemAccountRoleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 SystemID = 4; // int32 系统ID
+}
+// 批量修改对冲状态请求 0 6 1043
+message ModifyBatchTransferStatusReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 TransferStatus = 2; // int32 对冲状态（0.无效 1.有效）
+	repeated string AccountCode = 3; // string 交易账号
+}
+// 批量修改对冲状态应答 0 6 1044
+message ModifyBatchTransferStatusRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 TransferStatus = 4; // int32 对冲状态（0.无效 1.有效）
+	repeated string AccountCode = 5; // string 交易账号
+}
+// 发售商品属性增加请求 0 6 1051
+message AddSaleGoodsArguesReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 GoodsId = 2; // int32 商品ID
+	optional string GoodsCode = 3; // string 商品代码
+	optional string GoodsName = 4; // string 商品名称
+	optional int32 MarketID = 5; // int32 市场ID
+	optional int32 GoodsStatus = 6; // int32 商品状态
+	optional int32 AgreeUnit = 7; // int32 合约单位
+	optional string AgreeName = 8; // string 合约名称
+	optional int32 SaleType = 9; // int32 发行方式
+	optional double SalePrice = 10; // double 发行价格
+	optional int32 Qty = 11; // int32 发行数量
+	optional string SaleUnit = 12; // string 发行单位
+	optional double ValidApplyRatio = 13; // double 有效申购比例
+	optional double MaxApplyMultiple = 14; // double 超额申购比例
+	optional double SeoRatio = 15; // double 入场登记托管单转持仓限售比例
+	optional int32 LockupDays = 16; // int32 禁售天数
+	optional string ApplyStartTime = 17; // string 申购开始时间
+	optional string ApplyEndTime = 18; // string 申购结束时间
+	optional int32 ApplyMinQty = 19; // int32 最小申购数量
+	optional string ApplyMinUnit = 20; // string 最小申购单位
+	optional double SingerMaxRatio = 21; // double 每个申购对象申购上限比例
+	optional int32 SingerMaxQty = 22; // int32 每个申购对象最大笔数
+	optional int32 MemberID = 23; // int32 保荐会员
+	optional int32 ChargeType = 24; // int32 申购手续费收取方式
+	optional double ChargeNum = 25; // double 申购手续费比例或数值
+	optional string OrderTypeRight = 26; // string 订单交易权限
+	optional string ApplicationAccountCode = 27; // string 申请人账号
+	optional int32 SiplacingQty = 28; // int32 战略投资者配售数量
+	optional string MemberLockupPeriod = 29; // string 承销会员包销禁售期
+	optional int32 ConsignmentSalesChargeType = 30; // int32 承销手续费收取方式
+	optional double ConsignmentSalesChargeNum = 31; // double 承销手续费比例或者数值
+	optional int32 SalesChargeType = 32; // int32 发行手续费收取方式
+	optional double SalesChargeNum = 33; // double 发行手续费比例或者数值
+	optional double ExclusiveSalesPrice = 34; // double 包销价格
+	optional double CsLockupRatio = 35; // double 包销禁售比例
+}
+// 发售商品属性增加应答 0 6 1052
+message AddSaleGoodsArguesRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 GoodsId = 4; // int32 商品ID
+	optional int32 MarketID = 5; // int32 市场ID
+}
+// 发售商品属性修改请求 0 6 1045
+message ModifySaleGoodsArguesReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string GoodsCode = 2; // string 商品代码
+	optional string GoodsName = 3; // string 商品名称
+	optional int32 MarketId = 4; // int32 市场ID
+	optional int32 AgreeUnit = 5; // int32 合约单位
+	optional string AgreeName = 6; // string 合约名称
+	optional int32 SaleType = 7; // int32 发行方式
+	optional double SalePrice = 8; // double 发行价格
+	optional int32 Qty = 9; // int32 发行数量
+	optional string SaleUnit = 10; // string 发行单位
+	optional double ValidApplyRatio = 11; // double 有效申购比例
+	optional double MaxApplyMultiple = 12; // double 超额申购比例
+	optional double SeoRatio = 13; // double 入场登记托管单转持仓限售比例
+	optional int32 LockupDays = 14; // int32 禁售天数
+	optional string ApplyStartTime = 15; // string 申购开始时间
+	optional string ApplyEndTime = 16; // string 申购结束时间
+	optional int32 ApplyMinQty = 17; // int32 最小申购数量
+	optional string ApplyMinUnit = 18; // string 最小申购单位
+	optional double SingerMaxRatio = 19; // double 每个申购对象申购上限比例
+	optional int32 SingerMaxQty = 20; // int32 每个申购对象最大笔数
+	optional int32 MemberID = 21; // int32 保荐会员
+	optional int32 ChargeType = 22; // int32 申购手续费收取方式
+	optional double ChargeNum = 23; // double 申购手续费比例或数值
+	optional string OrderTypeRight = 24; // string 订单交易权限
+	optional int32 SiplacingQty = 25; // int32 战略投资者配售数量
+	optional string MemberLockupPeriod = 26; // string 承销会员包销禁售期
+	optional int32 ConsignmentSalesChargeType = 27; // int32 承销手续费收取方式
+	optional double ConsignmentSalesChargeNum = 28; // double 承销手续费比例或者数值
+	optional int32 SalesChargeType = 29; // int32 发行手续费收取方式
+	optional double SalesChargeNum = 30; // double 发行手续费比例或者数值
+	optional double ExclusiveSalesPrice = 31; // double 包销价格
+	optional double CsLockupRatio = 32; // double 包销禁售比例
+}
+// 发售商品属性修改应答 0 6 1046
+message ModifySaleGoodsArguesRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string GoodsCode = 4; // string 商品代码
+}
+// 发售商品参数规则内部结构 0 6 1061
+message ParamRuleForSaleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ParameterID = 2; // int32 参数类型编号
+	optional string ParameterName = 3; // string 参数类型名称
+	optional int32 MemberID = 4; // int32 会员ID
+	optional int32 GoodsId = 5; // int32 商品ID
+	optional int32 MarketID = 6; // int32 所属市场ID
+	optional int32 IsShowGood = 7; // int32 是否显示商品
+	optional int32 ChargeType = 8; // int32 申购手续费收取方式
+	optional double ChargeNum = 9; // double 申购手续费比例或数值
+	optional string OrderTypeRight = 10; // string 订单交易权限
+}
+// 发售商品参数规则类型增加请求 0 6 1055
+message AddSaleParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string RuleName = 2; // string 规则类型名称
+	optional int32 MemberID = 3; // int32 会员ID
+	optional int32 GoodsId = 4; // int32 商品ID
+	optional int32 MarketID = 5; // int32 所属市场ID
+	repeated ManagerTas3.ParamRuleForSaleReq ParamRuleForSale = 6; // ParamRuleForSaleReq 商品列表
+}
+// 发售商品参数规则类型增加应答 0 6 1056
+message AddSaleParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ParameterID = 4; // int32 参数类型编号
+}
+// 发售商品参数规则类型修改请求 0 6 1057
+message ModifySaleParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ParameterID = 2; // int32 参数类型编号，不可修改
+	optional string RuleName = 3; // string 规则类型名称
+	repeated ManagerTas3.ParamRuleForSaleReq ParamRuleForSale = 4; // ParamRuleForSaleReq 商品列表
+}
+// 发售商品参数规则类型修改应答 0 6 1058
+message ModifySaleParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ParameterID = 4; // int32 参数类型编号，不可修改
+	repeated ManagerTas3.ParamRuleForSaleReq NewParamRuleForSale = 5; // ParamRuleForSaleReq 商品列表
+	repeated ManagerTas3.ParamRuleForSaleReq OldParamRuleForSale = 6; // ParamRuleForSaleReq 商品列表
+}
+// 发售商品参数规则类型删除请求 0 6 1059
+message DelSaleParameterRuleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ParameterID = 2; // int32 参数类型编号，不可修改
+}
+// 发售商品参数规则类型删除应答 0 6 1060
+message DelSaleParameterRuleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ParameterID = 4; // int32 参数类型编号，不可修改
+}
+// 发售商品参数规则单条修改请求 0 6 1062
+message ModifyParamRuleForSaleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ParameterID = 2; // int32 参数类型编号
+	optional string ParameterName = 3; // string 参数类型名称
+	optional int32 MemberID = 4; // int32 会员ID
+	optional int32 GoodsId = 5; // int32 商品ID
+	optional int32 MarketID = 6; // int32 所属市场ID
+	optional int32 IsShowGood = 7; // int32 是否显示商品
+	optional int32 ChargeType = 8; // int32 申购手续费收取方式
+	optional double ChargeNum = 9; // double 申购手续费比例或数值
+	optional string OrderTypeRight = 10; // string 订单交易权限
+}
+// 发售商品参数规则单条修改应答 0 6 1063
+message ModifyParamRuleForSaleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ParameterID = 4; // int32 参数类型编号
+}
+// 发售商品参数规则单条新增请求 0 6 1064
+message AddParamRuleForSaleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ParameterID = 2; // int32 参数类型编号
+	optional string ParameterName = 3; // string 参数类型名称
+	optional int32 MemberID = 4; // int32 会员ID
+	optional int32 GoodsId = 5; // int32 商品ID
+	optional int32 MarketID = 6; // int32 所属市场ID
+	optional int32 IsShowGood = 7; // int32 是否显示商品
+	optional int32 ChargeType = 8; // int32 申购手续费收取方式
+	optional double ChargeNum = 9; // double 申购手续费比例或数值
+	optional string OrderTypeRight = 10; // string 订单交易权限
+}
+// 发售商品参数规则单条新增应答 0 6 1065
+message AddParamRuleForSaleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 ParameterID = 4; // int32 参数类型编号
+}
+// 增加交割品种请求 0 6 1070
+message AddDeliveryVarietyReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string GoodsClassCode = 2; // string 品种代码
+	optional string GoodsClassName = 3; // string 品种名称
+	optional int32 Goodsbilltype = 4; // int32 仓单类型
+	optional string Desctxt = 5; // string 文本附件
+	optional string Descpic = 6; // string 图片附件
+	optional string Operator = 7; // string 修改人
+	optional string UpdateTime = 8; // string 修改时间
+	optional int32 Validflag = 9; // int32 有效状态
+	optional string Unit = 10; // string 单位
+	optional double FirstPayRatio = 11; // double 第一次支付货款比例
+	optional double SecondPayRatio = 12; // double 第二次支付货款比例
+	optional double ThirdPayRatio = 13; // double 第三次支付货款比例
+	optional double FourthPayRatio = 14; // double 第四次支付货款比例
+}
+// 增加交割品种应答 0 6 1071
+message AddDeliveryVarietyRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string GoodsClassCode = 4; // string 品种代码
+	optional string GoodsClassName = 5; // string 品种名称
+}
+// 修改交割品种请求 0 6 1072
+message ModifyDeliveryVarietyReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string GoodsClassCode = 2; // string 品种代码
+	optional string GoodsClassName = 3; // string 品种名称
+	optional int32 Goodsbilltype = 4; // int32 仓单类型
+	optional string Desctxt = 5; // string 文本附件
+	optional string Descpic = 6; // string 图片附件
+	optional string Operator = 7; // string 修改人
+	optional string UpdateTime = 8; // string 修改时间
+	optional int32 Validflag = 9; // int32 有效状态
+	optional string Unit = 10; // string 单位
+	optional double FirstPayRatio = 11; // double 第一次支付货款比例
+	optional double SecondPayRatio = 12; // double 第二次支付货款比例
+	optional double ThirdPayRatio = 13; // double 第三次支付货款比例
+	optional double FourthPayRatio = 14; // double 第四次支付货款比例
+}
+// 修改交割品种应答 0 6 1073
+message ModifyDeliveryVarietyRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string GoodsClassCode = 4; // string 品种代码
+}
+// 删除交割品种请求 0 6 1074
+message DelDeliveryVarietyReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string GoodsClassCode = 2; // string 品种代码
+}
+// 删除交割品种应答 0 6 1075
+message DelDeliveryVarietyRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 增加交收配置交收价格请求 0 6 1083
+message AddDeliveryConfigDeliveryPriceReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string GoodsCode = 2; // string 商品代码
+	optional int32 AuditFlag = 3; // int32 是否审核
+	optional double DelayDeliveryCompensation = 4; // double 延期交收补偿费比例
+	optional double DeliveryCharge = 5; // double 交收手续费比例
+	optional int32 DeliveryConfigSeq = 6; // int32 交收配置序号
+	optional int32 MarketID = 7; // int32 市场
+	optional string AreaCode = 8; // string 机构代码
+	optional int32 ExchangeAuditFlag = 9; // int32 交割单是否需要交易所审核
+	optional string InvestorApplyBeginTime = 10; // string 投资者申请开始时间
+	optional string InvestorApplyEndTime = 11; // string 投资者申请结束时间
+	optional string MidbinApplyBeginTime = 12; // string 中间仓申请开始时间
+	optional string MidbinApplyEndTime = 13; // string 中间仓申请结束时间
+	optional double MinDeliveryNum = 14; // double 最小交收数量
+	optional double ChangeUnit = 15; // double 转换单位
+	optional string AfterChangeGoods = 16; // string 转换后品种代码
+	optional double AfterChangeQuant = 17; // double 转换后单位数值
+	optional double AfterChangeUnit = 18; // double 转换后单位
+	optional double AfterDeliveryPrice = 19; // double 转换后价格
+	optional int32 Status = 20; // int32 有效状态
+	optional string operatorcode = 21; // string 修改人
+	optional string Updatetime = 22; // string 修改时间
+	optional int32 Prechangevolume = 23; // int32 转换前手数
+	optional int32 Deliverypricecalctype = 24; // int32 交割价计算方式
+	optional double Deliveryprice = 25; // double 交割价数值
+	optional double Premium = 26; // double 升贴水数值
+	optional string deliverypriceUpdatetime = 27; // string 交割价格更新时间
+	optional string Rtdeliveryapplybegintime = 28; // string 实时交割申请开始时间
+	optional string Rtdeliveryapplyendtime = 29; // string 实时交割申请结束时间
+	optional string Centraldeliveryapplybegintime = 30; // string 集中交割申请开始时间
+	optional string Centraldeliveryapplyendtime = 31; // string 集中交割申请结束时间
+	optional int32 Deferdeliverycompensationtype = 32; // int32 延期交收补偿费类型
+	optional double Deferdeliverycompensation = 33; // double 延期交收补偿费数值
+	optional int32 DeliveryPriceType = 34; // int32 交收价格类型
+}
+// 增加交收配置交收价格应答 0 6 1084
+message AddDeliveryConfigDeliveryPriceRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 修改交收配置信息请求 0 6 1085
+message ModifyDeliveryConfigInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated ManagerTas2.ArrayDeliveryConfig DeliveryConfig = 2; // ArrayDeliveryConfig 序号
+}
+// 修改交收配置信息应答 0 6 1086
+message ModifyDeliveryConfigInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 修改交收价格信息请求 0 6 1087
+message ModifyDeliveryPriceInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated ManagerTas2.ArrayModifyDeliveryPrice DeliveryPrice = 2; // ArrayModifyDeliveryPrice 序号
+}
+// 修改交收价格信息应答 0 6 1088
+message ModifyDeliveryPriceInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 修改违约处理商品请求 0 6 1089
+message ModifyFinancingBreakcontHandleGoodsReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 HandleId = 2; // int32 处理流水号
+	optional int32 GoodsId = 3; // int32 商品id
+	optional string PayInterestAccountCode = 4; // string 付利息资金帐号
+	optional string PayEnaltyAccountCode = 5; // string 付违约金资金帐号
+	optional string PayPrincipalAccountCode = 6; // string 付本金资金帐号
+	optional string HandleTime = 7; // string 处理时间
+	optional string AuditTime = 8; // string 审核时间
+	optional int32 HandleOperation = 9; // int32 处理请求
+	optional int32 AuditResult = 10; // int32 审核结果
+	optional int32 SettleResultRemark = 11; // int32 备注
+	optional string HandlePerson = 12; // string 处理人
+	optional int32 OperationStatus = 13; // int32 1违约处理  2违约审核
+	optional string AuditPerson = 14; // string 审核人
+}
+// 修改违约处理商品应答 0 6 1090
+message ModifyFinancingBreakcontHandleGoodsRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 HandleId = 4; // int32 处理流水号
+}
+// 增加手续费分成请求 0 6 1091
+message AddFinancingChargeShareConfigReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string ShareTypeName = 2; // string 类型名称
+	repeated PublicTas1.ArrayFinancingChargeShare FinancingChargeShare = 3; // ArrayFinancingChargeShare 手续费分成信息
+}
+// 增加手续费分成应答 0 6 1092
+message AddFinancingChargeShareConfigRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string ShareTypeName = 4; // string 类型名称
+	optional int32 ChargeType = 5; // int32 手续费类型
+	optional string ShareAccountCode = 6; // string 分成帐号
+}
+// 修改手续费分成请求 0 6 1093
+message ModifyFinancingChargeShareConfigReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string ShareTypeName = 2; // string 类型名称
+	repeated PublicTas1.ArrayFinancingChargeShare FinancingChargeShare = 3; // ArrayFinancingChargeShare 手续费分成信息
+	optional string ModifyTime = 4; // string 修改时间
+	optional string ModifyLoginAccount = 5; // string 修改人登录帐号
+	optional int32 IsValid = 6; // int32 是否有效
+}
+// 修改手续费分成应答 0 6 1094
+message ModifyFinancingChargeShareConfigRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string ShareTypeName = 4; // string 类型名称
+	optional int32 ChargeType = 5; // int32 手续费类型
+	optional string ShareAccountCode = 6; // string 分成帐号
+}
+// 增加战略投资者请求 0 6 1096
+message AddStrategicInvestorInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string AccountCode = 2; // string 账户代码
+	optional string GoodsCode = 3; // string 商品代码
+	optional int32 MarketID = 4; // int32 市场ID
+	optional int32 PlacingQty = 5; // int32 配售数量
+	optional double SalePrice = 6; // double 配售价格
+	optional int32 LockupQty = 7; // int32 禁售数量
+	optional string LockupPeriod = 8; // string 禁售日期
+}
+// 增加战略投资者应答 0 6 1097
+message AddStrategicInvestorInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string AccountCode = 4; // string 账户代码
+	optional string GoodsCode = 5; // string 商品代码
+	optional int32 MarketID = 6; // int32 市场ID
+	optional int32 PlacingQty = 7; // int32 配售数量
+	optional double SalePrice = 8; // double 配售价格
+	optional int32 LockupQty = 9; // int32 禁售数量
+	optional string LockupPeriod = 10; // string 禁售日期
+}
+// 修改战略投资者请求 0 6 1098
+message ModifyStrategicInvestorInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string AccountCode = 2; // string 账户代码
+	optional string GoodsCode = 3; // string 商品代码
+	optional int32 MarketID = 4; // int32 市场ID
+	optional int32 PlacingQty = 5; // int32 配售数量
+	optional double SalePrice = 6; // double 配售价格
+	optional int32 LockupQty = 7; // int32 禁售数量
+	optional string LockupPeriod = 8; // string 禁售日期
+}
+// 修改战略投资者应答 0 6 1099
+message ModifyStrategicInvestorInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string AccountCode = 4; // string 账户代码
+	optional string GoodsCode = 5; // string 商品代码
+	optional int32 MarketID = 6; // int32 市场ID
+	optional int32 PlacingQty = 7; // int32 配售数量
+	optional double SalePrice = 8; // double 配售价格
+	optional int32 LockupQty = 9; // int32 禁售数量
+	optional string LockupPeriod = 10; // string 禁售日期
+}
+// 删除战略投资者请求 0 6 1100
+message DeleteStrategicInvestorInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string AccountCode = 2; // string 账户代码
+	optional string GoodsCode = 3; // string 商品代码
+	optional int32 MarketID = 4; // int32 市场ID
+}
+// 删除战略投资者应答 0 6 1101
+message DeleteStrategicInvestorInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string AccountCode = 4; // string 账户代码
+	optional string GoodsCode = 5; // string 商品代码
+	optional int32 MarketID = 6; // int32 市场ID
+}
+// 增加批量战略投资者请求 0 6 1102
+message AddBatchStrategicInvestorInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated ManagerTas3.AddStrategicInvestorInfoReq StrategicInvestors = 2; // AddStrategicInvestorInfoReq 战略投资者
+}
+// 增加批量战略投资者应答 0 6 1103
+message AddBatchStrategicInvestorInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 修改批量账户关联特会请求 0 6 1104
+message ModifyBatchAccountRelationSpecMemReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string AccountCodes = 2; // string 账户代码(多个)
+	optional string RelationSpecMem = 3; // string 关联特会
+}
+// 修改批量账户关联特会应答 0 6 1105
+message ModifyBatchAccountRelationSpecMemRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 增加违约资金代付账号请求 0 6 1106
+message AddFinancingAutoPayAccountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 SetID = 2; // int32 设置ID
+	optional string PayMoneyAccountCode1 = 3; // string 资金账号一
+	optional string PayMoneyAccountCode2 = 4; // string 资金账号2
+	optional string PayMoneyAccountCode3 = 5; // string 资金账号3
+	optional int32 IsValid = 6; // int32 0无效1
+	optional string ModifyDate = 7; // string 修改日期
+	optional string ModifyingLoginCode = 8; // string 修改人登陆账号
+}
+// 增加违约资金代付账号应答 0 6 1107
+message AddFinancingAutoPayAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 IsOK = 4; // int32 是否成功
+}

@@ -1,0 +1,324 @@
+import "common.proto";
+import "PublicTas1.proto";
+package TkernelTas1;
+// 交割持仓单明细 0 3 480
+message ArrayDeliveryHoldDetail {
+	optional int64 HolderID = 1; // int64 要交割的持仓单号
+	optional double HoldQty = 2; // double 持仓数量
+	optional double OpenPrice = 3; // double 建仓价格
+	optional double UsedMargain = 4; // double 占用保证金
+	optional double HoldAmount = 5; // double 持仓金额
+	optional double HoldPrice = 6; // double 持仓价格
+}
+// 交割单明细 0 3 475
+message ArrayDeliveryDetail {
+	repeated TkernelTas1.ArrayDeliveryHoldDetail HoldDetail = 1; // ArrayDeliveryHoldDetail 要交割的持仓单号
+	optional int32 AddrID = 2; // int32 地址类型
+	optional string AuditName = 3; // string 审核人
+	optional double DeliveryPrice = 4; // double 交割价格
+	optional double DeliveryCharge = 5; // double 交割手续费
+	optional double DeliveryAmount = 6; // double 交割金额
+	optional double DeliveryFreezeAmount = 7; // double 交割冻结金额
+}
+// 交收委托协议 0 3 683
+message DeliveryOrder {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 DeliveryOrderType = 3; // int32 交收委托类型(DeliveryOrderType枚举)
+	optional int32 DeliveryType = 4; // int32 交收类型
+	optional int64 DeliveryID = 5; // int64 交收单ID
+	optional string DeliveryAccountCode = 6; // string 做市买交割或竞价卖交割交收人代码
+	optional string AuthDate = 7; // string 审核日期
+	optional int32 DeliveryResult = 8; // int32 交割审核结果
+	optional int64 holderid = 9; // int64 持仓单编号
+	optional double DeliveryPrice = 10; // double 交割价格
+	optional double DeliveryAmount = 11; // double 交割金额
+	optional string WarehouseCode = 12; // string 仓库代码
+	optional int64 GoodsBillID = 13; // int64 仓单编号(卖交收有效)
+}
+// 委托单请求 0 3 225
+message EntrustOrderReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 SecEntrustID = 2; // int64 二级委托单号
+	optional string AccountCode = 3; // string 交易账号
+	optional double EntrustPrice = 4; // double 委托价格
+	optional string MemberCode = 5; // string 所属会员
+	optional string GoodsCode = 6; // string 商品
+	optional int32 BuyOrSell = 7; // int32 买卖方向
+	optional int32 OrderType = 8; // int32 订单类型
+	optional double EntrustQty = 9; // double 委托数量
+	optional double AllowTradeSub = 10; // double 允许成交偏差范围
+	optional string SpecialAccount = 11; // string 特别会员账号
+	optional double BuyOrSellPtSub = 12; // double 买卖点差
+	optional int32 ValidType = 13; // int32 校验类型
+	optional string ValidTime = 14; // string 有效期限
+	optional double SpPrice = 15; // double 止盈价格
+	optional double SlPrice = 16; // double 止损价格
+	optional string OperatorCode = 17; // string 操作员
+	optional int64 RelateOrderID = 18; // int64 关联单号
+	optional int32 MarketID = 19; // int32 市场ID
+	optional int32 AccountType = 20; // int32 账户类型
+	optional double CurtQuotePrice = 21; // double 当前行情价
+	optional TkernelTas1.ArrayDeliveryDetail Delivery = 22; // ArrayDeliveryDetail 交割单明细
+	optional int32 OrderMode = 23; // int32 委托模式(FAK,FOK)
+	optional int32 CloseMode = 24; // int32 平仓模式(平今，平历史)
+	optional PublicTas1.Strategy strategy = 25; // Strategy 策略单据数据
+	optional TkernelTas1.DeliveryOrder Delivery2 = 26; // DeliveryOrder 新交收单协议(包含交收委托，审核，撤销)
+	optional int32 Coupon = 27; // int32 劵金额
+	optional int32 GoodsID = 28; // int32 商品代码
+	optional string StartTime = 29; // string 开始时间
+	optional string EndTime = 30; // string 结束时间
+	optional double RiskRate = 31; // double 风险率
+	optional int32 AccountStatus = 32; // int32 账户状态
+	optional int32 ReOpenFlag = 33; // int32 反手建仓标记
+}
+// 委托单应答 0 3 226
+message EntrustOrderRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 OrderID = 4; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 5; // int64 二级委托单号
+	optional string EntrustDate = 6; // string 接受委托交易的日期
+	optional string EntrustTime = 7; // string 接受委托交易的时间
+	optional TkernelTas1.EntrustOrderReq OrderReq = 8; // EntrustOrderReq 委托信息带回
+}
+// 撤单请求 0 3 227
+message RevokeOrderReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 OrderID = 2; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 3; // int64 二级委托单号
+	optional int32 CancelQty = 4; // int32 撤单数量
+}
+// 撤单应答 0 3 228
+message RevokeOrderRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 OrderID = 4; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 5; // int64 二级委托单号
+}
+// 新增委托单请求 0 3 229
+message AddOrderDetailReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 OrderID = 2; // int64 委托单号
+	optional string OrderTicket = 3; // string 委托流水号
+	optional string AccountCode = 4; // string 交易账号
+	optional int64 SecEntrustID = 5; // int64 二级委托单号
+	optional double EntrustPrice = 6; // double 委托价格
+	optional string EntrustTime = 7; // string 委托时间
+	optional string MemberCode = 8; // string 所属会员
+	optional string GoodsCode = 9; // string 商品
+	optional int32 BuyOrSell = 10; // int32 买卖方向
+	optional int32 OrderType = 11; // int32 订单类型
+	optional double EntrustQty = 12; // double 委托数量
+	optional double AllowTradeSub = 13; // double 允许成交偏差范围
+	optional string SpecialAccount = 14; // string 特别会员账号
+	optional double BuyOrSellPtSub = 15; // double 买卖点差
+	optional double Amount = 16; // double 资金
+	optional double FreezeMargin = 17; // double 冻结保证金
+	optional double CurtQuotePrice = 18; // double 当前行情价
+	optional int64 RelationTicket = 19; // int64 关联单号
+	optional int32 ValidType = 20; // int32 校验类型
+	optional string ValidTime = 21; // string 有效期限
+	optional double SpPrice = 22; // double 止盈价格
+	optional double SlPrice = 23; // double 止损价格
+	optional int32 OrderStatus = 24; // int32 订单状态
+	optional int32 RunStatus = 25; // int32 运行时状态
+	optional int32 OrderSrc = 26; // int32 委托来源
+	optional int32 IsMainOrder = 27; // int32 是否主单
+	optional int32 SessionID = 28; // int32 sessionID
+	optional string OperatorCode = 29; // string 操作员
+	optional double StorageCharge = 30; // double 仓单服务费
+	optional string DeliveryContent = 31; // string 交割明细
+}
+// 新增委托单应答 0 3 230
+message AddOrderDetailRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 OrderID = 4; // int64 一级生成的订单号
+	optional string OrderTicket = 5; // string 委托单流水号
+	optional string EntrustDate = 6; // string 接受委托交易的日期
+	optional string EntrustTime = 7; // string 接受委托交易的时间
+}
+// 新增委托单流水请求 0 3 231
+message AddOrderDetailLogReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 TradeID = 2; // int64 成交单号
+	optional int64 OrderID = 3; // int64 委托单号
+	optional string OrderTicket = 4; // string 委托流水号
+	optional string AccountCode = 5; // string 交易账号
+	optional double EntrustPrice = 6; // double 委托价格
+	optional string MemberCode = 7; // string 所属会员
+	optional int32 OtherMemberCode = 8; // int32 其他会员
+	optional string GoodsCode = 9; // string 商品
+	optional string TradeTime = 10; // string 成交时间
+	optional int32 BuyOrSell = 11; // int32 买卖方向
+	optional int32 OrderType = 12; // int32 订单类型
+	optional double EntrustQty = 13; // double 委托数量
+	optional double Charge = 14; // double 手续费
+	optional double AllowTradeSub = 15; // double 允许成交偏差范围
+	optional string SpecialAccount = 16; // string 特别会员账号
+	optional double BuyOrSellPtSub = 17; // double 买卖点差
+	optional int32 ValidType = 18; // int32 校验类型
+	optional string ValidTime = 19; // string 有效期限
+	optional string ModifyTime = 20; // string 修改时间
+	optional double SpPrice = 21; // double 止盈价格
+	optional double SlPrice = 22; // double 止损价格
+	optional string OtherAccountCode = 23; // string 其他账号
+	optional int32 OrderStatus = 24; // int32 订单状态
+	optional string OperatorCode = 25; // string 操作员
+}
+// 新增委托单流水应答 0 3 232
+message AddOrderDetailLogRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 OrderID = 4; // int32 一级生成的订单号
+	optional string OrderTicket = 5; // string 委托单流水号
+	optional string EntrustDate = 6; // string 接受委托交易的日期
+	optional string EntrustTime = 7; // string 接受委托交易的时间
+	optional int32 BuyOrSell = 8; // int32 买卖方向
+	optional int32 OrderType = 9; // int32 订单类型
+	optional int32 EntrustQty = 10; // int32 委托数量
+	optional double AllowTradeSub = 11; // double 允许成交偏差范围
+	optional string SpecialAccount = 12; // string 特别会员账号
+	optional double BuyOrSellPtSub = 13; // double 买卖点差
+	optional int32 ValidType = 14; // int32 校验类型
+	optional string ValidTime = 15; // string 有效期限
+	optional double SpPrice = 16; // double 止盈价格
+	optional double SlPrice = 17; // double 止损价格
+	optional string OperatorCode = 18; // string 操作员
+}
+// 平仓单平仓明细 0 3 747
+message ArrayCloseInfo {
+	optional int64 ClosedOrderID = 1; // int64 被平持仓单ID
+	optional double ClosedQty = 2; // double 被平仓数量
+	optional double ClosePL = 3; // double 平仓盈亏
+	optional double RlsUsedMargin = 4; // double 释放的占用保证金
+	optional double TradeCharge = 5; // double 平仓手续费
+	optional double WareHouseCharge = 6; // double 仓单服务费
+	optional double TradeAmount = 7; // double 成交金额
+}
+// 委托单成交通知 0 3 247
+message OrderDealedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 OrderID = 3; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 4; // int64 二级委托单号
+	optional string GoodsCode = 5; // string 原始委托商品代码
+	optional double TradeQty = 6; // double 成交数量
+	optional double Amount = 7; // double 成交金额
+	optional int32 ActiveQty = 8; // int32 激活数量，即剩余数量
+	optional int32 OrderStatus = 9; // int32 单据状态
+	optional int64 TradeID = 10; // int64 成交ID
+	optional string AccountCode = 11; // string 资金账号代码
+	optional double TradePrice = 12; // double 成交价格
+	optional int32 BuyOrSell = 13; // int32 买卖方向
+	optional double EntrustQty = 14; // double 委托数量
+	optional int32 OrderType = 15; // int32 订单类型
+	optional string TradeTime = 16; // string 成交时间
+	repeated TkernelTas1.ArrayCloseInfo CloseInfos = 17; // ArrayCloseInfo 平仓信息
+	optional string SpecialAccount = 18; // string 特别会员账号
+	optional double TradeCharge = 19; // double 成交手续费
+	optional double WareHouseCharge = 20; // double 仓单服务费
+	optional double UsedMargin = 21; // double 占用保证金
+	optional string OperatorCode = 22; // string 操作员代码
+}
+// 委托单失效通知 0 3 248
+message OrderFailedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 OrderID = 3; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 4; // int64 二级委托单号
+	optional string GoodsCode = 5; // string 原始委托商品代码
+	optional int32 Reason = 6; // int32 失效代码
+}
+// 委托单被平通知 0 3 249
+message OrderClosedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 OrderID = 3; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 4; // int64 二级委托单号
+	optional string GoodsCode = 5; // string 原始委托商品代码
+	optional double TradeQty = 6; // double 被平数量
+	optional double Amount = 7; // double 成交金额
+	optional int32 ActiveQty = 8; // int32 激活数量，即剩余数量
+	optional int32 OrderStatus = 9; // int32 单据状态
+}
+// 出金结果通知 0 3 250
+message BankWithDrawNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string ExchTicket = 4; // string 交易所流水号
+	optional string BankTicket = 5; // string 银行流水号
+	optional double Amount = 6; // double 实际出金金额
+	optional string DateTime = 7; // string 银行出金日期和时间
+}
+// 入金结果通知 0 3 251
+message BankDepositNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string ExchTicket = 4; // string 交易所流水号
+	optional string BankTicket = 5; // string 银行流水号
+	optional double Amount = 6; // double 实际入金金额
+	optional string DateTime = 7; // string 银行入金日期和时间
+}
+// 头寸变化通知 0 3 252
+message PosChangedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string GoodsCode = 4; // string 商品
+	optional int32 BuyOrSell = 5; // int32 买卖方向
+	optional double TradeAmount = 6; // double 成交金额
+	optional double HolderAmount = 7; // double 持仓金额
+	optional int32 HoldQty = 8; // int32 持仓数量
+	optional int32 FreezeQty = 9; // int32 冻结数量
+	optional double ReckonPL = 10; // double 浮动盈亏
+	optional double UsedMargin = 11; // double 占用保证金
+}
+// 资金变化通知 0 3 253
+message MoneyChangedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string Currency = 4; // string 币种
+	optional double UsedMargin = 5; // double 占用保证金
+	optional double FreezeMargin = 6; // double 冻结保证金
+	optional double CurrentNetWorth = 7; // double 期末净值
+	optional double AvailMarginLimit = 8; // double 允许最高可利用保证金
+	optional double MaxUsedMargin = 9; // double 最高可用保证金
+}
+// 持仓变化通知 0 3 254
+message HoldsChangedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 EntrustID = 3; // int64 委托单号，就是一级生成的单号
+	optional string AccountCode = 4; // string 账户
+	optional string GoodsCode = 5; // string 商品
+	optional int32 BuyOrSell = 6; // int32 买卖方向
+	optional int32 Qty = 7; // int32 持仓数量
+	optional double TradePrice = 8; // double 成交金额
+	optional double HolderPrice = 9; // double 持仓金额
+}
+// 委托单撤单通知 0 3 387
+message OrderCanceledNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 OrderID = 3; // int64 一级生成的订单号
+	optional int64 SecEntrustID = 4; // int64 二级委托单号
+	optional string GoodsCode = 5; // string 原始委托商品代码
+	optional double CancelQty = 6; // double 撤销数量
+	optional int32 OrderStatus = 7; // int32 单据状态
+}
+// 交割单成交通知 0 3 501
+message DeliveryDealedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 OrderID = 3; // int64 一级生成的交割委托单号
+	optional int32 OrderStatus = 4; // int32 交割状态
+}

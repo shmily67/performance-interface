@@ -1,0 +1,311 @@
+import "common.proto";
+import "PublicTas1.proto";
+package Delivery2Tas1;
+// 单个交收审核请求 0 30 709
+message ArrayDelivery2AuditReq {
+	required int64 DeliveryID = 1; // int64 交割单号
+	required int32 Result = 2; // int32 交割审核结果
+}
+// 单个交收审核应答 0 30 710
+message ArrayDelivery2AuditRsp {
+	required int64 DeliveryID = 1; // int64 交割单号
+	required int32 DeliveryAuditResult = 2; // int32 审核业务结果
+	required int32 Result = 3; // int32 交割结果
+}
+// 交收审核请求 0 30 711
+message Delivery2AuditReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AuthorizedDate = 2; // string 审核日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayDelivery2AuditReq AuditReqs = 4; // ArrayDelivery2AuditReq 多条审核请求
+	required string Operator = 5; // string 经办人账号
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 交收审核应答 0 30 712
+message Delivery2AuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayDelivery2AuditRsp AuditRsps = 4; // ArrayDelivery2AuditRsp 多条审核应答
+}
+// 入库预约请求 0 30 713
+message StorageEntryOrderReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string WarehouseCode = 2; // string 仓库代码
+	required string WarehouseName = 3; // string 仓库名称
+	required string GoodsCode = 4; // string 商品代码
+	required string AccountCode = 5; // string 申请人代码
+	required string DeclareDate = 6; // string 预约入库日期
+	required double DeclareWeight = 7; // double 预约入库重量
+	required int64 Guid = 8; // int64 消息的唯一标识
+	required int32 EntryType = 9; // int32 入库类型
+}
+// 入库预约应答 0 30 714
+message StorageEntryOrderRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int64 StorageNo = 4; // int64 入库单编号
+	required int32 Result = 5; // int32 业务处理结果
+	required int32 StorageEntryOrderResult = 6; // int32 请求结果
+}
+// 单个入库预约审核请求 0 30 715
+message ArrayStorageEntryAuditReq {
+	required int64 StorageNo = 1; // int64 入库单编号
+	required int32 Result = 2; // int32 审核结果
+}
+// 单个入库预约审核应答 0 30 716
+message ArrayStorageEntryAuditRsp {
+	required int32 StorageEntryAuditResult = 1; // int32 请求结果
+	required int64 StorageNo = 2; // int64 入库单编号
+	required int32 Result = 3; // int32 业务处理结果
+}
+// 入库预约审核请求 0 30 717
+message StorageEntryAuditReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AuditDate = 2; // string 审核日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayStorageEntryAuditReq AuditReqs = 4; // ArrayStorageEntryAuditReq 多条审核请求
+	required string AuditCode = 5; // string 审核人代码
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 入库预约审核应答 0 30 718
+message StorageEntryAuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayStorageEntryAuditRsp AuditRsps = 4; // ArrayStorageEntryAuditRsp 多条审核应答
+}
+// 仓单注册请求 0 30 719
+message StorageRegisterReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 StorageNo = 2; // int64 入库单编号
+	required double RegisterWeight = 3; // double 注册重量
+	required string ApplyDate = 4; // string 申请日期
+	required string AccountCode = 5; // string 申请人账号
+	required string GoodsCode = 6; // string 商品代码
+	required string InspectionID = 7; // string 检验报告单号
+	required int64 Guid = 8; // int64 消息的唯一标识
+}
+// 仓单注册应答 0 30 720
+message StorageRegisterRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int32 Result = 4; // int32 业务处理结果
+	required int32 StorageRegisterResult = 5; // int32 请求结果
+}
+// 单个仓单注册审核请求 0 30 721
+message ArrayRegisterAuditReq {
+	required int64 BusinessNo = 1; // int64 注册单表业务流水号
+	required int32 Result = 2; // int32 审核结果
+}
+// 单个仓单注册审核应答 0 30 722
+message ArrayRegisterAuditRsp {
+	required int32 RegisterAuditResult = 1; // int32 请求结果
+	required int64 BusinessNo = 2; // int64 注册单表业务流水号
+	required int32 Result = 3; // int32 业务处理结果
+}
+// 仓单注册审核请求 0 30 723
+message RegisterAuditReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AuditDate = 2; // string 审核日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayRegisterAuditReq AuditReqs = 4; // ArrayRegisterAuditReq 多条审核请求
+	required string AuditCode = 5; // string 审核人代码
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 仓单注册审核应答 0 30 724
+message RegisterAuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayRegisterAuditRsp AuditRsps = 4; // ArrayRegisterAuditRsp 多条审核应答
+}
+// 仓单转让请求 0 30 725
+message StorageAttornReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string GoodsCode = 2; // string 商品代码
+	required double AttornPrice = 3; // double 转让价格
+	optional string InAccountCode = 4; // string 转入方账号
+	optional string OutAccountCode = 5; // string 转出方账号
+	required double AttornWeight = 6; // double 转让重量
+	required string ApplyDate = 7; // string 申请日期
+	required string AccountCode = 8; // string 申请人账号
+	required string StorageCode = 9; // string 交收人代码
+	required int64 Guid = 10; // int64 消息的唯一标识
+}
+// 仓单转让应答 0 30 726
+message StorageAttornRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int64 Businessno = 4; // int64 仓单转让表的业务流水号
+	required int32 Result = 5; // int32 业务处理结果
+	required int32 StorageAttornResult = 6; // int32 请求结果
+}
+// 单个仓单转让确认请求 0 30 727
+message ArrayStorageAttornPermitReq {
+	required int64 BusinessNo = 1; // int64 仓单转让表业务流水号
+	required int32 Result = 2; // int32 审核结果
+}
+// 单个仓单转让确认应答 0 30 728
+message ArrayStorageAttornPermitRsp {
+	required int32 StorageAttornPermitResult = 1; // int32 请求结果
+	optional int64 GoodsBillID = 2; // int64 仓单编号
+	required int64 BusinessNo = 3; // int64 仓单转让表业务流水号
+	required int32 Result = 4; // int32 业务处理结果
+}
+// 仓单转让确认请求 0 30 729
+message StorageAttornPermitReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string ConfirmDate = 2; // string 确认日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayStorageAttornPermitReq AuditReqs = 4; // ArrayStorageAttornPermitReq 多条审核请求
+	required string AuditCode = 5; // string 审核人代码
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 仓单转让确认应答 0 30 730
+message StorageAttornPermitRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayStorageAttornPermitRsp AuditRsps = 4; // ArrayStorageAttornPermitRsp 多条审核应答
+}
+// 单个仓单转让审核请求 0 30 731
+message ArrayStorageAttornAuditReq {
+	required int64 BusinessNo = 1; // int64 仓单转让表业务流水号
+	required int32 Result = 2; // int32 审核结果
+}
+// 单个仓单转让审核应答 0 30 732
+message ArrayStorageAttornAuditRsp {
+	required int64 BusinessNo = 1; // int64 仓单转让表业务流水号
+	required int32 StorageAttornAuditResult = 2; // int32 请求结果
+	required int32 Result = 3; // int32 业务处理结果
+}
+// 仓单转让审核请求 0 30 733
+message StorageAttornAuditReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AuditDate = 2; // string 审核日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayStorageAttornAuditReq AuditReqs = 4; // ArrayStorageAttornAuditReq 多条审核请求
+	required string AuditCode = 5; // string 审核人代码
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 仓单转让审核应答 0 30 734
+message StorageAttornAuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayStorageAttornAuditRsp AuditRsps = 4; // ArrayStorageAttornAuditRsp 多条审核应答
+}
+// 提货预约请求 0 30 735
+message StorageTakeOrderReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 GoodsBillID = 2; // int64 仓单编号
+	required string Goodscode = 3; // string 商品代码
+	required string GoodsName = 4; // string 商品名称
+	required int32 TakeDeliveryType = 5; // int32 提货方式
+	required int32 TakeDeliveryID = 6; // int32 收货人信息
+	required double TakeDeliveryWeight = 7; // double 提货重量
+	required string ApplyDate = 8; // string 申请日期
+	required string DeclareCode = 9; // string 申请人账号
+	required string StorageCode = 10; // string 交收人代码
+	required string WarehouseCode = 11; // string 仓库代码
+	required int64 Guid = 12; // int64 消息的唯一标识
+}
+// 提货预约应答 0 30 736
+message StorageTakeOrderRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int32 Result = 4; // int32 业务处理结果
+	required int32 StorageTakeOrderResult = 5; // int32 请求结果
+}
+// 单个提货预约审核请求 0 30 737
+message ArrayStorageTakeAuditReq {
+	required int64 TakeBusinessNo = 1; // int64 提货单编号
+	required int32 Result = 2; // int32 审核结果
+}
+// 单个提货预约审核应答 0 30 738
+message ArrayStorageTakeAuditRsp {
+	required int64 TakeBusinessNo = 1; // int64 提货单编号
+	required int32 ArrayStorageTakeAuditResult = 2; // int32 请求结果
+	required int32 Result = 3; // int32 业务处理结果
+}
+// 提货预约审核请求 0 30 739
+message StorageTakeAuditReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AuditDate = 2; // string 审核日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayStorageTakeAuditReq AuditReqs = 4; // ArrayStorageTakeAuditReq 多条审核请求
+	required string AuthorizedCode = 5; // string 审核人代码
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 提货预约审核应答 0 30 740
+message StorageTakeAuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayStorageTakeAuditRsp AuditRsps = 4; // ArrayStorageTakeAuditRsp 多条审核应答
+}
+// 仓单注销请求 0 30 741
+message StorageWithdrawReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 TakeBusinessNo = 2; // int64 提货单编号
+	required double WithdrawWeight = 3; // double 申请注销重量
+	required string ApplyDate = 4; // string 申请日期
+	required string DeclareCode = 5; // string 申请人账号
+	required int64 Guid = 6; // int64 消息的唯一标识
+}
+// 仓单注销应答 0 30 742
+message StorageWithdrawRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int32 Result = 4; // int32 业务处理结果
+	required int32 StorageWithdrawResult = 5; // int32 请求结果
+}
+// 单个仓单注销审核请求 0 30 743
+message ArrayStorageWithdrawAuditReq {
+	required int64 BusinessNo = 1; // int64 仓单注销表业务流水号
+	required int32 Result = 2; // int32 审核结果
+}
+// 单个仓单注销审核应答 0 30 744
+message ArrayStorageWithdrawAuditRsp {
+	required int32 ArrayStorageTakeAuditResult = 1; // int32 请求结果
+	required int64 BusinessNo = 2; // int64 仓单注销表业务流水号
+	required int32 Result = 3; // int32 业务处理结果
+}
+// 仓单注销审核请求 0 30 745
+message StorageWithdrawAuditReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AuditDate = 2; // string 审核日期
+	required int64 Guid = 3; // int64 消息的唯一标识
+	repeated Delivery2Tas1.ArrayStorageWithdrawAuditReq AuditReqs = 4; // ArrayStorageWithdrawAuditReq 多条审核请求
+	required string AuthorizedCode = 5; // string 审核人代码
+	optional int64 WorkFlowInstanceID = 6; // int64 工作流实例ID
+}
+// 仓单注销审核应答 0 30 746
+message StorageWithdrawAuditRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	repeated Delivery2Tas1.ArrayStorageWithdrawAuditRsp AuditRsps = 4; // ArrayStorageWithdrawAuditRsp 多条审核应答
+}
+// 交收现货付款请求 0 30 1111
+message DeliveryPayReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 DeliveryID = 2; // int64 交割单号
+	required int64 GUID = 3; // int64 消息唯一编号
+	required int32 Command = 4; // int32 操作命令
+	required string OperatorCode = 5; // string 操作人
+}
+// 交收现货付款应答 0 30 1112
+message DeliveryPayRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int64 BuyDeliveryID = 4; // int64 买交割单号
+	required int64 GUID = 5; // int64 消息唯一编号
+}

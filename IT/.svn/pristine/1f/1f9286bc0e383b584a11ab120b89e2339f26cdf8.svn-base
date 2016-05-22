@@ -1,0 +1,83 @@
+#include "ServerHandle.h"
+#include "MISafeModComm.h"
+#include "AESEncryptHandle.h"
+
+ServerHandle::ServerHandle() :
+m_pTransHandle(new AESEncryptHandle())
+{
+
+}
+
+ServerHandle::~ServerHandle()
+{
+    if (m_pTransHandle != NULL)
+    {
+        delete m_pTransHandle;
+        m_pTransHandle = NULL;
+    }
+}
+
+int32_t ServerHandle::TransEncrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        iRev = m_pTransHandle->Encrypt(pDst, iDst, pSrc, iSrc);
+    }
+
+    return iRev;
+}
+
+// 解密数据
+int32_t ServerHandle::TransDecrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        iRev = m_pTransHandle->Decrypt(pDst, iDst, pSrc, iSrc);
+    }
+
+    return iRev;
+}
+
+// 获取加密后的数据长度
+int32_t ServerHandle::GetEncryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        iRev = m_pTransHandle->GetEncryptDataLen(iRevLen, pData, iLen);
+    }
+
+    return iRev;
+}
+
+// 获取解密后的数据长度
+int32_t ServerHandle::GetDecryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        iRev = m_pTransHandle->GetDecryptDataLen(iRevLen, pData, iLen);
+    }
+
+    return iRev;
+}
+
+int32_t ServerHandle::SetTransKey(char *pKey)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (m_pTransHandle != NULL)
+    {
+        m_pTransHandle->SetParam(pKey);
+        iRev = SAFEMOD_OK;
+    }
+
+    return iRev;
+}
+

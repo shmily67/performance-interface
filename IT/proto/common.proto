@@ -1,0 +1,30 @@
+// 消息头
+message MessageHead {
+	optional uint32 FunCode = 1; // 功能号
+	optional uint32 RequestID = 2; // 客户端的流水ID
+	optional uint32 AccountId = 3; // 账号ID
+	optional uint32 AccessId = 4; //二级分配给客户端的接入ID
+	optional int64 ClientTime = 5; //消息发起时间
+}
+// 查询请求分页信息
+message QueryReqPageInfo {
+	optional int32 PageNumber = 1; // 查询第几页，1为第一页
+	optional int32 RecordPerPage = 2; // 每页多少条记录（服务端应该有个最大允许数量，该字段值不允许超过服务端的）
+	optional int32 QueryMark = 3; // 客户自定义查询标记
+	optional string SortField = 4; // 按哪个字段排序
+	optional int32 SortOrder = 5; // 排序方式，0降序 1升序页
+	optional int32 NeedTotalCount = 6; // 是否需要返回TotalCount值
+}
+// 查询结果分页信息
+message QueryRspPageInfo {
+	optional int32 PageNumber = 1; // 查询第几页，1为第一页
+	optional int32 RecordPerPage = 2; // 每页多少条记录（服务端应该有个最大允许数量，该字段值不允许超过服务端的）
+	optional int32 QueryMark = 3; // 客户自定义查询标记
+	optional string SortField = 4; // 按哪个字段排序
+	optional int32 SortOrder = 5; // 排序方式，0降序 1升序页
+	optional int32 RecordCount = 6; // 服务端返回，本次查询结果返回了多少条记录
+	optional int32 TotalCount = 7; // 服务端返回，满足查询条件的共多少条记录
+}
+message CommonPackage {
+	required MessageHead Header = 1; // 消息头
+}

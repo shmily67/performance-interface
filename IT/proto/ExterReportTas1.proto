@@ -1,0 +1,13 @@
+import "common.proto";
+import "PublicTas1.proto";
+package ExterReportTas1;
+// 统一外部报表请求 1 20 631
+message UniteExterReportReq {
+	optional MessageHead Header = 1; // MessageHead
+}
+// 统一外部报表应答 1 20 632
+message UniteExterReportRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}

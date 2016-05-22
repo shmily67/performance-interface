@@ -1,0 +1,99 @@
+import "common.proto";
+import "PublicTas1.proto";
+package MoneyManagerTas1;
+// 资金调整请求 0 13 294
+message AdjustTaAmountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string LoginCode = 2; // string 登录账号
+	optional string TaAccountCode = 3; // string 资金账号
+	optional int32 OperatorType = 4; // int32 操作类型
+	optional double Amount = 5; // double 金额（正为加钱，负为扣钱，不允许为0）
+	optional string Remark = 6; // string 备注
+	optional string AccountCode = 7; // string 账号代码
+}
+// 资金调整应答 0 13 295
+message AdjustTaAmountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string AmountTicket = 4; // string 资金流水号
+	optional double Balance = 5; // double 期初余额
+	optional double CurrentBalance = 6; // double 期末余额
+}
+// 查询可用金额请求 0 13 841
+message GetUsableMoneyReq {
+	optional MessageHead Header = 1; // MessageHead
+	required string AccountCode = 2; // string 资金账号
+	optional string ExchTicket = 3; // string 银行流水号
+}
+// 查询可用金额应答 0 13 842
+message GetUsableMoneyRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required double UsableMoney = 4; // double 可用金额
+	optional string ExchTicket = 5; // string 银行流水号
+}
+// 斩仓回退请求 0 13 848
+message OperateMoenyRiskReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 OrderID = 2; // int64 委托单号
+	optional string AccountCode = 3; // string 付款交易账户
+	optional string MemberCode = 4; // string 收款交易账户
+	optional int32 AdjustType = 5; // int32 操作类型
+	optional double Amount = 6; // double 交易金额
+}
+// 斩仓回退回应 0 13 849
+message OperateMoenyRiskRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string AccountCode = 4; // string 付款交易账户
+	optional string MemberCode = 5; // string 收款交易账户
+	optional double Amount = 6; // double 交易金额
+}
+// 清分请求 0 13 1095
+message BankClearingReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string LoginAccount = 2; // string 需要转入的资金账号
+	optional int64 ExchTicket = 3; // int64 交易所转账流水号
+}
+// 清分应答 0 13 1096
+message BankClearingRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string LoginAccount = 4; // string 需要转入的资金账号
+	optional int64 ExchTicket = 5; // int64 交易所转账流水号
+}
+// 资金操作明细 0 13 1122
+message ArrayMoneyOperate {
+	optional int32 OperatorType = 1; // int32 资金操作类型
+	optional double Amount = 2; // double 金额
+	optional int64 BusinessID = 3; // int64 业务单号
+}
+// 交易明细 0 13 1123
+message ArrayTradingDetails {
+	optional string accountcode = 1; // string 交易账号
+	repeated MoneyManagerTas1.ArrayMoneyOperate MoneyOpDetails = 2; // ArrayMoneyOperate 资金操作明细
+}
+// 资金公共服务请求 0 13 1124
+message MoneyGeServiceReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string accountcode = 2; // string 交易账号(用于HASH,非必填)
+	optional int32 systemID = 3; // int32 系统ID
+	optional int64 orderid = 4; // int64 委托单号
+	optional bytes memobytes = 5; // bytes 用于交互时带回的信息2进制
+	repeated MoneyManagerTas1.ArrayTradingDetails tradingDetails = 6; // ArrayTradingDetails 交易明细
+	optional string memo = 7; // string 用于交互时带回的信息
+}
+// 资金公共服务回应 0 13 1125
+message MoneyGeServiceRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 systemID = 4; // int32 系统ID
+	optional int64 orderid = 5; // int64 委托单号
+	optional bytes memobytes = 6; // bytes 用于交互时带回的信息2进制
+	optional string memo = 7; // string 用于交互时带回的信息
+}

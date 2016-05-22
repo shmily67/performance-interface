@@ -1,0 +1,181 @@
+import "common.proto";
+package PublicTas1;
+// 风险基金信息 0 6 847
+message ArrayRiskThreshold {
+	optional int32 RiskThresholdType = 1; // int32 风险基金类型
+	optional double RiskThresholdRatio = 2; // double 风险基金比例
+}
+// 出金阀值信息 0 6 498
+message ArrayOutMoneyThreshold {
+	optional double StartNetWorth = 1; // double 净值下限
+	optional double EndNetWorth = 2; // double 净值上限
+	optional double ThresholdRatio = 3; // double 出金阀值比例
+}
+// 登陆账号列表 1 5 960
+message ArrayLoginCode {
+	optional int32 RoleID = 1; // int32 角色ID
+	optional string LoginCode = 2; // string 登录账号
+	optional int32 ModuleContRightCode = 3; // int32 内容权限组编号
+	optional int32 ModuleFuncRightCode = 4; // int32 功能权限组编号
+	optional int32 ModuleAccountRoleStatus = 5; // int32 账号角色状态-AccountRoleStatus
+}
+// 理财交易参数 1 5 950
+message ArrayFinancingParameterRule {
+	optional int32 MARKETID = 1; // int32 市场ID
+	optional double SUBSCRIBECHARGESET = 2; // double 认购手续费设置
+	optional int32 SUBSCRIBECHARGETYPE = 3; // int32 认购手续费类型
+	optional double BUYCHARGESET = 4; // double 购买手续费设置
+	optional int32 BUYCHARGETYPE = 5; // int32 购买手续费类型
+	optional double TRANSFERCHARGESET = 6; // double 转让手续费设置
+	optional int32 TRANSFERCHARGETYPE = 7; // int32 转让手续费类型
+	optional double SELLCHARGESET = 8; // double 发售手续费设置
+	optional int32 SELLCHARGETYPE = 9; // int32 发售手续费类型
+	optional int32 AUTOBREAKCONTDAYS = 10; // int32 自动违约天数
+	optional string OrderTypeRight = 11; // string 订单类型权限
+	optional int32 IsShow = 12; // int32 是否显示
+	optional string MarketName = 13; // string 市场名称
+}
+// 结算时间报表请求 0 15 438
+message QueryReckonTimeRptReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 交易所ID
+	optional int32 ExchIDFlag = 4; // int32 交易所ID查询标记，不填写默认为=
+	optional string TradeDate = 5; // string 交易日
+	optional int32 TradeDateFlag = 6; // string 交易日查询标记，不填写默认为=
+	optional string OperatorCode = 7; // string 操作员
+	optional int32 OperatorCodeFlag = 8; // string 操作员查询标记，不填写默认为=
+}
+// 结算时间报表应答 0 15 439
+message QueryReckonTimeRptRsp_ {
+	optional int32 ExchID = 1; // int32 交易所ID
+	optional string TradeDate = 2; // string 交易日
+	optional int32 ReckonType = 3; // int32 结算类型
+	optional string StartDate = 4; // string 开始日期
+	optional string EndDate = 5; // string 结束日期
+}
+message QueryReckonTimeRptRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryReckonTimeRptRsp_ Rsps = 5; // QueryReckonTimeRptRsp_ Rsps 查询结果集
+}
+// 撤单明细报表请求 0 15 434
+message QueryCancelDetailRptReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 交易所ID
+	optional int32 ExchIDFlag = 4; // int32 交易所ID查询标记，不填写默认为=
+	optional string StartDate = 5; // string 开始时间
+	optional int32 StartDateFlag = 6; // string 开始时间查询标记，不填写默认为=
+	optional string EndDate = 7; // string 结束时间
+	optional int32 EndDateFlag = 8; // string 结束时间查询标记，不填写默认为=
+	optional int32 AccountType = 9; // int32 账户类型
+	optional int32 AccountTypeFlag = 10; // int32 账户类型查询标记，不填写默认为=
+}
+// 撤单明细报表应答 0 15 435
+message QueryCancelDetailRptRsp_ {
+	optional int64 autoID = 1; // int64 流水号
+	optional int64 OrderID = 2; // int64 委托单号
+	optional int32 MarketID = 3; // int32 市场ID
+	optional string MarketName = 4; // string 市场名称
+	optional string GoodsCode = 5; // string 商品编号
+	optional string GoodsName = 6; // string 商品名称
+	optional int32 OrderType = 7; // int32 订单类型
+	optional string EntrustTime = 8; // string 委托时间
+	optional int32 ValidType = 9; // int32 有效类型
+	optional double EntrustPrice = 10; // double 委托价格
+	optional double EntrustQty = 11; // double 委托数量
+}
+message QueryCancelDetailRptRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryCancelDetailRptRsp_ Rsps = 5; // QueryCancelDetailRptRsp_ Rsps 查询结果集
+}
+// 结算明细报表请求 0 15 436
+message QueryReckonDetailRptReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional int32 ExchID = 3; // int32 交易所ID
+	optional int32 ExchIDFlag = 4; // int32 交易所ID查询标记，不填写默认为=
+	optional string StartDate = 5; // string 开始日期
+	optional int32 StartDateFlag = 6; // string 开始日期查询标记，不填写默认为=
+	optional string EndDate = 7; // string 结束日期
+	optional int32 EndDateFlag = 8; // string 结束日期查询标记，不填写默认为=
+	optional string OperatorCode = 9; // string 操作员
+	optional int32 OperatorCodeFlag = 10; // string 操作员查询标记，不填写默认为=
+}
+// 结算明细报表应答 0 15 437
+message QueryReckonDetailRptRsp_ {
+	optional int32 ExchID = 1; // int32 交易所ID
+	optional int32 MarketID = 2; // int32 市场ID
+	optional string MarketName = 3; // string 市场名称
+	optional string GoodsCode = 4; // string 商品编号
+	optional string GoodsName = 5; // string 商品名称
+	optional double OpenPrice = 6; // double 今开价
+	optional double ClosePrice = 7; // double 昨收价
+	optional double LowPrice = 8; // double 最低价
+	optional double HighPrice = 9; // double 最高价
+	optional double ReckonPrice = 10; // double 结算价
+}
+message QueryReckonDetailRptRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryReckonDetailRptRsp_ Rsps = 5; // QueryReckonDetailRptRsp_ Rsps 查询结果集
+}
+// 商品模式信息 1 6 461
+message ArrayGoodsMode {
+	optional int32 MarketType = 1; // int32 市场类型
+	optional string GoodsCode = 2; // string 
+	optional int32 GoodsMode = 3; // int32 商品模式(自动，停牌)
+}
+// 移动止损 0 3 593
+message MovingStopOrder {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 HoldId = 3; // int64 持仓单编号
+	optional double SlOrderPrice = 4; // double 止损委托价，以[这个价格+点数跳价]下限价平仓单止损
+	optional double SlTriggerPrice = 5; // double 止损触发价，以[这个价格+点数跳价]来判断是否下止损单
+	optional double Tick = 6; // double 点数，每次最新价变化超过点数才能改变止损委托价和止损触发价
+}
+// 反手建仓 0 3 594
+message ReverseOpen {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional double OpenPrice = 3; // double 建仓委托价
+	optional double AllowTradeSub = 4; // double 市价点差
+}
+// 止损止盈 0 3 595
+message StopOrder {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 HoldId = 3; // int64 移动止损
+	optional double SlTriggerPrice = 4; // double 止损触发价格
+	optional double SlOrderPrice = 5; // double 止损下单价格，空表示市价止损
+	optional double SlAmount = 6; // double 止损最大下单数量
+	optional double SpTriggerPrice = 7; // double 止盈触发价格
+	optional double SpOrderPrice = 8; // double 止盈下单价格，空表示市价止盈
+	optional double SpAmount = 9; // double 止盈最大下单数量
+	optional double AllowTradeSub = 10; // double 市价点差
+}
+// 策略明细 0 3 596
+message Strategy {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional PublicTas1.MovingStopOrder Mso = 3; // MovingStopOrder 移动止损
+	optional PublicTas1.ReverseOpen Ro = 4; // ReverseOpen 反手建仓
+	optional PublicTas1.StopOrder So = 5; // StopOrder 止损止盈策略
+	optional int32 StrategyID = 6; // int32 策略标志，1移动止损2反手建仓3止损止盈
+}
+// 手续费分成 0 6 1095
+message ArrayFinancingChargeShare {
+	optional int32 ChargeType = 1; // int32 手续费类型
+	optional string ShareRoleName = 2; // string 分成角色
+	optional string ShareAccountCode = 3; // string 分成帐号
+	optional double SharePercent = 4; // double 分成比例
+}

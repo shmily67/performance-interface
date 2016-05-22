@@ -1,0 +1,71 @@
+import "common.proto";
+import "PublicTas1.proto";
+package RiskTas1;
+// 风控通知协议 0 4 428
+message RiskControlMsg {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode  = 3; // string 账户代码
+	optional string LoginCode = 4; // string 账户名称
+	optional int32 AccountType = 5; // int32 账户类型
+	optional int32 AccountStatus = 6; // int32 账户状态
+	optional string MemberCode = 7; // string 会员代码
+	optional string MemberName = 8; // string 会员名称
+	optional int32 RiskLevel = 9; // int32 当前风险级别(1提示, 2追加, 3斩仓)
+	optional double RealRate = 10; // double 实际风险率
+	optional double MsgRate = 11; // double 当前风险级别所设定的风险率
+	optional string Date = 12; // string 日期
+}
+// 订单浮动盈亏 0 4 429
+message ArrayOrderFloatPLInfo {
+	optional int32 FPLType = 1; // int32 浮动盈亏类型
+	optional int64 OrderID = 2; // int64 一级委托单号
+	optional string GoodsCode = 3; // string 商品
+	optional int32 BuyOrSell = 4; // int32 买卖方向
+	optional string TradeTime = 5; // string 成交日期
+	optional double HolderQty = 6; // double 数量
+	optional double HolderAmount = 7; // double 成交金额
+	optional double NetQty = 8; // double 净头寸
+	optional double FloatPL = 9; // double 浮动盈亏
+}
+// 账户浮动盈亏信息请求 0 4 430
+message QueryTaOraderFloatPLReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 账户代码
+	optional int32 AccountCodeFlag = 4; // string 账户代码查询标记，不填写默认为=
+	optional int32 QuerySrc = 5; // int32 请求来源
+	optional int32 QuerySrcFlag = 6; // int32 请求来源查询标记，不填写默认为=
+}
+// 账户浮动盈亏信息请求 0 4 431
+message QueryTaOraderFloatPLRsp_ {
+	optional string AccountCode  = 1; // string 账户代码
+	optional double Rate = 2; // double 风险率
+	optional double UsedMargin = 3; // double 占用保证金
+	optional double AvailMargin = 4; // double 可用保证金
+	optional double Balance = 5; // double 净值
+	optional double FloatPL = 6; // double 总浮动盈亏
+	optional string TmStamp = 7; // string 时间戳
+	repeated RiskTas1.ArrayOrderFloatPLInfo orderFPLInfo = 8; // ArrayOrderFloatPLInfo 浮动盈亏
+}
+message QueryTaOraderFloatPLRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryTaOraderFloatPLRsp_ Rsps = 5; // QueryTaOraderFloatPLRsp_ Rsps 查询结果集
+}
+// 投资者公告协议 0 4 946
+message RiskCtrlBltRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string AccountCode = 4; // string 账户代码
+	optional string LoginCode = 5; // string 账户名称
+	optional int32 AccountStatus = 6; // int32 账户状态
+	optional string MemberCode = 7; // string 会员代码
+	optional int32 RiskLevel = 8; // int32 当前风险级别: 1: 提示, 2: 追加, 3: 斩仓
+	optional double RealRate = 9; // double 实际风险率
+	optional double MsgRate = 10; // double 当前风险级别所设定的风险率
+	optional string Idate = 11; // datetime 时间
+}

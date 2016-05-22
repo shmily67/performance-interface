@@ -1,0 +1,13 @@
+import "common.proto";
+import "PublicTas1.proto";
+package ExterQkernelTas1;
+// 统一外部查询请求 1 19 629
+message UniteExterQueryReq {
+	optional MessageHead Header = 1; // MessageHead
+}
+// 统一外部查询应答 1 19 630
+message UniteExterQueryRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}

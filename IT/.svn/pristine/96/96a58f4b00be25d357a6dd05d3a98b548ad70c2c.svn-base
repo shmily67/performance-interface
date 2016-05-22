@@ -1,0 +1,298 @@
+#include <cstddef>
+#include <assert.h>
+#include <string.h>
+#include "MISafeModComm.h"
+#include "SafeMInterface.h"
+#include "EncryptHandleDefine.h"
+#include "cmm.h"
+#include <sys/time.h>
+#include <stdint.h>
+
+///////////////////////////////////////////////////////////////////////////////////////
+// ECB
+CECBEncryptHandle::CECBEncryptHandle() 
+{
+
+}
+
+CECBEncryptHandle::~CECBEncryptHandle()
+{
+
+}
+
+int32_t CECBEncryptHandle::Encrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iLenSrc = 0; 
+
+    char *pSrcTemp = NULL;    
+    char *pDstTemp = NULL;
+    char *pHexTemp = NULL;
+    
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+    
+    // 获取SAFEMOD_DATALE倍数的内存长度
+    iResult = GetEncryptDataLen(iLenSrc, pSrc, iSrc);
+
+    if (iResult != SAFEMOD_OK)
+    {
+        goto Loop;
+    }
+
+    // 申请空间
+    pSrcTemp = new char[iLenSrc];
+    pDstTemp = new char[2*iLenSrc+1];
+    pHexTemp = new char[2*iLenSrc+1];
+
+    // 初始化为0
+    memset(pSrcTemp, 0, iLenSrc);
+    memset(pDstTemp, 0, 2*iLenSrc + 1);
+    memset(pHexTemp, 0, 2*iLenSrc + 1);
+
+    // 拷贝数据
+    memcpy(pSrcTemp, pSrc, iSrc);
+
+    // 转换成Hex字符串
+    asc2hex(pHexTemp, (const unsigned char*)pSrcTemp, iLenSrc);
+
+    // 调用加密函数
+    iResult = ecb_encrypt(pDstTemp, pHexTemp, m_strKey.c_str());
+
+    if (iResult >= SAFEMOD_OK)
+    {
+        iResult = hex2asc((unsigned char*)pDst, pDstTemp, iResult) > 0? SAFEMOD_OK : SAFEMOD_ERR;
+        if (iResult == SAFEMOD_OK)
+        {
+            iRev = SAFEMOD_OK;
+        }
+    }
+
+    // 释放内存
+    delete [] pSrcTemp;
+    delete [] pDstTemp;
+    delete [] pHexTemp;
+
+Loop:
+    return iRev;
+}
+   
+int32_t CECBEncryptHandle::Decrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iLenSrc = 0; 
+
+    char *pSrcTemp = NULL;    
+    char *pDstTemp = NULL;
+    char *pHexTemp = NULL;
+
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+    
+    // 获取SAFEMOD_DATALE倍数的内存长度
+    iResult = GetDecryptDataLen(iLenSrc, pSrc, iSrc);
+
+    if (iResult != SAFEMOD_OK)
+    {
+        goto Loop;
+    }
+
+    // 申请空间
+    pSrcTemp = new char[iLenSrc];
+    pDstTemp = new char[2*iLenSrc+1];
+    pHexTemp = new char[2*iLenSrc+1];
+
+    // 初始化为0
+    memset(pSrcTemp, 0, iLenSrc);
+    memset(pDstTemp, 0, 2*iLenSrc+1);
+    memset(pHexTemp, 0, 2*iLenSrc+1);
+
+    // 拷贝数据
+    memcpy(pSrcTemp, pSrc, iSrc);
+
+    // 转换成Hex字符串
+    asc2hex(pHexTemp, (const unsigned char*)pSrcTemp, iLenSrc);
+
+    // 调用解密函数
+    iResult = ecb_decrypt(pDstTemp, pHexTemp, m_strKey.c_str());
+        
+    if (iResult >= SAFEMOD_OK)
+    {
+        iResult = hex2asc((unsigned char*)pDst, pDstTemp, iResult) > 0? SAFEMOD_OK : SAFEMOD_ERR;
+        if (iResult == SAFEMOD_OK)
+        {
+            iRev = SAFEMOD_OK;
+        }
+    }
+
+    // 释放内存
+    delete [] pSrcTemp;
+    delete [] pDstTemp;
+    delete [] pHexTemp;
+
+Loop:
+    return iRev;
+}
+
+int32_t CECBEncryptHandle::GetEncryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (iLen > 0)
+    {
+        iRev = SAFEMOD_OK;
+        if ((iLen % SAFEMOD_DATALEN) != 0)
+        {
+            iRevLen = iLen + SAFEMOD_DATALEN - (iLen % SAFEMOD_DATALEN);
+        }
+        else
+        {
+            iRevLen = iLen;
+        }
+        
+    }
+    
+    return iRev;
+}
+    
+int32_t CECBEncryptHandle::GetDecryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    if (iLen > 0 && (iLen % 2) == 0)
+    {
+        iRev = SAFEMOD_OK;
+        iRevLen = iLen;
+    }
+
+    return iRev;
+}
+
+void CECBEncryptHandle::SetParam(const char *pParam)
+{
+    m_strKey = pParam;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////
+// MD5
+CMD5EncryptHandle::CMD5EncryptHandle()
+{
+
+}
+
+CMD5EncryptHandle::~CMD5EncryptHandle()
+{
+
+}
+
+int32_t CMD5EncryptHandle::Encrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+    
+    if (iDst >= SAFEMOD_MD5LEN)
+    {
+        memset(pDst, 0, SAFEMOD_MD5LEN);
+        md5(pDst, pSrc, iSrc);
+        iRev = SAFEMOD_OK;
+    }
+    
+    return iRev;
+}
+
+int32_t CMD5EncryptHandle::Decrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    return iRev;
+}
+    
+int32_t CMD5EncryptHandle::GetEncryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_OK;
+
+    iRevLen = SAFEMOD_MD5LEN;
+
+    return iRev;
+}
+    
+int32_t CMD5EncryptHandle::GetDecryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    return iRev;
+}
+
+void CMD5EncryptHandle::SetParam(const char *pParam)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////
+// MAC
+CMACEncryptHandle::CMACEncryptHandle() :
+m_strIV("D951DBE037C82325")
+{
+
+}
+
+CMACEncryptHandle::~CMACEncryptHandle()
+{
+
+}
+
+int32_t CMACEncryptHandle::Encrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+    int32_t iResult = SAFEMOD_ERR;
+
+    if (iDst >= SAFEMOD_MACLEN)
+    {
+        string strMAC;
+        char szMac[2*SAFEMOD_MACLEN+1] = {0};
+
+        iResult = mac_ansi(szMac, pSrc, m_strIV.c_str(), m_strKey.c_str());
+
+        if (iResult >= SAFEMOD_OK)
+        {
+            iResult = HexToAsc(szMac, pDst, iDst);
+            
+            if (iResult == SAFEMOD_OK)
+            {
+                iRev = SAFEMOD_OK;
+            }
+        }       
+    }
+
+    return iRev;
+}
+
+int32_t CMACEncryptHandle::Decrypt(char *pDst, int32_t &iDst, const char *pSrc, const int32_t &iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    return iRev;
+}
+
+int32_t CMACEncryptHandle::GetEncryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_OK;
+
+    iRevLen = SAFEMOD_MD5LEN;
+
+    return iRev;
+}
+
+int32_t CMACEncryptHandle::GetDecryptDataLen(int32_t &iRevLen, const char *pData, const int32_t &iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    return iRev;
+}
+
+void CMACEncryptHandle::SetParam(const char *pParam)
+{
+    m_strKey = pParam;
+}
+///////////////////////////////////////////////////////////////////////////////////////

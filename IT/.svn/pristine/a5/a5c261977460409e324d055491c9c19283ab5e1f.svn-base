@@ -1,0 +1,1007 @@
+import "common.proto";
+import "PublicTas1.proto";
+package CashTas1;
+// 出入金签约请求 0 10 233
+message BankSignReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string AccountCode = 3; // string 账户
+	optional string CusBankID = 4; // string 托管银行编号
+	optional string Currency = 5; // string 币种
+	optional int32 AccountType = 6; // int32 账户类型
+	required string BankAccountNo = 7; // string 银行账户
+	required string BankAccountName = 8; // string 银行账户名称
+	required string ExBankNo = 9; // string 开户银行编号
+	required string ExBankName = 10; // string 开户行名称
+	optional string AppDateTime = 11; // string 申请日期和时间
+	optional string PaymentNo = 12; // string 缴费编号
+	optional string ProtocolNo = 13; // string 协议编号
+	optional string OpenBankNo = 14; // string 开户支行编号
+	optional string OpenBankName = 15; // string 开户支行名称
+	required string CustomerName = 16; // string 客户姓名
+	required int64 CertType = 17; // int64 证件类型
+	required string CertID = 18; // string 证件号码
+	optional string BankAccountPWD = 19; // string 银行账户密码
+	optional string AgentName = 20; // string 授权代理人姓名
+	optional int32 AgentCertType = 21; // int32 授权代理人证件类型
+	optional string AgentCertID = 22; // string 授权代理人证件号
+	optional int32 BankAccountType = 23; // int32 银行账户类型
+	optional string BankProvince = 24; // string 开户银行所在省份
+	optional string BankCity = 25; // string 开户银行所在市
+	optional int32 BankCardType = 26; // int32 银行卡类型
+	optional string MobilePhone = 27; // string 移动电话
+}
+// 出入金签约应答 0 10 234
+message BankSignRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional int32 Status = 6; // int32 状态（0 成功，1 受理中）
+	optional string ExchTicket = 7; // string 交易所流水号
+	optional string NetAddr = 8; // string 网络地址
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 出入金解约请求 0 10 235
+message BankCancelSignReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	required string BankAccountNo = 7; // string 银行账户
+	required string BankAccountName = 8; // string 银行账户名称
+	required string ExBankNo = 9; // string 银行编号
+	required string ExBankName = 10; // string 开户行名称
+	optional string AppDateTime = 11; // string 申请日期和时间
+	optional string PaymentNo = 12; // string 缴费编号
+	optional string ProtocolNo = 13; // string 协议编号
+	required string OpenBankNo = 14; // string 开户支行编号
+	required string CustomerName = 15; // string 客户姓名
+	required int64 CertType = 16; // int64 证件类型
+	required string CertID = 17; // string 证件号码
+}
+// 出入金解约应答 0 10 236
+message BankCancelSignRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional int32 Status = 6; // int32 状态（0 成功，1 受理中）
+	optional string ExchTicket = 7; // string 交易所流水号
+	optional string NetAddr = 8; // string 网络地址
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 出金请求 0 10 237
+message BankWithDrawReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional int32 AccountType = 7; // int32 账户类型
+	optional string BankAccountNo = 8; // string 银行账户
+	optional double Amount = 9; // double 出金金额
+	optional string AppDateTime = 10; // string 申请日期和时间
+	optional string OldTaPWD = 11; // string 资金密码
+	optional string Desc = 12; // string 备注
+	optional string IdentifyCode = 13; // string 验证码
+}
+// 出金应答 0 10 238
+message BankWithDrawRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DateTime = 7; // string 受理请求日期和时间
+	optional int32 Status = 8; // int32 状态（0 成功，1 受理中）
+	optional string NetAddr = 9; // string 网络地址
+	optional string DealTime = 10; // datetime 处理时间
+}
+// 入金请求 0 10 239
+message BankDepositReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional int32 AccountType = 7; // int32 账户类型
+	optional double Amount = 8; // double 入金金额
+	optional string AppDateTime = 9; // string 申请日期和时间
+	optional string BankAccountNo = 10; // string 银行账户
+	optional string OldTaPWD = 11; // string 资金密码
+	optional string Desc = 12; // string 备注
+	optional string IdentifyCode = 13; // string 验证码
+}
+// 入金应答 0 10 240
+message BankDepositRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DateTime = 7; // string 受理入金请求日期和时间
+	optional int32 Status = 8; // int32 状态（0 成功，1 受理中）
+	optional string NetAddr = 9; // string 网络地址
+	optional string DealTime = 10; // datetime 处理时间
+}
+// 出入金审核确认 0 10 243
+message BankInOutConfirmReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional double Amount = 7; // double 出金金额
+	optional string ExchTicket = 8; // string 交易所流水号
+	optional string AppDateTime = 9; // string 申请日期和时间
+	optional string BankAccountNo = 10; // string 银行账户
+	optional int32 Result = 11; // int32 审核结果，1成功2失败
+	optional string Desc = 12; // string 备注
+	optional string AuditReason = 13; // string 审核原因
+}
+// 出入金审核确认应答 0 10 244
+message BankInOutConfirmRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DateTime = 7; // string 受理审核请求日期和时间
+	optional string DealTime = 8; // datetime 处理时间
+}
+// 签约结果通知 0 10 496
+message BankSignNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string CusBankID = 4; // string 托管银行编号
+	optional string Currency = 5; // string 币种
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string BankTicket = 7; // string 银行流水号
+	optional string DateTime = 8; // string 处理时间
+	optional string Desc = 9; // string 备注
+}
+// 解约结果通知 0 10 497
+message BankCancelSignNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string CusBankID = 4; // string 托管银行编号
+	optional string Currency = 5; // string 币种
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string BankTicket = 7; // string 银行流水号
+	optional string DateTime = 8; // string 处理时间
+	optional string Desc = 9; // string 备注
+}
+// 客户信息 0 10 270
+message ArrayCustomer {
+	optional string CustomerName = 1; // string 用户姓名
+	optional int32 Type = 2; // int32 客户类型
+	optional int32 Sex = 3; // int32 性别
+	optional string Country = 4; // string 国籍
+	optional string Province = 5; // string 省份
+	optional string City = 6; // string 城市
+	optional int32 CardType = 7; // int32 证件类型
+	optional string CardNum = 8; // string 证件号码
+	optional string IDAddress = 9; // string 身份证地址
+	optional string CurrentAddress = 10; // string 常住地址
+	optional string PostalCode = 11; // string 邮政编码
+	optional string TelePhone = 12; // string 住宅电话
+	optional string OfficePhone = 13; // string 办公电话
+	optional string MobilePhone = 14; // string 移动电话
+	optional string Fax = 15; // string 传真
+	optional string Email = 16; // string 电子邮箱
+	optional string QQ = 17; // string QQ号码
+	optional string WeChat = 18; // string 微信号码
+	optional string WeBlog = 19; // string 微博号码
+	optional string BankAccountNo = 20; // string 银行卡号
+	optional string BankAccountName = 21; // string 银行卡户名
+	optional string BankId = 22; // string 银行ID
+	optional string DealTime = 23; // datetime 处理时间
+}
+// 客户资金账户 0 10 271
+message ArrayFuturesAccount {
+	optional string AccountCode = 1; // string 交易帐号
+	optional string TaAccountCode = 2; // string 市场端资金帐号
+	optional int32 AccountType = 3; // int32 账户类型
+	optional string Name = 4; // string 户主名称
+	optional int32 AccountStatus = 5; // int32 资金账户状态
+	optional string Password = 6; // string 密码
+	optional int32 OpenFlag = 7; // int32 业务开通标志
+	optional string RegisterDate = 8; // string 开户日期
+	optional string ValidDate = 9; // string 有效日期
+	optional string DealTime = 10; // datetime 处理时间
+}
+// 出入金签约检查请求 0 10 272
+message BankSignCheckReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string OldTaPWD = 6; // string 资金密码
+	optional string CusBankID = 7; // string 托管银行编号
+}
+// 出入金签约检查应答 0 10 273
+message BankSignCheckRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 出入金签约结果通知 0 10 274
+message BankSignInformReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+}
+// 出入金签约结果通知应答 0 10 275
+message BankSignInformRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 出入金解约检查请求 0 10 276
+message BankCancelSignCheckReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string OldTaPWD = 6; // string 资金密码
+	optional int32 CheckCleanFlag = 7; // int32 是否检查干净账户
+	optional string CusBankID = 8; // string 托管银行编号
+}
+// 出入金解约检查应答 0 10 277
+message BankCancelSignCheckRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 出入金解约结果通知 0 10 278
+message BankCancelSignInformReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+}
+// 出入金解约结果通知应答 0 10 279
+message BankCancelSignInformRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 入金增加金额请求 0 10 280
+message BankDepositAmountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional double Amount = 5; // double 入金金额
+	optional string AppDateTime = 6; // string 申请日期和时间
+	optional string Currency = 7; // string 币种
+	optional string DateTime = 8; // string 受理入金请求日期和时间
+}
+// 入金增加金额应答 0 10 281
+message BankDepositAmountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 入金检查请求 0 10 282
+message BankDepositCheckReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional double Amount = 5; // double 入金金额
+	optional string AppDateTime = 6; // string 申请日期和时间
+	optional string Currency = 7; // string 币种
+	optional string DateTime = 8; // string 受理入金请求日期和时间
+	optional string OldTaPWD = 9; // string 资金密码
+	optional string CusBankID = 10; // string 托管银行编号
+}
+// 入金检查应答 0 10 283
+message BankDepositCheckRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 出金冻结资金请求 0 10 284
+message BankWithDrawFrozenReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string AccountCode = 3; // string 账户
+	optional double Amount = 4; // double 出金金额
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string BankAccountNo = 6; // string 银行账户
+	optional string Currency = 7; // string 币种
+	optional string ExchTicket = 8; // string 交易所流水号
+	optional string OldTaPWD = 9; // string 资金密码
+	optional string CusBankID = 10; // string 托管银行编号
+}
+// 出金冻结资金应答 0 10 285
+message BankWithDrawFrozenRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 出金解冻资金请求 0 10 286
+message BankWithDrawDefrostReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+}
+// 出金解冻资金应答 0 10 287
+message BankWithDrawDefrostRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 出金解冻扣钱请求 0 10 288
+message BankWithDrawDeductReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string AccountCode = 3; // string 账户
+	optional double Amount = 4; // double 实际出金金额
+	optional string Currency = 5; // string 币种
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DateTime = 7; // string 受理请求日期和时间
+}
+// 出金解冻扣钱应答 0 10 289
+message BankWithDrawDeductRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 银行清算清单 0 10 290
+message ArrayBankClearList {
+	optional string AccountCode = 1; // string 账户
+	optional string Currency = 2; // string 币种
+	optional int32 AccountType = 3; // int32 账户类型
+	optional string BelongAccountCode = 4; // string 所属账号
+	optional int32 BelongAccountType = 5; // int32 所属账号类型
+	optional int32 MoneyType = 6; // int32 金额类型
+	optional double Amount = 7; // double 金额
+	optional string DealTime = 8; // datetime 处理时间
+}
+// 银行清算失败清单 0 10 291
+message ArrayBankClearFailList {
+	optional string AccountCode = 1; // string 账户
+	optional string Currency = 2; // string 币种
+	optional double Balance = 3; // double 期初余额
+	optional double CurrentBalance = 4; // double 当前余额
+	optional double AmountIn = 5; // double 入金
+	optional double AmountOut = 6; // double 出金
+	optional double PlatfromAmountIn = 7; // double 平台入金
+	optional double PlatfromAmountOut = 8; // double 平台出金
+	optional double PlatfromBalance = 9; // double 平台期初余额
+	optional double PlatfromCurrentBalance = 10; // double 平台当前余额
+	optional double ErrType = 11; // double 错误类型
+	optional string DealTime = 12; // datetime 处理时间
+}
+// 银行清算请求 0 10 292
+message BankClearReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string ExchTicket = 2; // string 交易所流水号
+	optional string ClearDate = 3; // string 清算日期（YYYYMMDD）
+	repeated CashTas1.ArrayBankClearList List = 4; // ArrayBankClearList 清算清单
+}
+// 银行清算应答 0 10 293
+message BankClearRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string ExchTicket = 4; // string 交易所流水号
+	optional string ClearDate = 5; // string 清算日期（YYYYMMDD）
+	repeated CashTas1.ArrayBankClearFailList List = 6; // ArrayBankClearFailList 文件名
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 出入金强制签约请求 0 10 361
+message BankForceSignReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string AccountCode = 3; // string 账户
+	optional int32 AccountType = 4; // int32 账户类型
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional string BankAccountNo = 7; // string 银行账户
+	optional string BankAccountName = 8; // string 银行账户名称
+	optional string BankId = 9; // string 开户银行编号
+	optional string BankName = 10; // string 开户行名称
+	optional string AppDateTime = 11; // string 申请日期和时间
+	optional string PaymentNo = 12; // string 缴费编号
+	optional string ProtocolNo = 13; // string 协议编号
+	optional string OpenBankNo = 14; // string 开户支行编号
+	optional string OpenBankName = 15; // string 开户支行名称
+	optional string CustomerName = 16; // string 客户姓名
+	optional int64 CertType = 17; // int64 证件类型
+	optional string CertID = 18; // string 证件号码
+	optional string BankChildAccount = 19; // string 银行子账户
+	optional string AgentName = 20; // string 授权代理人姓名
+	optional int32 AgentCertType = 21; // int32 授权代理人证件类型
+	optional string AgentCertID = 22; // string 授权代理人证件号
+	optional int32 BankAccountType = 23; // int32 银行账户类型
+	optional string BankProvince = 24; // string 开户银行所在省份
+	optional string BankCity = 25; // string 开户银行所在市
+	optional int32 BankCardType = 26; // int32 银行卡类型
+}
+// 出入金强制签约应答 0 10 362
+message BankForceSignRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional int64 CustomerSignId = 5; // int64 签约编号
+	optional string AccountCode = 6; // string 账户
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 出入金强制解约请求 0 10 363
+message BankForceCancelSignReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional string BankAccountNo = 7; // string 银行账户
+}
+// 出入金强制解约应答 0 10 364
+message BankForceCancelSignRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional int64 CustomerSignId = 5; // int64 签约编号
+	optional string AccountCode = 6; // string 账户
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 获取出入金签约信息请求 0 10 365
+message GetBankSignInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string CusBankID = 6; // string 托管银行编号
+}
+// 获取出入金签约信息应答 0 10 366
+message GetBankSignInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 获取出入金解约信息请求 0 10 367
+message GetBankCancelSignInfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional int32 CheckCleanFlag = 6; // int32 是否检查干净账户
+	optional string CusBankID = 7; // string 托管银行编号
+}
+// 获取出入金解约信息应答 0 10 368
+message GetBankCancelSignInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string ExchTicket = 5; // string 交易所流水号
+	optional string AccountCode = 6; // string 账户
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 银行对账请求 0 10 369
+message BankCheckAcoountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional string CheckDate = 4; // string 对账日期8位
+}
+// 银行对账应答 0 10 370
+message BankCheckAcoountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string CheckDate = 6; // string 对账日期8位
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 银行清算请求 0 10 371
+message BankSettleReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional string SettleDate = 4; // string 清算日期8位
+}
+// 银行清算应答 0 10 372
+message BankSettleRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string SettleDate = 6; // string 清算日期8位
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 单边帐明细处理 0 10 373
+message ArrayUnilateralAccount {
+	optional string CusBankID = 1; // string 托管银行编号
+	optional string ExchTicket = 2; // string 交易所流水号
+	optional string AccountCode = 3; // string 账户
+	optional int32 UnilateralDealType = 4; // int32 处理类型
+	optional string DealTime = 5; // datetime 处理时间
+}
+// 单边账处理请求 0 10 374
+message UnilateralAccountReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional string ExchTicket = 4; // string 交易所流水号
+	optional string AccountCode = 5; // string 账户
+	optional int32 UnilateralDealType = 6; // int32 处理类型
+}
+// 单边账处理应答 0 10 375
+message UnilateralAccountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional int32 Status = 5; // int32 处理码
+	optional string DealTime = 6; // datetime 处理时间
+}
+// 托管银行信息修改请求 0 10 376
+message ArrayBankParamConfig {
+	optional string CusBankID = 1; // string 托管编号
+	optional string ShowField = 2; // string 显示字段控制
+	optional double LessOutAmount = 3; // double 保底资金限制
+	optional int32 LessOutAmountType = 4; // int32 保底资金限制标志
+	optional int32 AuditSignFunc = 5; // int32 签约是否审核
+	optional int32 AuditEndFunc = 6; // int32 解约是否审核
+	optional int32 MinInAmountType = 7; // int32 最小入金金额标志
+	optional double MinInAmount = 8; // double 最小入金金额
+	optional int32 MaxInAmountType = 9; // int32 最大入金金额标志
+	optional double MaxInAmount = 10; // double 最大入金金额
+	optional int32 AmountInNumType = 11; // int32 当日入金次数标志
+	optional int32 AmountInNum = 12; // int32 当日入金次数
+	optional int32 MinOutAmountType = 13; // int32 最小出金金额标志
+	optional double MinOutAmount = 14; // double 最小出金金额
+	optional int32 MaxOutAmountType = 15; // int32 最大出金金额标志
+	optional double MaxOutAmount = 16; // double 最大出金金额
+	optional int32 AmountOutNumType = 17; // int32 当日出金次数标志
+	optional int32 AmountOutNum = 18; // int32 当日出金次数
+	optional int32 TotalMaxAmountOutType = 19; // int32 当日累计最大出金金额标志
+	optional double TotalMaxAmountOut = 20; // double 当日累计最大出金金额
+	optional string InMoneyStartTime = 21; // string 入金开始时间(00:00:00)
+	optional string InMoneyEndTime = 22; // string 入金结束时间(00:00:00)
+	optional string OutMoneyStartTime = 23; // string 出金开始时间(00:00:00)
+	optional string OutMoneyEndTime = 24; // string 出金结束时间(00:00:00)
+	optional int32 IsAllowInMoney = 25; // int32 入金开关标志
+	optional int32 IsAllowOutMoney = 26; // int32 出金开关标志
+	optional int32 ModifyBankNoType = 27; // int32 修改卡号是否审核
+	optional string SettleTime = 28; // string 清算时间
+	optional string SignInTime = 29; // string 签到开始时间(00:00:00)
+	optional string SignOutTime = 30; // string 签退开始时间(00:00:00)
+}
+// 托管银行信息修改请求 0 10 377
+message ManageBankParamConfigReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated CashTas1.ArrayBankParamConfig List = 2; // ArrayBankParamConfig 托管银行参数设置
+	optional int32 DealType = 3; // int32 处理方式
+}
+// 托管银行设置修改应答 0 10 378
+message ManageBankParamConfigRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string DealTime = 4; // datetime 处理时间
+}
+// 签约信息变更请求 0 10 379
+message SignUpdateReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional int32 AccountType = 5; // int32 账户类型
+	optional string CusBankID = 6; // string 托管银行编号
+	optional string Currency = 7; // string 币种
+	optional string OpenBankNo = 8; // string 开户支行编号
+	optional string OpenBankName = 9; // string 开户支行名称
+	optional string BankAccountNo = 10; // string 银行账户
+	optional string BankAccountName = 11; // string 银行账户名称
+	optional string BankId = 12; // string 开户银行编号
+}
+// 签约信息变更应答 0 10 380
+message SignUpdateRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional int64 CustomerSignId = 5; // int64 签约编号
+	optional string AccountCode = 6; // string 账户
+	optional string DealTime = 7; // datetime 处理时间
+}
+// 银行清算分发请求 0 10 383
+message BankSettleDistributeReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string SettleDate = 3; // string 清算日期8位
+}
+// 银行清算分发应答 0 10 384
+message BankSettleDistributeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string SettleDate = 5; // string 清算日期8位
+	optional string DealTime = 6; // datetime 处理时间
+}
+// 交易所手续费结转（出金）申请请求 0 10 407
+message BankExchChargeOutAppReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional double Amount = 4; // double 出金金额
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string Currency = 6; // string 币种
+	optional int32 ExchID = 7; // int32 交易所编码
+}
+// 交易所手续费结转（出金）申请应答 0 10 408
+message BankExchChargeOutAppRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DateTime = 7; // string 受理请求日期和时间
+	optional int32 ExchID = 8; // int32 交易所编码
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 交易所手续费结转（出金）审核确认请求 0 10 409
+message BankExchChargeOutComfirmReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional double Amount = 4; // double 出金金额
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string Currency = 6; // string 币种
+	optional int32 ExchID = 7; // int32 交易所编码
+	optional string ExchTicket = 8; // string 交易所流水号
+	optional int32 Result = 9; // int32 审核结果，1成功2失败
+	optional string Desc = 10; // string 备注
+}
+// 交易所手续费结转（出金）审核确认应答 0 10 410
+message BankExchChargeOutComfirmRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DateTime = 7; // string 受理请求日期和时间
+	optional int32 ExchID = 8; // int32 交易所编码
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 生成一级银行清算请求 0 10 426
+message CreateBankAjustAmountReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string TradeDate = 3; // string 交易日期
+}
+// 生成一级银行清算请求 0 10 427
+message CreateBankAjustAmountRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string TradeDate = 5; // string 交易日期
+}
+// 签到请求 0 10 465
+message SignInReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string CusBankId = 2; // string 托管银行编号
+	optional int32 ForceSignInFlag = 3; // int32 是否强制签约标识
+	optional string Currency = 4; // string 币种
+}
+// 签到应答 0 10 466
+message SignInRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 签约银行密码确认请求 0 10 601
+message SignBankPwdReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string ExchTicket = 3; // string 交易所流水号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankId = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional string BankAccountPWD = 7; // string 银行账户密码
+}
+// 签约银行密码确认应答 0 10 602
+message SignBankPwdInRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 银行平台密钥申请请求 0 10 603
+message ApplySecretKeyReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankId = 3; // string 托管银行编号
+	optional string Currency = 4; // string 币种
+	optional string KMCode = 5; // string Mac校验码
+}
+// 银行平台密钥申请应答 0 10 604
+message ApplySecretKeyRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string SecretKey = 5; // string 密钥
+	optional string KMCode = 6; // string Mac校验码
+	optional string KPCode = 7; // string PinBlock校验码
+}
+// 账户保证金余额查询请求 0 10 751
+message QueryBankAccountInfoReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string AccountCode = 3; // string 资金账号
+	optional int32 AccountCodeFlag = 4; // string 资金账号查询标记，不填写默认为=
+	optional string AccountType = 5; // string 账户类别
+	optional int32 AccountTypeFlag = 6; // string 账户类别查询标记，不填写默认为=
+	optional string Cusbankid = 7; // string 托管银行编号
+	optional int32 CusbankidFlag = 8; // string 托管银行编号查询标记，不填写默认为=
+}
+// 账户保证金余额查询应答 0 10 752
+message QueryBankAccountInfoRsp_ {
+	optional string AccountCode = 1; // string 资金账号
+	optional string AccountType = 2; // string 账户类别
+	optional string Cusbankid = 3; // string 托管银行编号
+	optional double BankBalance = 4; // double 银行保证金余额
+	optional double PlatBalance = 5; // double 资金账户余额
+}
+message QueryBankAccountInfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBankAccountInfoRsp_ Rsps = 5; // QueryBankAccountInfoRsp_ Rsps 查询结果集
+}
+// 出金冻结资金扩展请求 0 10 765
+message BankWithDrawFrozenExReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string AccountCode = 3; // string 账户
+	optional double Amount = 4; // double 出金金额
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string BankAccountNo = 6; // string 银行账户
+	optional string Currency = 7; // string 币种
+	optional string ExchTicket = 8; // string 交易所流水号
+	optional string OldTaPWD = 9; // string 资金密码
+	optional string CusBankID = 10; // string 签约托管银行编号
+}
+// 出金冻结资金扩展应答 0 10 766
+message BankWithDrawFrozenExRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string AccountCode = 5; // string 账户
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional CashTas1.ArrayCustomer Customer = 7; // ArrayCustomer 客户信息
+	optional CashTas1.ArrayFuturesAccount FuturesAccount = 8; // ArrayFuturesAccount 资金账户信息
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 交易所对账清单 0 10 836
+message ExchCheckList {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 账户
+	optional string Currency = 4; // string 币种
+	optional int32 AccountType = 5; // int32 账户类型
+	optional string AccountName = 6; // string 账户名称
+	optional int32 MoneyType = 7; // int32 金额类型
+	optional double Amount = 8; // double 金额
+	optional string DealTime = 9; // datetime 处理时间
+}
+// 交易所对账请求 0 10 837
+message ExchCheckinfoReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string CheckDate = 2; // string 对账日期（YYYYMMDD）
+	repeated CashTas1.ExchCheckList List = 3; // ExchCheckList 对账清单
+}
+// 交易所对账应答 0 10 838
+message ExchCheckinfoRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 CheckRetCode = 4; // int32 对账发送结果
+}
+// 银行获取手机验证码请求 0 10 861
+message BankGetIdentifyCodeReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string AccountCode = 2; // string 账户
+	optional string CusBankID = 3; // string 托管银行编号
+	optional string Currency = 4; // string 币种
+	optional int32 AccountType = 5; // int32 账户类型
+	optional string MobilePhone = 6; // string 移动电话
+	optional int64 CustomerSignId = 7; // int64 签约编号
+	optional double Amount = 8; // double 入金金额
+}
+// 银行获取手机验证码应答 0 10 862
+message BankGetIdentifyCodeRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 出入金结果查询请求 0 10 986
+message BankOutInMoneyQueryReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional int64 CustomerSignId = 3; // int64 签约编号
+	optional string AccountCode = 4; // string 账户
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string Currency = 6; // string 币种
+	optional string Exchticket = 7; // string 被查询交易流水号
+}
+// 出入金结果查询请求 0 10 987
+message BankOutInMoneyQueryRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional int64 CustomerSignId = 5; // int64 签约编号
+	optional string AccountCode = 6; // string 账户
+	optional string CusBankID = 7; // string 托管银行编号
+	optional string Currency = 8; // string 币种
+	optional string Exchticket = 9; // string 被查询交易流水号
+	optional int64 ResultCode = 10; // int64 要查询记录的结果码
+	optional string ResultDesc = 11; // string 要查询记录的结果描述
+}
+// 银行转账请求 0 10 1039
+message BankTransferReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string CusBankId = 2; // string 托管银行编号
+	optional string Currency = 3; // string 币种
+	optional string ExchTicket = 4; // string 交易流水号
+	optional string BatchNo = 5; // string 批次号
+	optional int32 exchstatus = 6; // int32 交易所状态
+	optional int32 bankstatus = 7; // int32 银行状态
+	optional string remark = 8; // string 备注
+	optional string BUSINUM = 9; // string 商户号
+	optional string fcsSerialNum = 10; // string 资金监管系统流水号
+	optional string memName = 11; // string 账户名称
+	optional string memNum = 12; // string 虚拟账户
+	optional int32 addReduce = 13; // int32 借贷标记
+	optional double tradeAmount = 14; // double 发生金额
+	optional string procTime = 15; // string 账务处理时间
+	optional double balance = 16; // double 资金余额
+	optional double useableBalance = 17; // double 可用余额
+	optional string otherName = 18; // string 对方名称
+	optional string otherNum = 19; // string 对方虚拟账户
+	optional int32 isCrossLine = 20; // int32 是否跨行
+	optional int32 busType = 21; // int32 业务类型
+	optional string brief = 22; // string 摘要
+	optional string accountcode = 23; // string 资金账号(不需要填写)
+}
+// 银行转账请求 0 10 1040
+message BankTransferRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string CusBankId = 4; // string 托管银行编号
+	optional string Currency = 5; // string 币种
+	optional string ExchTicket = 6; // string 交易流水号
+	optional string accountcode = 7; // string 清分的账号
+	optional int32 accounttype = 8; // int32 清分账号类型
+}
+// 交易所资金转移请求 0 10 1118
+message BankExchMoneyInOutReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional double Amount = 4; // double 出金金额
+	optional string AppDateTime = 5; // string 申请日期和时间
+	optional string Currency = 6; // string 币种
+	optional int32 FundType = 7; // int32 款项
+}
+// 交易所资金转移应答 0 10 1119
+message BankExchMoneyInOutRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DealTime = 7; // datetime 处理时间
+	optional int32 Status = 8; // int32 状态（常量是BankDealStatus）
+}
+// 交易所资金转移审核确认请求 0 10 1120
+message BankExchMoneyInOutComfirmReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int64 ExtOperatorID = 2; // int64 外部操作流水号
+	optional string CusBankID = 3; // string 托管银行编号
+	optional double Amount = 4; // double 金额
+	optional string Currency = 5; // string 币种
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional int32 Result = 7; // int32 审核结果，常量BankDealResult
+	optional string Desc = 8; // string 备注
+}
+// 交易所资金转移审核确认应答 0 10 1121
+message BankExchMoneyInOutComfirmRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int64 ExtOperatorID = 4; // int64 外部操作流水号
+	optional string CusBankID = 5; // string 托管银行编号
+	optional string ExchTicket = 6; // string 交易所流水号
+	optional string DealTime = 7; // datetime 处理时间
+}

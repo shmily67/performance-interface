@@ -1,0 +1,5 @@
+<root>
+	<crypo value="1" />
+	<user_size value="2000" />
+	<log path="Log" level="4" filesize="8" keepdays="30" />
+</root>

@@ -1,0 +1,149 @@
+#ifndef _TAS_INNER_FUNCODES_H_
+#define _TAS_INNER_FUNCODES_H_
+//----------------内部协议枚举值: 两个字节, 0~65535------------------------------
+enum _emFunCodeInner
+{
+	//委托服内部协议开始段
+	FID_Inner_Order						=	0,			
+	FID_Inner_Order_FreezeMoneyReq,						//委托服请求冻结资金
+	FID_Inner_Order_FreezeMoneyRsp,						//委托服请求冻结资金返回
+	FID_Inner_Order_UnFreezeMoneyReq,					//委托服请求解冻资金
+	FID_Inner_Order_UnFreezeMoneyRsp,					//委托服请求解冻资金返回
+	FID_Inner_Order_RiskOrderReq,						//风控订单请求
+	FID_Inner_Order_RiskOrderRsp,						//风控订单响应
+
+	//资金服内部协议开始段
+	FID_Inner_Money						 =	1000,	
+	FID_INNER_MONEY_INOUT_REQUEST		 =	FID_Inner_Money + 1,	
+	FID_INNER_MONEY_INOUT_RESPONSE 		 =	FID_Inner_Money + 2,	
+    FID_INNER_MONEY_AdjustMoney_REQUEST  =  FID_Inner_Money + 3,	
+    FID_INNER_MONEY_AdjustMoney_RESPONSE =  FID_Inner_Money + 4,
+    FID_INNER_MONEY_EXSERVICE_REQUEST =  FID_Inner_Money + 5,    // 交收冻结或者扣钱请求
+    FID_INNER_MONEY_EXSERVICE_RESPONSE =  FID_Inner_Money + 6,    // 交收冻结或者扣钱回应
+
+	//撮合服内部协议开始段
+	FID_Inner_Match						=	2000,
+	MARKET_MAKER_SUBMIT_ORDER_REQUEST   =   2001,
+	MARKET_MAKER_SUBMIT_ORDER_RESPONSE  =   2002,
+	MARKET_MAKER_CANCEL_ORDER_REQUEST   =   2003,
+	MARKET_MAKER_CANCEL_ORDER_RESPONSE  =   2004,
+	MARKET_MAKER_MODIFY_ORDER_REQUEST   =   2005,
+	MARKET_MAKER_MODIFY_ORDER_RESPONSE  =   2006,
+	MARKET_MAKER_OPEN_TRADE_NOTIFY      =   2007,
+	MARKET_MAKER_CLOSE_TRADE_NOTIFY     =   2008,
+	MARKET_MAKER_OPEN_TRADE_RESPONSE    =   2009,
+	MARKET_MAKER_CLOSE_TRADE_RESPONSE   =   2010,
+
+    MARKET_MAKER_MEMBER_OPEN_NOTIFY     =   2021,
+    MARKET_MAKER_MEMBER_CLOSE_NOTIFY    =   2022,
+    MARKET_MAKER_MEMBER_OPEN_RESPONSE   =   2023,
+    MARKET_MAKER_MEMBER_CLOSE_RESPONSE  =   2024,
+
+    MARKET_MAKER_ORDER_DELIVERY_REQUEST =   2025,
+    MARKET_MAKER_ORDER_DELIVERY_RESPONSE=   2026,
+
+    MARKET_MAKER_COUPLE_CLOSE_REQUEST   =   2027,
+    MARKET_MAKER_COUPLE_CLOSE_RESPONSE  =   2028,
+
+	BID_MATCH_ORDER						=	2100,	//竞价标准委托单
+	BID_MATCH_DEAL						=	2101,	//竞价标准成交单
+	BID_MATCH_FUND						=	2102,	//竞价成交资金应答
+	BID_MATCH_INIT						=	2103,	//竞价撮合初始化
+	BID_MATCH_ORDER_REQUEST				=	2104,	//竞价外部委托请求
+	BID_MATCH_ORDER_RESPONSE			=	2105,	//竞价外部委托应答
+	BID_MATCH_SETTLE_OK					=	2106,	//竞价撮合结算成功
+	BID_MATCH_CLOSE_DEAL				=	2107,	//竞价成交单
+	BID_MATCH_QUOTE						=	2108,	//竞价行情
+    FID_INNER_BID_MONEY_FULL_REQ        =   2109,   //竞价全额交易模式资金处理请求
+    FID_INNER_BID_DELIVERY_FULL_REQ     =   2110,   //竞价全额交易模式仓单转让请求
+    FID_INNER_BID_DELIVERY_FULL_RSP     =   2111,   //竞价全额交易模式仓单转让应答
+
+	DELIVERY_ORDER						=	2200,	//交割委托
+	DELIVERY_ORDER_RSP					=   2201,	//交割委托应答
+	DELIVERY_MONEY						=	2202,	//交割资金委托
+	DELIVERY_MONEY_REPLY				=	2203,	//交割委托资金反馈
+	DELIVERY_MATCH						=	2204,	//交割做市委托
+	DELIVERY_MATCH_REPLY				=	2205,	//交割做市委托反馈
+    QY_DELIVERY_MONEY				    =	2206,	//乾元交割资金委托
+    QY_DELIVERY_MONEY_REPLY				=	2207,	//乾元交割委托资金反馈
+    QY_DELIVERY_NOTIFY                  =   2208,   //乾元交割平仓成交反馈
+	DELIVERY_ORDER_CLOSE_REQ			=   2209,	//交收委托平仓请求
+	DELIVERY_ORDER_CLOSE_RSP			=   2210,	//交收委托平仓应答
+
+
+	DELIVERY2_ORDER						=	2300,	//交收委托
+	DELIVERY2_ORDER_AUDIT				=	2301,	//交收委托审核
+	DELIVERY2_ORDER_CANCEL				=	2302,	//交收委托撤单
+
+	DELIVERY2_ORDER_RSP					=	2315,	//交收委托应答
+	DELIVERY2_ORDER_AUDIT_RSP			=	2316,	//交收委托审核应答
+	DELIVERY2_ORDER_CANCEL_RSP			=	2317,	//交收委托撤单应答
+
+    DELIVERY2_STORAGEENTRY				=	2303,	//入库预约申请
+    DELIVERY2_STORAGEENTRY_AUDIT		=	2304,	//入库预约审核
+    DELIVERY2_STORAGEENTRY_CANCLE       =   2305,   //入库预约撤销
+
+    DELIVERY2_REGISTER				    =	2306,	//仓单注册申请
+    DELIVERY2_REGISTER_AUDIT		    =	2307,	//仓单注册审核
+
+    DELIVERY2_ATTORN				    =	2308,	//仓单转让申请
+    DELIVERY2_ATTORN_CONFIRM  		    =	2309,	//仓单转让确认
+    DELIVERY2_ATTORN_AUDIT		        =	2310,	//仓单转让审核
+
+    DELIVERY2_TAKE                      =   2311,   //提货申请
+    DELIVERY2_TAKE_AUDIT                =   2312,   //提货审核
+
+    DELIVERY2_WITHDRAW					=	2313,	//仓单注销申请
+    DELIVERY2_WITHDRAW_AUDIT			=	2314,	//仓单注销审核
+
+    DELIVERY2_ISSUE_FREEZE_REQ			=	2318,	//商品发行仓单冻结请求
+    DELIVERY2_ISSUE_FREEZE_RSP			=	2319,	//商品发行仓单冻结应答
+    DELIVERY2_ISSUE_UNFREEZE_REQ		=	2320,	//商品发行仓单解冻请求
+    DELIVERY2_ISSUE_UNFREEZE_RSP		=	2321,	//商品发行仓单解冻应答
+    DELIVERY2_ISSUE_TRANSFER_REQ		=	2322,	//商品发行仓单转让请求
+    DELIVERY2_ISSUE_TRANSFER_RSP		=	2323,	//商品发行仓单转让应答
+
+    //出入金内部协议开始段
+	FID_Inner_Inout						=	3000,
+
+	//结算内部协议开始段
+	FID_Inner_Settlement				=	4000,
+
+	//系统协议开始段
+	FID_Inner_Heartbeat					=	5000,	//心跳
+	FID_Inner_Connect					=	5001,	//握手
+
+	//策略协议开始段
+	FID_Inner_Strategy					=	6000,	//心跳
+	FID_Inner_Strategy_OrderStrategyReq,			//委托向策略请求
+	FID_Inner_Strategy_OrdertrategyRsp,				//委托向策略的请求返回
+	FID_Inner_Strategy_StrategyOrderReq,			//策略向委托请求
+	FID_Inner_Strategy_StrategyOrderRsp,			//策略向委托的请求返回
+
+    FINANCE_SUBSCRIBE						=	7000,	//理财产品认购委托请求
+    FINANCE_SUBSCRIBE_RSP					=   7001,	//理财产品认购委托应答
+    FINANCE_TRANSFER						=	7002,	//理财产品转让委托请求
+    FINANCE_TRANSFER_RSP					=   7003,	//理财产品转让委托应答
+    FINANCE_BUY						        =	7004,	//理财产品购买委托请求
+    FINANCE_BUY_RSP					        =   7005,	//理财产品购买委托应答
+    FINANCE_TRANSFER_CANCEL                 =   7006,   //理财产品转让撤销请求
+    FINANCE_TRANSFER_CANCEL_RSP             =   7007,   //理财产品转昂撤销应答
+
+    //一级发行系统内部协议开始段
+    FID_INNER_ISSUE                         =   8000,   //心跳
+    FID_INNER_ISSUE_SUBSCRIBE_REQ           =   8001,   //发行系统认购委托请求
+    FID_INNER_ISSUE_SUBSCRIBE_RSP           =   8002    //发行系统认购委托应答
+};
+
+//---------------------------------------------------------------------------------------
+
+enum _emSettlementFunCode
+{
+	EXCH_OPEN_CLOSE_MSG_REQUEST = FID_Inner_Settlement + 1,   //交易所开休市消息
+    EXCH_OPEN_CLOSE_MSG_RESPONSE = FID_Inner_Settlement + 2,   //交易所开休市消息
+    RECKON_FETCH_SETTLE_PRICE_REQ = 4003,                      // 从行情服务获取结算价请求
+    RECKON_FETCH_SETTLE_PRICE_RSP = 4004,                      // 从行情服务获取结算价回应
+    RECKON_NOTIFY_SETTLE_PRICE = 4005                         // 推送结算价给行情服务通知
+};
+
+#endif

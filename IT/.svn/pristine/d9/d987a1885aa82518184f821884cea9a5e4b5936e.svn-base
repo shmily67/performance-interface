@@ -1,0 +1,230 @@
+import "common.proto";
+import "PublicTas1.proto";
+package NewsFeedTas1;
+// 公告接收者结构体 1 16 555
+message ArrayBltRecvTag {
+	optional int32 RecvAccountType = 1; // int32 接收账号类型
+	repeated string RecvObjs = 2; // string 接收的会员/机构code
+}
+// 管理端查询公告请求 1 16 388
+message QueryBulletinReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string Title = 3; // string 标题
+	optional int32 TitleFlag = 4; // string 标题查询标记，不填写默认为=
+	optional string StartDate = 5; // string 消息发布开始时间
+	optional int32 StartDateFlag = 6; // string 消息发布开始时间查询标记，不填写默认为=
+	optional string EndDate = 7; // string 消息发布结束时间
+	optional int32 EndDateFlag = 8; // string 消息发布结束时间查询标记，不填写默认为=
+	optional int32 IsValid = 9; // int32 是否当前有效
+	optional int32 IsValidFlag = 10; // int32 是否当前有效查询标记，不填写默认为=
+	optional string PubAccountCode = 11; // string 发布者交易账号
+	optional int32 PubAccountCodeFlag = 12; // string 发布者交易账号查询标记，不填写默认为=
+}
+// 管理端查询公告应答 1 16 389
+message QueryBulletinRsp_ {
+	optional int32 MsgID = 1; // int32 消息号
+	optional string PublishDate = 2; // string 消息发布时间
+	optional bytes Title = 3; // bytes 标题
+	optional bytes Content = 4; // bytes 内容
+	optional string PubAccountCode = 5; // string 发布者交易账号
+	optional string ValidDate = 6; // string 消息有效日期
+	repeated int32 RecvAccountType = 7; // int32 接收账号类型
+}
+message QueryBulletinRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBulletinRsp_ Rsps = 5; // QueryBulletinRsp_ Rsps 查询结果集
+}
+// 管理端新增公告请求 0 16 390
+message AddBulletinReq {
+	optional MessageHead Header = 1; // MessageHead
+	repeated NewsFeedTas1.ArrayBltRecvTag RecvTags = 2; // ArrayBltRecvTag 公告接收者的类型和对应数据
+	optional string ValidDate = 3; // string 消息有效日期
+	optional string Title = 4; // string 标题
+	optional string Content = 5; // string 内容
+	optional int32 PubAccountType = 6; // int32 发布者的账户类型
+	optional string PubAccountCode = 7; // string 发布者的交易账号
+	optional string PubMemberCode = 8; // string 发布者为会员管理员的时候才填
+	optional int32 ExchID = 9; // int32 发布者为交易所管理员时才填
+	optional string PublishDate = 10; // string 公告发布时间
+	optional int32 TimerPublishStatus = 11; // int32 定时公告描述
+}
+// 管理端新增公告应答 0 16 391
+message AddBulletinRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 MsgID = 4; // int32 消息号
+}
+// 管理端删除公告请求 0 16 562
+message DelBulletinReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 MsgID = 2; // int32 要删除的公告id
+	optional int32 PubAccountType = 3; // int32 发布者的账户类型
+	optional string PubAccountCode = 4; // string 发布者的交易账号
+}
+// 管理端公告应答 0 16 563
+message DelBulletinRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 MsgID = 4; // int32 已删除的公告id
+}
+// 管理客户端消息中心查询请求 1 16 401
+message QueryBltMsgReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string Title = 3; // string 标题，可模糊查询
+	optional int32 TitleFlag = 4; // string 标题，可模糊查询查询标记，不填写默认为=
+	optional string StartDate = 5; // string 消息发布开始时间
+	optional int32 StartDateFlag = 6; // string 消息发布开始时间查询标记，不填写默认为=
+	optional string EndDate = 7; // string 消息发布结束时间
+	optional int32 EndDateFlag = 8; // string 消息发布结束时间查询标记，不填写默认为=
+	optional int32 MsgType = 9; // int32 要查询的消息类型,参考常量定义BltMsgType
+	optional int32 MsgTypeFlag = 10; // int32 要查询的消息类型,参考常量定义BltMsgType查询标记，不填写默认为=
+	optional int32 AccountType = 11; // int32 当前登录者账户类型
+	optional int32 AccountTypeFlag = 12; // int32 当前登录者账户类型查询标记，不填写默认为=
+	optional string AccountCode = 13; // string 当前登录者的交易账户
+	optional int32 AccountCodeFlag = 14; // string 当前登录者的交易账户查询标记，不填写默认为=
+	optional string MemberCode = 15; // string 当前登录者为会员管理员时才填
+	optional int32 MemberCodeFlag = 16; // string 当前登录者为会员管理员时才填查询标记，不填写默认为=
+	optional int32 ExchID = 17; // int32 当前登录者为交易所管理员时才填
+	optional int32 ExchIDFlag = 18; // int32 当前登录者为交易所管理员时才填查询标记，不填写默认为=
+	optional int32 IsValid = 19; // int32 是否当前有效，有效填1，无效填0
+	optional int32 IsValidFlag = 20; // int32 是否当前有效，有效填1，无效填0查询标记，不填写默认为=
+	optional string PubAccountCode = 21; // string 发布者交易账号
+	optional int32 PubAccountCodeFlag = 22; // string 发布者交易账号查询标记，不填写默认为=
+	optional int32 RiskLevel = 23; // int32 风控风险级别
+	optional int32 RiskLevelFlag = 24; // int32 风控风险级别查询标记，不填写默认为=
+}
+// 管理客户端消息中心查询应答 1 16 402
+message QueryBltMsgRsp_ {
+	optional int32 MsgID = 1; // int32 消息号
+	optional int32 MsgType = 2; // int32 公告或消息类型
+	optional string PublishDate = 3; // string 消息发布时间
+	optional bytes Title = 4; // bytes 标题
+	optional bytes Content = 5; // bytes 内容
+	optional string PubAccountCode = 6; // string 发布者交易账号
+	optional string ValidDate = 7; // string 消息有效日期
+	optional int32 RecvAccountType = 8; // int32 接收账号类型
+	optional int32 ReadStatus = 9; // int32 读取状态
+	optional int32 RiskLevel = 10; // int32 风险级别
+}
+message QueryBltMsgRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryBltMsgRsp_ Rsps = 5; // QueryBltMsgRsp_ Rsps 查询结果集
+}
+// 交易客户端消息中心查询请求 1 16 432
+message QueryClientBMReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string Title = 3; // string 标题，可模糊查询
+	optional int32 TitleFlag = 4; // string 标题，可模糊查询查询标记，不填写默认为=
+	optional string StartDate = 5; // string 消息发布开始时间
+	optional int32 StartDateFlag = 6; // string 消息发布开始时间查询标记，不填写默认为=
+	optional string EndDate = 7; // string 消息发布结束时间
+	optional int32 EndDateFlag = 8; // string 消息发布结束时间查询标记，不填写默认为=
+	optional int32 MsgType = 9; // int32 要查询的消息类型, 参考常量定义BltMsgType
+	optional int32 MsgTypeFlag = 10; // int32 要查询的消息类型, 参考常量定义BltMsgType查询标记，不填写默认为=
+	optional int32 IsValid = 11; // int32 是否当前有效，有效填1，无效填0
+	optional int32 IsValidFlag = 12; // int32 是否当前有效，有效填1，无效填0查询标记，不填写默认为=
+	optional int32 AccountType = 13; // int32 客户账户类型
+	optional int32 AccountTypeFlag = 14; // int32 客户账户类型查询标记，不填写默认为=
+	optional string AccountCode = 15; // string 客户交易账户
+	optional int32 AccountCodeFlag = 16; // string 客户交易账户查询标记，不填写默认为=
+	optional string AreaCode = 17; // string 客户所属机构代码
+	optional int32 AreaCodeFlag = 18; // string 客户所属机构代码查询标记，不填写默认为=
+	optional string MemberCode = 19; // string 客户为会员交易员的时候填写
+	optional int32 MemberCodeFlag = 20; // string 客户为会员交易员的时候填写查询标记，不填写默认为=
+	optional int32 RiskNtfType = 21; // int32 风控通知类型
+	optional int32 RiskNtfTypeFlag = 22; // int32 风控通知类型查询标记，不填写默认为=
+	optional int32 RiskLevel = 23; // int32 风控风险级别
+	optional int32 RiskLevelFlag = 24; // int32 风控风险级别查询标记，不填写默认为=
+}
+// 交易客户端消息中心查询应答 1 16 433
+message QueryClientBMRsp_ {
+	optional int32 MsgID = 1; // int32 消息号
+	optional int32 MsgType = 2; // int32 公告或通知类型
+	optional string PublishDate = 3; // string 消息发布时间
+	optional bytes Title = 4; // bytes 标题
+	optional bytes Content = 5; // bytes 内容
+	optional string PubAccountCode = 6; // string 发布者交易账号
+	optional int32 PubAccountType = 7; // int32 发布者类型
+	optional string ValidDate = 8; // string 消息有效日期
+	optional int32 RecvAccountType = 9; // int32 接收账号类型
+	optional int32 ReadStatus = 10; // int32 读取状态
+	optional int32 RiskLevel = 11; // int32 风险级别
+	optional string PubExchName = 12; // string 发布公告交易所名称
+}
+message QueryClientBMRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryClientBMRsp_ Rsps = 5; // QueryClientBMRsp_ Rsps 查询结果集
+}
+// 公告消息推送 1 16 403
+message BltMsgNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 MemberID = 3; // int32 会员ID
+	optional int32 ExchID = 4; // int32 交易所ID
+	repeated string MemberCodes = 5; // string 要推送的管理员所属会员membercode
+	repeated string AreaCodes = 6; // string 要推送的机构代码数组
+	optional int32 MsgID = 7; // int32 消息号
+	optional int32 MsgType = 8; // int32 消息类型，参加常量定义BltMsgType
+	optional string PublishDate = 9; // string 消息发布时间
+	optional bytes Title = 10; // bytes 标题
+	optional bytes Content = 11; // bytes 内容
+	optional string PubAccountCode = 12; // string 发布者交易账号
+	optional string ValidDate = 13; // string 消息有效日期
+	optional int32 RecvAccountType = 14; // int32 接收账号类型
+	optional int32 RiskNtfType = 15; // int32 风控通知类型
+	optional string AccountCode = 16; // string 要推送的投资者账号
+	optional int32 RiskLevel = 17; // int32 当前风险级别: 1: 提示, 2: 追加, 3: 斩仓
+	optional double RealRate = 18; // double 实际风险率
+	optional double MsgRate = 19; // double 当前风险级别所设定的风险率
+	optional string PubExchName = 20; // string 发布公告交易所名称
+		optional int32 RiskMemberType = 21; // int32 产生风控的账号类型
+}
+// 商品开始休市收市结算通知 0 16 580
+message ExchCtrlNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int32 ExchID = 3; // int32 交易所id
+	optional int32 MarketID = 4; // int32 市场id
+	repeated string GoodsCode = 5; // string 商品代码
+	repeated string ExceptionalGoodsCode = 6; // string 列外商品代码
+	optional int32 Status = 7; // int32 状态，参考MarketStatus
+	optional string TradeDate = 8; // string 交易日
+}
+// 投资者账户状态变更通知 0 16 583
+message IvStatusChangedNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string AccountCode = 3; // string 交易账户
+	optional int32 AccountType = 4; // int32 账户类型
+	optional int32 AccountStatus = 5; // int32 最新账户状态
+	optional int32 RiskRateID = 6; // int32 最新风险率类型
+}
+// 修改公告通知状态请求 0 16 983
+message ModifyBulletinNotifyStatusReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 ClientType = 2; // int32 请求来源，客户端或者管理端
+	optional int32 MsgId = 3; // int32 消息ID
+	optional int32 MsgType = 4; // int32 消息类型
+	optional string AccountCode = 5; // string 账户
+}
+// 修改公告通知状态应答 0 16 995
+message ModifyBulletinNotifyStatusRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 MsgId = 4; // int32 消息ID
+}

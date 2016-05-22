@@ -1,0 +1,172 @@
+import "common.proto";
+import "PublicTas1.proto";
+package QkernelTas1;
+// 通用查询参数信息 1 5 1
+message ParamValue {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	required string Key = 3; // string 参数名
+	required string Value = 4; // string 参数值
+}
+// 通用查询请求 1 5 2
+message QueryCommonReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	required string Statement = 3; // string StatmentId
+	optional int32 StatementFlag = 4; // string StatmentId查询标记，不填写默认为=
+	repeated QkernelTas1.ParamValue ParamValues = 5; // ParamValue 参数列表
+	optional int32 ParamValuesFlag = 6; // ParamValue 参数列表查询标记，不填写默认为=
+}
+// 字段信息 1 5 3
+message FieldInfo {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	required string FieldName = 3; // string 字段名
+	required string FieldType = 4; // string 字段类型
+}
+// 行数据 1 5 4
+message RowValue {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated string RowValues = 3; // string 行数据
+}
+// 通用查询应答 1 5 5
+message QueryCommonRsp_ {
+	required int32 RowNum = 1; // int32 字段名
+	required int32 ColumnNum = 2; // int32 字段类型
+	repeated QkernelTas1.FieldInfo FieldInfos = 3; // FieldInfo 字段信息
+	repeated QkernelTas1.RowValue RowValues = 4; // RowValue 行数据
+}
+message QueryCommonRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryCommonRsp_ Rsps = 5; // QueryCommonRsp_ Rsps 查询结果集
+}
+// 交易所信息 1 5 6
+message ExchInfo {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 ExchId = 3; // int64 交易所Id
+	optional string ExchCode = 4; // string 交易所代码
+	optional string ExchName = 5; // string 交易所名称
+}
+// 市场信息 1 5 7
+message MarketInfo {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 MarketId = 3; // int64 市场Id
+	optional string MarketCode = 4; // string 市场代码
+	optional string MarketName = 5; // string 市场名称
+	optional int32 MarketType = 6; // int32 市场类型
+	optional int32 MarketMode = 7; // int32 市场模式
+	optional int64 ExchId = 8; // int64 交易所Id
+	optional int32 RunStatus = 9; // int32 市场运行状态
+	optional int32 OpenMode = 10; // int32 
+	optional int32 CloseMode = 11; // int32 
+	optional int32 SysReckonMode = 12; // int32 系统结算模式
+	optional int32 ReckonMode = 13; // int32 结算模式
+}
+// 商品信息 1 5 8
+message GoodsInfo {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 GoodsId = 3; // int64 商品Id
+	optional string GoodsCode = 4; // string 商品代码
+	optional string GoodsName = 5; // string 商品名称
+	optional int64 MarketId = 6; // int64 市场Id
+	optional int32 GoodsStatus = 7; // int32 商品状态
+	optional int64 GoodsGroupID = 8; // int64 所属商品组
+	optional int32 PriceUnit = 9; // int32 报价小数位数
+	optional double PriceChangeUnit = 10; // double 报价变动单位
+	optional string Currency = 11; // string 报价货币
+	optional double RoseLimit = 12; // double 涨幅限制
+	optional double DropLimit = 13; // double 跌幅限制
+	optional double AgreeUnit = 14; // double 合约单位
+	optional string AgreeName = 15; // string 合约名称
+	optional string ListedTime = 16; // string 上市时间
+	optional double IssuePrice = 17; // double 基准价（发行价）
+	optional string SearchCode = 18; // string 检索码
+	optional int32 VarietyId = 19; // int32 品种
+	optional int32 CloseRule = 20; // int32 平仓规则
+	optional double UnitExchange = 21; // double 单位转换系数
+	optional double ExchangeRate = 22; // double ExchangeRate
+	optional double PriceMove = 23; // double 升贴水
+	optional double BuyPtSub = 24; // double 买点差
+	optional double SellPtSub = 25; // double 卖点差
+	optional double PriceFigures = 26; // double 取价小数位
+	optional double FilterPtSub = 27; // double 滤价点差
+	optional int32 MarginType = 28; // int32 保证金类型
+	optional int32 MarginMode = 29; // int32 保证金计算方式
+	optional double Margin = 30; // double 保证金
+}
+// 账户信息 1 5 9
+message AccountInfo {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 AccountId = 3; // int64 账户编号
+	optional string MemberCode = 4; // string 所属会员代码
+	optional string MemberName = 5; // string 所属会员名称
+	optional string AreaCode = 6; // string 所属机构代码
+	optional string AreaName = 7; // string 所属机构名称
+	optional string BrokerId = 8; // string 所属经纪人编号
+	optional string AccountCode = 9; // string 账户代码
+	optional string AccountName = 10; // string 账户名称
+	optional int32 AccountType = 11; // int32 账户类型
+	optional string LoginCode = 12; // string 登录账号
+	optional int32 OpenMode = 13; // int32 开户途径
+	optional int32 Sex = 14; // int32 性别
+	optional string Provice = 15; // string 省份
+	optional string City = 16; // string 城市
+	optional int32 CardType = 17; // int32 证件类型
+	optional string CardNum = 18; // string 证件号码
+	optional string Address = 19; // string 地址
+	optional string TelPhone = 20; // string 电话号码
+	optional string Mobile = 21; // string 手机号码
+	optional string Fax = 22; // string 传真
+	optional string Email = 23; // string Email
+	optional string QQ = 24; // string QQ号码
+	optional string Wechat = 25; // string 微信
+}
+// 资金账户信息 1 5 10
+message TaAccountInfo {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional int64 AccountId = 3; // int64 账户编号
+	optional double Networth = 4; // double 期初净值
+	optional double CurrentNetworth = 5; // double 期末净值
+	optional double Balance = 6; // double 期初余额
+	optional double CurrentBalance = 7; // double 期末余额
+	optional double ReckonPL = 8; // double 结算盈亏
+	optional double UsedMargin = 9; // double 占用保证金
+	optional double FreezeMargin = 10; // double 冻结保证金
+	optional double ClosePL = 11; // double 平仓盈亏
+	optional double InAmount = 12; // double 入金金额
+	optional double OutAmount = 13; // double 出金金额
+	optional double OutAmountFreeze = 14; // double 出金冻结保证金
+	optional double OutMoneyThreshold = 15; // double 出金阀值
+	optional double MaxAgreeAmount = 16; // double 最大合约金额
+}
+// 查询账户和商品信息 1 5 11
+message QueryAccountAndGoodsReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	required int64 AccountId = 3; // int64 账号代码
+	optional int32 AccountIdFlag = 4; // int64 账号代码查询标记，不填写默认为=
+}
+// 查询账户和商品信息回应-账户、交易所、市场、商品信息 1 5 12
+message QueryAccountAndGoodsRsp_ {
+	repeated QkernelTas1.AccountInfo AccountInfoRsps = 1; // AccountInfo 查询账户信息结果集
+	repeated QkernelTas1.TaAccountInfo TaAccountInfoRsps = 2; // TaAccountInfo 查询资金信息结果集
+	repeated QkernelTas1.ExchInfo ExchInfoRsps = 3; // ExchInfo 查询交易所信息结果集
+	repeated QkernelTas1.MarketInfo MarketInfoRsps = 4; // MarketInfo 查询市场信息结果集
+	repeated QkernelTas1.GoodsInfo GoodsInfoRsps = 5; // GoodsInfo 查询商品信息结果集
+}
+message QueryAccountAndGoodsRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryAccountAndGoodsRsp_ Rsps = 5; // QueryAccountAndGoodsRsp_ Rsps 查询结果集
+}

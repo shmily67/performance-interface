@@ -1,0 +1,159 @@
+#include <string.h>
+
+#include "EncryptHandleDefine.h"
+#include "ServerHandle.h"
+#include "MISafeModComm.h"
+#include "ISafeInterface.h"
+#include "MISafeHandle.h"
+
+
+intptr_t MIGetSafeHandle()
+{
+    intptr_t iPoint = 0;
+
+    MISafeHandle *pSafeHandle = new MISafeHandle();
+    iPoint = (intptr_t)pSafeHandle;
+
+    return iPoint;
+}
+
+void MIFreeSafeHandle(intptr_t pSafeHandle)
+{
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+    delete pHandle;
+}
+
+int32_t MILoad(char *pDst, int32_t iDst, intptr_t pSafeHandle)
+{
+    int32_t iRev = SAFEMOD_OK;
+
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+
+    if (pSafeHandle != NULL)
+    {
+        pHandle->SetMacKey(MAXKEY);
+        pHandle->SetTransKey(TRANSKEY);
+    }
+
+    return iRev;
+}
+
+int32_t MIAlterTransPwd(const char *pPwd, intptr_t pSafeHandle)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    int32_t iLen = strlen(pPwd);
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+
+    if (iLen == SAFEMOD_MD5LEN && pSafeHandle != NULL)
+    {
+        pHandle->SetTransKey(pPwd);
+        iRev = SAFEMOD_OK;
+    }
+
+    return iRev;
+}
+
+int32_t MITransEncrypt(char *pDst, int32_t iDst, const char *pSrc, int32_t iSrc, intptr_t pSafeHandle)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+
+    if (pSafeHandle != NULL)
+    {
+        iRev = pHandle->TransEncrypt(pDst, iDst, pSrc, iSrc);
+    }
+    
+    return iRev;
+}
+
+int32_t MITransDecrypt(char *pDst, int32_t iDst, const char *pSrc, int32_t iSrc, intptr_t pSafeHandle)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+
+    if (pSafeHandle != NULL)
+    {
+        iRev = pHandle->TransDecrypt(pDst, iDst, pSrc, iSrc);
+    }
+
+    return iRev;
+}
+
+int32_t MIGetEncryptDataLen(int32_t &iRevLen, const char *pData, int32_t iLen, intptr_t pSafeHandle)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+
+    if (pSafeHandle != NULL)
+    {
+        iRev = pHandle->GetEncryptDataLen(iRevLen, pData, iLen);
+    }
+
+    return iRev;
+}
+
+int32_t MIGetDecryptDataLen(int32_t &iRevLen, const char *pData, int32_t iLen, intptr_t pSafeHandle)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    MISafeHandle *pHandle = (MISafeHandle *)pSafeHandle;
+
+    if (pSafeHandle != NULL)
+    {
+        iRev = pHandle->GetDecryptDataLen(iRevLen, pData, iLen);
+    }
+
+    return iRev;
+}
+
+int32_t MIMD5Encrypt(char *pDst, int32_t &iDst, const char *pSrc, int32_t iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    CMD5EncryptHandle handle;
+    iRev = handle.Encrypt(pDst, iDst, pSrc, iSrc);
+
+    return iRev;
+}
+
+int32_t MIMD5Decrypt(char *pDst, int32_t &iDst, const char *pSrc, int32_t iSrc)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    CMD5EncryptHandle handle;
+    iRev = handle.Decrypt(pDst, iDst, pSrc, iSrc);
+
+    return iRev;
+}
+
+int32_t MIMD5GetEncryptDataLen(int32_t &iRevLen, const char *pData, int32_t iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    CMD5EncryptHandle handle;
+    iRev = handle.GetEncryptDataLen(iRevLen, pData, iLen);
+
+    return iRev;
+}
+
+int32_t MIMD5GetDecryptDataLen(int32_t &iRevLen, const char *pData, int32_t iLen)
+{
+    int32_t iRev = SAFEMOD_ERR;
+
+    CMD5EncryptHandle handle;
+    iRev = handle.GetDecryptDataLen(iRevLen, pData, iLen);
+
+    return iRev;
+}
+
+
+
+
+
+
+
+

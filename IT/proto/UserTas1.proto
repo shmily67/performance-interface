@@ -1,0 +1,144 @@
+import "common.proto";
+import "PublicTas1.proto";
+package UserTas1;
+// 查询在线用户请求 1 2 45
+message QueryOnlineUserReq {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional QueryReqPageInfo PageInfo = 2; // QueryReqPageInfo 查询分页信息
+	optional string LoginCode = 3; // string 登录帐号
+	optional int32 LoginCodeFlag = 4; // string 登录帐号查询标记，不填写默认为=
+	optional int32 LoginType = 5; // int32 登录类型
+	optional int32 LoginTypeFlag = 6; // int32 登录类型查询标记，不填写默认为=
+	optional int32 MemberId = 7; // int32 会员代码
+	optional int32 MemberIdFlag = 8; // int32 会员代码查询标记，不填写默认为=
+	optional int32 SoftwareType = 9; // int32 软件类别
+	optional int32 SoftwareTypeFlag = 10; // int32 软件类别查询标记，不填写默认为=
+	optional int32 SoftwareVersion = 11; // int32 软件版本号
+	optional int32 SoftwareVersionFlag = 12; // int32 软件版本号查询标记，不填写默认为=
+	optional string LoginIP = 13; // string 登录IP
+	optional int32 LoginIPFlag = 14; // string 登录IP查询标记，不填写默认为=
+}
+// 查询在线用户应答 1 2 46
+message QueryOnlineUserRsp_ {
+	optional string LoginCode = 1; // string 登录帐号
+	optional int32 LoginType = 2; // int32 登录类型
+	optional int32 MemberId = 3; // int32 会员代码
+	optional int32 SoftwareType = 4; // int32 软件类别
+	optional int32 SoftwareVersion = 5; // int32 软件版本号
+	optional string LoginIP = 6; // string 登录IP
+	optional int32 LoginPort = 7; // int32 登录端口
+	optional string MAC = 8; // string 网卡号
+	optional string ComputerName = 9; // string 计算机名
+	optional string LoginTime = 10; // string 登陆时间
+	optional string LastTime = 11; // string 最后操作时间
+}
+message QueryOnlineUserRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional QueryRspPageInfo PageInfo = 4; // QueryRspPageInfo 查询结果分页信息
+	repeated QueryOnlineUserRsp_ Rsps = 5; // QueryOnlineUserRsp_ Rsps 查询结果集
+}
+// 用户登录请求 0 2 221
+message LoginReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 AccountType = 2; // int32 账户类型
+	optional string LoginCode = 3; // string 登录号码
+	optional string LoginPWD = 4; // string 登录密码
+	optional string MemberCode = 5; // string 用户所属会员的会员代码
+	optional int32 LoginType = 6; // int32 登陆类型
+	optional int32 ClientType = 7; // int32 终端软件类型
+	optional string Version = 8; // string 终端软件版本号
+	optional string MobilePhone = 9; // string 移动电话
+	optional string GUID = 10; // string 唯一标识码
+	optional string LoginIp = 11; // string 登录IP地址
+	optional int32 LoginPort = 12; // int32 登陆通信端口
+	optional string DeviceId = 13; // string 设备标识
+	optional string EnvironmentInfo = 14; // string 软件环境信息
+}
+// 用户登录应答 0 2 222
+message LoginRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 AccountType = 4; // int32 账户类型
+	optional int32 CustomerCode = 5; // int32 用户编号
+	optional string LoginCode = 6; // string 登录号码
+	optional int32 AccountStatus = 7; // int32 用户状态
+	optional int32 AreaId = 8; // int32 用户所属机构
+	optional int32 MemberId = 9; // int32 用户所属会员的会员代码
+	optional string Token = 10; // string 用户令牌
+	optional string PublicKey = 11; // string 公钥
+	optional int32 SystemTime = 12; // int32 系统时间
+}
+// 用户登出请求 0 2 223
+message LogoutReq {
+	optional MessageHead Header = 1; // MessageHead
+}
+// 用户登出应答 0 2 224
+message LogoutRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 客户离线通知 0 2 255
+message CustOfflineNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	repeated uint32 SessionID = 3; // uint32 用户的sessionid(由接入服务分配的)，是一数组。该接口是系统内部服务使用的接口
+}
+// 席位登录请求 0 2 257
+message MemberLoginReq {
+	optional MessageHead Header = 1; // MessageHead
+	required int32 MemberId = 2; // int32 席位号
+	optional string AccountCode = 3; // string 交易账号
+	required int32 AccountType = 4; // int32 账户类型
+	optional string LoginCode = 5; // string 登录号码
+	optional string LoginPWD = 6; // string 登录密码
+}
+// 席位登录应答 0 2 258
+message MemberLoginRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	required int32 MemberId = 4; // int32 席位号
+	optional int32 MemberType = 5; // int32 会员类型
+	optional int32 ExchID = 6; // int32 交易所id
+}
+// 通用错误通知 0 2 259
+message ErrorNtf {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+}
+// 前置重启后向登陆服务发起同步请求 0 2 560
+message P2LStatusSync {
+	optional MessageHead Header = 1; // MessageHead
+	optional int32 RetCode = 2; // int32 返回码
+	optional uint32 ProxyID = 3; // uint32 proxy的服务id
+	optional uint32 SessinIDStart = 4; // uint32 proxy分配的开始sid
+	optional uint32 SessinIDEnd = 5; // uint32 proxy分配的结束sid
+}
+// 用户令牌校验请求 0 2 1133
+message TokenCheckReq {
+	optional MessageHead Header = 1; // MessageHead
+	optional string Token = 2; // string 用户令牌
+}
+// 用户令牌校验应答 0 2 1134
+message TokenCheckRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional int32 Status = 4; // int32 令牌状态
+}
+// 用户令牌申请请求 0 2 1135
+message TokenAllocReq {
+	optional MessageHead Header = 1; // MessageHead
+}
+// 用户令牌申请应答 0 2 1136
+message TokenAllocRsp {
+	optional MessageHead Header = 1; // MessageHead 消息头
+	optional int32 RetCode = 2; // int32 返回码
+	optional string RetDesc = 3; // string 描述信息
+	optional string Token = 4; // string 令牌
+}
